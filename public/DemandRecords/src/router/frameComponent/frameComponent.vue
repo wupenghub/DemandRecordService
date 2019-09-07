@@ -109,42 +109,42 @@
                                 icon: 'fa fa-user icon',
                                 path: '/project/projectSideMiddleContent/selectComponent',
                                 open: true,
-                                menuCode:'1'
+                                menuCode: '1'
                             },
                             {
                                 desc: '统计报表',
                                 icon: 'fa fa-pie-chart icon',
                                 path: '/project/projectSdeMiddleContent/statisticalReport',
                                 open: true,
-                                menuCode:'2'
+                                menuCode: '2'
                             },
                             {
                                 desc: '工时视图',
                                 icon: 'fa fa-bar-chart icon',
                                 path: '/',
                                 open: true,
-                                menuCode:'3'
+                                menuCode: '3'
                             },
                             {
                                 desc: '时间视图',
                                 icon: 'fa fa-tasks icon',
                                 path: '/',
                                 open: true,
-                                menuCode:'4'
+                                menuCode: '4'
                             },
                             {
                                 desc: '人员视图',
                                 icon: 'fa fa-address-card icon',
                                 path: '/',
                                 open: true,
-                                menuCode:'5'
+                                menuCode: '5'
                             },
                             {
                                 desc: '日历视图',
                                 icon: 'fa fa-calendar icon',
                                 path: '/',
                                 open: true,
-                                menuCode:'6'
+                                menuCode: '6'
                             }
                         ],
                         open: true
@@ -159,7 +159,7 @@
                                 icon: 'fa fa-newspaper-o icon',
                                 path: '/',
                                 open: true,
-                                menuCode:'7'
+                                menuCode: '7'
                             }
                         ],
                         open: true
@@ -170,7 +170,7 @@
                         path: '/',
                         sonList: [],
                         open: true,
-                        menuCode:'8'
+                        menuCode: '8'
                     },
                     {
                         desc: '回收站',
@@ -178,10 +178,10 @@
                         path: '/',
                         sonList: [],
                         open: true,
-                        menuCode:'9'
+                        menuCode: '9'
                     }
                 ],
-                itemInfo:{}
+                itemInfo: {}
             }
         },
         created() {
@@ -195,7 +195,7 @@
                 item.icon = item.iconNormal;
 
             },
-            getInfo(item){
+            getInfo(item) {
                 this.itemInfo = item;
             }
         },

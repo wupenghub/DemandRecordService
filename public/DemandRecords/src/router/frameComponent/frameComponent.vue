@@ -141,6 +141,12 @@
             }
         },
         created() {
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
             this.$axios({
                 url: '/menus',
                 method: 'get',
@@ -154,7 +160,9 @@
                 data.returnData = data.returnData.filter(item => item.parentCode == 'top');
                 this.menuList = data.returnData;
                 this.sideDirectories = data.returnData.filter(item => this.$route.path.indexOf(item.path) != -1)[0].sonList;
+                loading.close();
             }).catch(error => {
+                loading.close();
             });
         },
         methods: {

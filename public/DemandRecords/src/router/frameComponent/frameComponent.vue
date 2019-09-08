@@ -54,90 +54,9 @@
                     titleLeftIcon: '',
                     titleRightIcon: ''
                 },
-                sideDirectories: [
-                    {
-                        desc: '工作',
-                        icon: 'fa fa-caret-right icon',
-                        sonList: [
-                            {
-                                desc: '我的任务',
-                                icon: 'fa fa-user icon',
-                                path: '/project/projectSideMiddleContent/selectComponent',
-                                open: true,
-                                menuCode: '1'
-                            },
-                            {
-                                desc: '统计报表',
-                                icon: 'fa fa-pie-chart icon',
-                                path: '/project/projectSdeMiddleContent/statisticalReport',
-                                open: true,
-                                menuCode: '2'
-                            },
-                            {
-                                desc: '工时视图',
-                                icon: 'fa fa-bar-chart icon',
-                                path: '/',
-                                open: true,
-                                menuCode: '3'
-                            },
-                            {
-                                desc: '时间视图',
-                                icon: 'fa fa-tasks icon',
-                                path: '/',
-                                open: true,
-                                menuCode: '4'
-                            },
-                            {
-                                desc: '人员视图',
-                                icon: 'fa fa-address-card icon',
-                                path: '/',
-                                open: true,
-                                menuCode: '5'
-                            },
-                            {
-                                desc: '日历视图',
-                                icon: 'fa fa-calendar icon',
-                                path: '/',
-                                open: true,
-                                menuCode: '6'
-                            }
-                        ],
-                        open: true
-                    },
-                    {
-                        desc: '项目',
-                        icon: 'fa fa-caret-right icon',
-                        path: '/',
-                        sonList: [
-                            {
-                                desc: '示例项目',
-                                icon: 'fa fa-newspaper-o icon',
-                                path: '/',
-                                open: true,
-                                menuCode: '7'
-                            }
-                        ],
-                        open: true
-                    },
-                    {
-                        desc: '配置中心',
-                        icon: 'fa fa-gear icon',
-                        path: '/',
-                        sonList: [],
-                        open: true,
-                        menuCode: '8'
-                    },
-                    {
-                        desc: '回收站',
-                        icon: 'fa fa-bitbucket icon',
-                        path: '/',
-                        sonList: [],
-                        open: true,
-                        menuCode: '9'
-                    }
-                ],
+                sideDirectories: [],
                 itemInfo: {},
-                menuList:[]
+                menuList: []
             }
         },
         created() {
@@ -156,7 +75,7 @@
                 this.$store.commit('updateModuleList', this.categoryModules);
                 this.$emit("fun");
                 data.returnData.forEach(item => utils.addList(data.returnData, item));
-                data.returnData.forEach(item=>item.open=true);
+                data.returnData.forEach(item => item.open = true);
                 data.returnData = data.returnData.filter(item => item.parentCode == 'top');
                 this.menuList = data.returnData;
                 this.sideDirectories = data.returnData.filter(item => this.$route.path.indexOf(item.path) != -1)[0].sonList;

@@ -12,7 +12,7 @@
                         <router-link :to="item.path" class="item" :key="item.icon"
                                      @mouseenter.native="enter(item)" @mouseleave.native="leave(item)">
                             <i :class="'fa '+item.icon+' icon'"></i>
-                            <span class="desc">{{item.desc}}</span>
+                            <span class="desc">{{item.descr}}</span>
                             <i v-show="item.showTriangle" class="fa fa-caret-left triangle"></i>
                         </router-link>
                     </li>
@@ -43,57 +43,12 @@
     import '../../lib/font-awesome-4.7.0/css/font-awesome.min.css';
     import sideHeader from '../common/sideHeader.vue';
     import selectComponent from '../common/selectComponent.vue'
+    import utils from '../../utils/utils.js';
 
     export default {
         data() {
             return {
-                categoryModules: [
-                    {
-                        icon: 'fa-comment-o',
-                        desc: '消息',
-                        path: '/message',
-                        ref: 'message',
-                        iconNormal: 'fa-comment-o',
-                        iconHover: 'fa-comment',
-                        showTriangle: false
-                    },
-                    {
-                        icon: 'fa-newspaper-o',
-                        desc: '项目',
-                        path: '/project',
-                        ref: 'project',
-                        iconNormal: 'fa-newspaper-o',
-                        iconHover: 'fa-newspaper-o',
-                        showTriangle: false
-                    },
-                    {
-                        icon: 'fa-calendar',
-                        desc: '日历',
-                        path: '/calendar',
-                        ref: 'calendar',
-                        iconNormal: 'fa-calendar',
-                        iconHover: 'fa-calendar-check-o',
-                        showTriangle: false
-                    },
-                    {
-                        icon: 'fa-folder-open-o',
-                        desc: '网盘',
-                        path: '/cloudDisk',
-                        ref: 'disk',
-                        iconNormal: 'fa-folder-open-o',
-                        iconHover: 'fa-folder-open',
-                        showTriangle: false
-                    },
-                    {
-                        icon: 'fa-cube',
-                        desc: '应用',
-                        path: '/application',
-                        ref: 'application',
-                        iconNormal: 'fa-cube',
-                        iconHover: 'fa-cubes',
-                        showTriangle: false
-                    },
-                ],
+                categoryModules: [],
                 titleObj: {
                     title: '',
                     titleLeftIcon: '',
@@ -181,11 +136,26 @@
                         menuCode: '9'
                     }
                 ],
-                itemInfo: {}
+                itemInfo: {},
+                menuList:[]
             }
         },
         created() {
-            this.$store.commit('updateModuleList', this.categoryModules);
+            this.$axios({
+                url: '/menus',
+                method: 'get',
+                data: {}
+            }).then(data => {
+                this.categoryModules = data.returnData.filter(item => item.parentCode == 'top');
+                this.$store.commit('updateModuleList', this.categoryModules);
+                this.$emit("fun");
+                data.returnData.forEach(item => utils.addList(data.returnData, item));
+                data.returnData.forEach(item=>item.open=true);
+                data.returnData = data.returnData.filter(item => item.parentCode == 'top');
+                this.menuList = data.returnData;
+                this.sideDirectories = data.returnData.filter(item => this.$route.path.indexOf(item.path) != -1)[0].sonList;
+            }).catch(error => {
+            });
         },
         methods: {
             enter(item) {

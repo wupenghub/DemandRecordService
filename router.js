@@ -10,7 +10,11 @@ var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var fs = require('fs');
 var path = require('path');
-router.get('/',(req,res) => {
+var MenuRequest =require('./control/MenuRequest.js');
+router.get('/', (req, res) => {
     res.redirect('/public/DemandRecords/dist/');
+});
+router.get('/menus', (req, res) => {
+    MenuRequest.menusQuery(req,res);
 });
 module.exports = router;

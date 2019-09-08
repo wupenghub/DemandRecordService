@@ -7,7 +7,7 @@
                    :class="[item.open?'fa fa-sort-desc icon':'fa fa-caret-right icon']">
                 </i>
                 <i v-show="!item.sonList||item.sonList.length==0" :class="[item.icon,'icon','icon_color']"></i>
-                {{item.desc}}
+                {{item.descr}}
             </div>
             <menuNode v-if="item.sonList&&item.sonList.length>0&&item.open"
                       :sideDirectories="item.sonList" @fun="passData"></menuNode>

@@ -5,10 +5,12 @@ import router from './js/router.js';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import Vuex from 'vuex';
+import request from './utils/Http.js';
 
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(Vuex);
+Vue.prototype.$axios = request;
 const store = new Vuex.Store({
     state: {
         sideTitleObj: {
@@ -19,7 +21,7 @@ const store = new Vuex.Store({
             placeHolder: ''
         },
         moduleObjList: [],
-        currentModule:{}
+        currentModule: {}
     },
     mutations: {
         updateSideInfo(state, sideTitleObj) {

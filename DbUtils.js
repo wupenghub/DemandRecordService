@@ -7,7 +7,7 @@ const db_config = {
     user: "root",
     password: "4217aBc!",
     port: "3306",
-    database: "baixiu"
+    database: "DemandRecord"
 };
 /*const db_config = {
     connectionLimit: 5,

@@ -21,7 +21,6 @@
             },
         },
         mounted () {
-            console.log(this.$refs.tabs.$children[0].tab)
         }
     };
 </script>

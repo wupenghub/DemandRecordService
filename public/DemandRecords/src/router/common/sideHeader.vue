@@ -8,7 +8,6 @@
             <search v-show="$store.state.sideTitleObj.showSearch"></search>
         </div>
     </div>
-
 </template>
 
 <script>

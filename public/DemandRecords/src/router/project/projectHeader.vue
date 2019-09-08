@@ -3,7 +3,7 @@
         <div class="head_top">
             <div class="title_desc clearfix">
                 <i :class="[headInfo.icon]"></i>
-                <span class="title_name">{{headInfo.desc}}</span>
+                <span class="title_name">{{headInfo.descr}}</span>
             </div>
             <projectHeaderTab></projectHeaderTab>
         </div>

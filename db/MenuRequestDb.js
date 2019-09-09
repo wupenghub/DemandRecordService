@@ -13,6 +13,7 @@ module.exports = {
                     menu m
                 WHERE
                     m.del_flag = 0
+                AND m.menu_type = 'sideMenu'
                `;
     }
 }

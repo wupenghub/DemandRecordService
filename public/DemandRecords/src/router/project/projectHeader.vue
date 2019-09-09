@@ -5,7 +5,7 @@
                 <i :class="[headInfo.icon]"></i>
                 <span class="title_name">{{headInfo.descr}}</span>
             </div>
-            <projectHeaderTab></projectHeaderTab>
+            <projectHeaderTab :info="headInfo"></projectHeaderTab>
         </div>
         <div class="head_bottom">
             <a class="active_task">活动任务</a>
@@ -20,13 +20,13 @@
 
     export default {
         data() {
-            return {}
+            return {
+            }
         },
         props: ['headInfo'],
         components: {
             projectHeaderTab
         }
-
     }
 </script>
 

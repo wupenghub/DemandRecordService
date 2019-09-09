@@ -9,7 +9,8 @@
     import projectHead from '../project/projectHeader.vue';
     export default {
         data() {
-            return {}
+            return {
+            }
         },
         props: ['info'],
         components:{

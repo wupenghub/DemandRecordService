@@ -69,7 +69,7 @@
             this.$axios({
                 url: '/menus',
                 method: 'get',
-                data: {}
+                params: {menuType:'sideMenu'}
             }).then(data => {
                 this.categoryModules = data.returnData.filter(item => item.parentCode == 'top');
                 this.$store.commit('updateModuleList', this.categoryModules);

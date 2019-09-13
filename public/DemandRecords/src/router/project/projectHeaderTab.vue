@@ -6,6 +6,8 @@
     </div>
 </template>
 <script>
+    import utils from '../../utils/utils.js';
+
     export default {
         data() {
             return {
@@ -21,45 +23,30 @@
         mounted() {
         },
         created() {
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
             var parentCode = this.$store.state.selectItem.menuCode ? this.$store.state.selectItem.menuCode : 'myTask';
-            this.$axios({
+            utils.request(this, {
                 url: '/menus',
                 method: 'get',
                 params: {menuType: 'topMenu', parentCode}
-            }).then(data => {
+            }, data => {
                 this.tabs = data.returnData;
                 this.activeName = this.tabs[0].menuCode;
-                loading.close();
-            }).catch(error => {
-                loading.close();
+            }, error => {
             });
         },
         props: ['info'],
         watch: {
             '$store.state.selectItem': function (newVal) {
-                const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-                this.$axios({
-                    url: '/menus',
-                    method: 'get',
-                    params: {menuType: 'topMenu', parentCode: newVal.menuCode}
-                }).then(data => {
-                    this.tabs = data.returnData;
-                    this.activeName = this.tabs[0].menuCode;
-                    loading.close();
-                }).catch(error => {
-                    loading.close();
-                });
+                utils.request(this, {
+                        url: '/menus',
+                        method: 'get',
+                        params: {menuType: 'topMenu', parentCode: newVal.menuCode},
+                    }, data => {
+                        this.tabs = data.returnData;
+                        this.activeName = this.tabs[0].menuCode;
+                    }, error => {
+                    }
+                );
             }
         }
     }

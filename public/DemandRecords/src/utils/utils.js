@@ -33,6 +33,19 @@ var utils = {
             }
         }
     },
-
+    request(vue,requestParam,success,err){
+        const loading = vue.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+        });
+        vue.$axios(requestParam).then(data => {
+            success(data);
+            loading.close();
+        }).catch(error => {
+            err(error);
+            loading.close();
+        });
+    }
 };
 export default utils

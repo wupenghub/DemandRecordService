@@ -62,17 +62,11 @@
         created() {
             var historyItem = localStorage.getItem('historyItem');
             this.$store.commit('updateSelectItem', JSON.parse(historyItem));
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
-            this.$axios({
+            utils.request(this, {
                 url: '/menus',
                 method: 'get',
                 params: {menuType: 'sideMenu'}
-            }).then(data => {
+            }, data => {
                 this.categoryModules = data.returnData.filter(item => item.parentCode == 'top');
                 this.$store.commit('updateModuleList', this.categoryModules);
                 this.$emit("fun");
@@ -81,10 +75,7 @@
                 data.returnData = data.returnData.filter(item => item.parentCode == 'top');
                 this.menuList = data.returnData;
                 this.sideDirectories = data.returnData.filter(item => this.$route.path.indexOf(item.path) != -1)[0].sonList;
-//                this.itemInfo = this.$store.state.selectItem;
-                loading.close();
-            }).catch(error => {
-                loading.close();
+            }, error => {
             });
         },
         methods: {

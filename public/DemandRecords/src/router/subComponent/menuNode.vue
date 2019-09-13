@@ -30,7 +30,6 @@
                 } else {
                     this.$emit("fun", item);
                     this.$store.commit('updateSelectItem', item);
-                    console.log(item);
                     localStorage.setItem('historyItem', JSON.stringify(item));
                 }
 

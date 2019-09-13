@@ -36,8 +36,8 @@ var utils = {
     request(vue,requestParam,success,err){
         const loading = vue.$loading({
             lock: true,
-            text: 'Loading',
-            spinner: 'el-icon-loading',
+            spinner: 'fa fa-spinner fa-pulse',
+            background:'rgba(225,225,225,0.8)',
         });
         vue.$axios(requestParam).then(data => {
             success(data);

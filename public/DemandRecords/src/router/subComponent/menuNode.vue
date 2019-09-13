@@ -2,7 +2,7 @@
     <div class="contain">
         <div class="item" v-for="item in sideDirectories">
             <div class="single_item" @click="doClick(item)"
-                 :class="[item.sonList&&item.sonList.length>0?'directory':'']">
+                 :class="[item.sonList&&item.sonList.length>0?'directory':'',!(item.sonList&&item.sonList.length>0)&&$store.state.selectItem.menuCode==item.menuCode?'icon_color':'']">
                 <i v-show="item.sonList&&item.sonList.length>0"
                    :class="[item.open?'fa fa-sort-desc icon':'fa fa-caret-right icon']">
                 </i>
@@ -25,22 +25,24 @@
         },
         methods: {
             doClick(item) {
+                this.$store.commit('updateSelectItem', item);
                 if (item.sonList && item.sonList.length > 0) {
                     item.open = !item.open;
                 } else {
-                    this.$emit("fun",item);
+                    this.$emit("fun", item);
                 }
 
             },
-            passData(item){
-                this.$emit("fun",item);
+            passData(item) {
+                this.$emit("fun", item);
             }
         },
         components: {
             menuNode
         },
         props: [
-            'sideDirectories'
+            'sideDirectories',
+            'pSelectItem'
         ]
     }
 </script>

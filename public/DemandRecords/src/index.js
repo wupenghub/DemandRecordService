@@ -21,7 +21,17 @@ const store = new Vuex.Store({
             placeHolder: ''
         },
         moduleObjList: [],
-        currentModule: {}
+        currentModule: {},
+        selectItem: {
+            "icon": "fa fa-user icon",
+            "descr": "我的任务",
+            "path": "/project/projectSideMiddleContent/selectComponent",
+            "iconNormal": null,
+            "iconHover": null,
+            "parentCode": "work",
+            "menuCode": "myTask",
+            "open": true
+        }
     },
     mutations: {
         updateSideInfo(state, sideTitleObj) {
@@ -35,6 +45,9 @@ const store = new Vuex.Store({
             state.moduleObjList = [];
             if (moduleList)
                 state.moduleObjList = state.moduleObjList.concat(moduleList);
+        },
+        updateSelectItem(state, selectItem) {
+            state.selectItem = selectItem;
         }
     }
 });

@@ -17,4 +17,12 @@ router.get('/', (req, res) => {
 router.get('/menus', (req, res) => {
     MenuRequest.menusQuery(req,res);
 });
+router.get('/test', (req, res) => {
+    DbUtils.queryData('select * from user',function (result) {
+        console.log(result)
+    },function (error) {
+
+        console.log(error)
+    });
+});
 module.exports = router;

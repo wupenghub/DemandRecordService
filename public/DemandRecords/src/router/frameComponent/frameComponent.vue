@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="main-body">
-                <selectComponent :info="itemInfo"></selectComponent>
+                <selectComponent></selectComponent>
             </div>
         </div>
     </div>
@@ -69,7 +69,7 @@
             this.$axios({
                 url: '/menus',
                 method: 'get',
-                params: {menuType:'sideMenu'}
+                params: {menuType: 'sideMenu'}
             }).then(data => {
                 this.categoryModules = data.returnData.filter(item => item.parentCode == 'top');
                 this.$store.commit('updateModuleList', this.categoryModules);
@@ -79,6 +79,7 @@
                 data.returnData = data.returnData.filter(item => item.parentCode == 'top');
                 this.menuList = data.returnData;
                 this.sideDirectories = data.returnData.filter(item => this.$route.path.indexOf(item.path) != -1)[0].sonList;
+//                this.itemInfo = this.$store.state.selectItem;
                 loading.close();
             }).catch(error => {
                 loading.close();

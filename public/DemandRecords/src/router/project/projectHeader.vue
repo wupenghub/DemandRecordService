@@ -2,10 +2,10 @@
     <div id="contain">
         <div class="head_top">
             <div class="title_desc clearfix">
-                <i :class="[headInfo.icon]"></i>
-                <span class="title_name">{{headInfo.descr}}</span>
+                <i :class="[$store.state.selectItem.icon]"></i>
+                <span class="title_name">{{$store.state.selectItem.descr}}</span>
             </div>
-            <projectHeaderTab :info="headInfo"></projectHeaderTab>
+            <projectHeaderTab></projectHeaderTab>
         </div>
         <div class="head_bottom">
             <a class="active_task">活动任务</a>
@@ -20,10 +20,8 @@
 
     export default {
         data() {
-            return {
-            }
+            return {}
         },
-        props: ['headInfo'],
         components: {
             projectHeaderTab
         }

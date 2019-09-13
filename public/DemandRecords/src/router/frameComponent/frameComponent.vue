@@ -60,6 +60,8 @@
             }
         },
         created() {
+            var historyItem = localStorage.getItem('historyItem');
+            this.$store.commit('updateSelectItem', JSON.parse(historyItem));
             const loading = this.$loading({
                 lock: true,
                 text: 'Loading',

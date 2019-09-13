@@ -25,11 +25,13 @@
         },
         methods: {
             doClick(item) {
-                this.$store.commit('updateSelectItem', item);
                 if (item.sonList && item.sonList.length > 0) {
                     item.open = !item.open;
                 } else {
                     this.$emit("fun", item);
+                    this.$store.commit('updateSelectItem', item);
+                    console.log(item);
+                    localStorage.setItem('historyItem', JSON.stringify(item));
                 }
 
             },

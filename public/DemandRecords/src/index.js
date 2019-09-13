@@ -47,7 +47,7 @@ const store = new Vuex.Store({
                 state.moduleObjList = state.moduleObjList.concat(moduleList);
         },
         updateSelectItem(state, selectItem) {
-            state.selectItem = selectItem;
+            state.selectItem = selectItem ? selectItem : state.selectItem;
         }
     }
 });

@@ -34,8 +34,7 @@
                 params: {menuType: 'topMenu', parentCode}
             }).then(data => {
                 this.tabs = data.returnData;
-                console.log(this.tabs[0].menuCode);
-                this.activeName = this.tabs[0].menuCode
+                this.activeName = this.tabs[0].menuCode;
                 loading.close();
             }).catch(error => {
                 loading.close();

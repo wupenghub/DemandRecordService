@@ -4,16 +4,16 @@
             <span class="title">收件箱</span>
         </div>
         <div class="content">
-            <el-card class="card-item">
+            <el-card class="card-item" v-for="item in mineChargeList">
                 <div class="inner-card clearfix">
-                    <span class="task-state"><i class="el-icon-time"></i>进行中</span>
-                    <span class="charge_per">吴鹏</span>
+                    <span class="task-state"><i class="el-icon-time"></i>{{item.taskProDesc}}</span>
+                    <span class="charge_per">{{item.nickName}}</span>
                 </div>
-                <div class="task-title">需求调研</div>
+                <div class="task-title">{{item.taskTitle}}</div>
                 <div class="trips clearfix">
-                    <span class="task-id trip">任务编号：18</span>
-                    <span class="task-id trip">所属项目：无纸化</span>
-                    <span class="task-id trip">截止时间：11月11日</span>
+                    <span class="task-id trip" v-if="item.taskId">任务编号：{{item.taskId}}</span>
+                    <span class="task-id trip" v-if="item.belong">所属项目：{{item.belongDesc}}</span>
+                    <span :class="['task-id',currentTime < item.endDate ? 'trip':'trip-out-time']" v-if="item.endDate">截止时间：{{item.endDate | timeFormat}}</span>
                     <i class="el-icon-document-checked font_focus_color icon"></i>
                 </div>
             </el-card>
@@ -47,16 +47,17 @@
 </template>
 <style lang="scss">
     .task-item {
+        user-select: none;
         > .el-card__body {
-            padding: 17px 10px 10px !important;
+            padding: 17px 10px 8px !important;
         }
         .el-card__body {
             padding: 12px 12px 7px !important;
         }
-        .card-item{
-            margin-bottom: 5px;
+        .card-item {
+            margin-bottom: 10px;
         }
-        .card-item:hover{
+        .card-item:hover {
             box-shadow: 0 2px 13px 3px rgba(0, 0, 0, .15) !important;
             cursor: pointer;
 
@@ -65,7 +66,7 @@
 </style>
 <style scoped lang="scss">
     .box-card {
-        width: 280px;
+        width: 290px;
         .font_focus_color {
             color: #22d7bb;
             font-size: 23px;
@@ -83,7 +84,7 @@
                 height: 24px;
                 line-height: 14px;
                 float: left;
-                i{
+                i {
                     margin-right: 5px;
                     font-weight: bolder;
                     color: rgb(255, 164, 21);
@@ -92,14 +93,15 @@
             span.charge_per {
                 font-size: 12px;
                 display: inline-block;
-                width: 26px;
-                height: 26px;
+                width: 28px;
+                height: 28px;
                 background-color: rgb(45, 188, 255);
-                line-height: 24px;
+                line-height: 26px;
                 float: right;
-                border-radius: 13px;
+                border-radius: 14px;
                 color: #ffffff;
                 text-align: center;
+                padding: 1px;
             }
         }
         .inner-card:hover {
@@ -124,7 +126,20 @@
                 border-radius: 2px;
                 color: #aaa;
             }
-            .icon{
+            .trip-out-time {
+                float: left;
+                margin-right: 8px;
+                margin-bottom: 8px;
+                display: inline-block;
+                height: 20px;
+                font-size: 12px;
+                line-height: 12px;
+                background-color: rgba(255, 91, 87, .1);
+                padding: 4px 10px;
+                border-radius: 2px;
+                color: #ff5b57;
+            }
+            .icon {
                 float: left;
                 color: #22d7bb;
                 height: 20px;
@@ -233,13 +248,31 @@
     }
 </style>
 <script>
+    import utils from '../../../utils/utils.js';
+    import moment from '../../../lib/moment.min.js';
 
     export default {
         data() {
             return {
                 showAdd: true,
-                taskTitle: ''
+                taskTitle: '',
+                mineChargeList: [],
+                currentTime: moment(new Date()).format('YYYY-MM-DD')
             }
+        },
+        created() {
+            utils.request(this, {
+                url: '/getTasks',
+                method: 'get',
+                params: {type: 'mineCharge', email: '565784355@qq.com'}
+            }, data => {
+                this.mineChargeList = data.returnData;
+                this.mineChargeList.map(item => {
+                    item.endDate = moment(item.endDate).format('YYYY-MM-DD');
+                })
+                console.log(this.mineChargeList)
+            }, error => {
+            });
         },
         methods: {
             addTask() {

@@ -6,7 +6,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import Vuex from 'vuex';
 import request from './utils/Http.js';
-
+import moment from './lib/moment.min.js';
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(Vuex);
@@ -51,7 +51,11 @@ const store = new Vuex.Store({
         }
     }
 });
-
+Vue.filter('timeFormat', function (value) {
+    if (!value) return '';
+    value = value.toString()
+    return moment(value).format('YYYY-MM-DD')
+})
 var vue = new Vue({
     el: '#app',
     router,

@@ -2,13 +2,14 @@
     <div class="contain">
         <el-tabs v-model="activeName" @tab-click="handleClick" ref="tabs">
             <el-tab-pane v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
+                <taskItem></taskItem>
             </el-tab-pane>
         </el-tabs>
     </div>
 </template>
 <script>
     import utils from '../../utils/utils.js';
-
+    import taskItem from '../subComponent/task/taskItem.vue';
     export default {
         data() {
             return {
@@ -20,8 +21,6 @@
             handleClick(tab, event) {
 
             },
-        },
-        mounted() {
         },
         created() {
             var parentCode = this.$store.state.selectItem.menuCode ? this.$store.state.selectItem.menuCode : 'myTask';
@@ -36,6 +35,9 @@
             });
         },
         props: ['info'],
+        components:{
+            taskItem
+        },
         watch: {
             '$store.state.selectItem': function (newVal) {
                 utils.request(this, {

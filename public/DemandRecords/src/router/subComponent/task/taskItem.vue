@@ -8,27 +8,29 @@
                 133
             </div>
             <div class="bottom">
-                <div class="add_task" v-show="showAdd" @click="addTask()">
-                    <i class="fa fa-plus"></i>
-                    <span style="margin-left: 10px">添加新任务</span>
-                </div>
-                <div class="add_info" v-show="!showAdd">
-                    <textarea autofocus v-model="taskTitle" class="task_title">
-                    </textarea>
-                    <div class="info">
-                        <div class="choose_task_type">
-                            <i class="el-icon-document-checked font_focus_color"></i>
-                            <span class="task_type">任务</span>
-                            <span class="el-icon-arrow-down"></span>
+                <transition name="mybox">
+                    <div class="add_info" v-if="!showAdd">
+                        <textarea autofocus v-model="taskTitle" class="task_title">
+                        </textarea>
+                        <div class="info">
+                            <div class="choose_task_type">
+                                <i class="el-icon-document-checked font_focus_color"></i>
+                                <span class="task_type">任务</span>
+                                <span class="el-icon-arrow-down"></span>
+                            </div>
+                            <span class="current_user">吴鹏</span>
+                            <i class="fa fa-calendar-check-o time"></i>
                         </div>
-                        <span class="current_user">吴鹏</span>
-                        <i class="fa fa-calendar-check-o time"></i>
+                        <div class="button_group">
+                            <el-button round>确定</el-button>
+                            <span class="cancel" @click="cancel()">取消</span>
+                        </div>
                     </div>
-                    <div class="button_group">
-                        <el-button round>确定</el-button>
-                        <span class="cancel" @click="cancel()">取消</span>
+                    <div class="add_task" @click="addTask()" v-if="showAdd">
+                        <i class="fa fa-plus"></i>
+                        <span style="margin-left: 10px">添加新任务</span>
                     </div>
-                </div>
+                </transition>
             </div>
         </div>
     </el-card>
@@ -44,7 +46,9 @@
             font-size: 16px;
         }
         .bottom {
-            transition: all linear .2s;
+            > * {
+                transition: all linear .2s;
+            }
             .add_task {
                 color: #666;
                 height: 35px;
@@ -88,7 +92,7 @@
                             color: #aaa
                         }
                     }
-                    .choose_task_type:hover{
+                    .choose_task_type:hover {
                         cursor: pointer;
                     }
                     .current_user {
@@ -103,10 +107,10 @@
                         color: #ffffff;
                         margin-right: 10px;
                     }
-                    .current_user:hover{
+                    .current_user:hover {
                         cursor: pointer;
                     }
-                    .time:hover{
+                    .time:hover {
                         color: #22d7bb;
                         cursor: pointer;
                     }
@@ -129,13 +133,13 @@
                         margin-left: 10px;
                         color: #aaa;
                     }
-                    .cancel:hover{
+                    .cancel:hover {
                         cursor: pointer;
                         color: #22d7bb;
                     }
                 }
-            }
 
+            }
         }
     }
 </style>
@@ -152,7 +156,7 @@
             addTask() {
                 this.showAdd = !this.showAdd;
             },
-            cancel(){
+            cancel() {
                 this.showAdd = true;
             }
         }

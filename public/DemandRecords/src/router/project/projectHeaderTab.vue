@@ -1,7 +1,8 @@
 <template>
     <div class="contain">
         <el-tabs v-model="activeName" @tab-click="handleClick" ref="tabs">
-            <el-tab-pane v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">{{tab.descr}}</el-tab-pane>
+            <el-tab-pane v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
+            </el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -54,9 +55,6 @@
 </script>
 <style scoped lang="scss">
     .contain {
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 </style>
 

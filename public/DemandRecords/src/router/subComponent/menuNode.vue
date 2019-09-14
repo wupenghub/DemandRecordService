@@ -53,6 +53,7 @@
         margin-top: 10px;
         .item {
             padding: 10px 20px;
+            user-select: none;
             .icon {
                 font-size: 15px;
                 display: inline-block;

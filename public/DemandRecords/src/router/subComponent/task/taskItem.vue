@@ -1,40 +1,68 @@
 <template>
-    <el-card class="box-card">
+    <el-card class="task-item box-card">
         <div slot="header" class="clearfix">
             <span class="title">收件箱</span>
         </div>
-        <div>
-            <div class="content">
-                133
-            </div>
-            <div class="bottom">
-                <transition name="mybox">
-                    <div class="add_info" v-if="!showAdd">
+        <div class="content">
+            <el-card class="card-item">
+                <div class="inner-card clearfix">
+                    <span class="task-state"><i class="el-icon-time"></i>进行中</span>
+                    <span class="charge_per">吴鹏</span>
+                </div>
+                <div class="task-title">需求调研</div>
+                <div class="trips clearfix">
+                    <span class="task-id trip">任务编号：18</span>
+                    <span class="task-id trip">所属项目：无纸化</span>
+                    <span class="task-id trip">截止时间：11月11日</span>
+                    <i class="el-icon-document-checked font_focus_color icon"></i>
+                </div>
+            </el-card>
+        </div>
+        <div class="bottom">
+            <transition name="mybox">
+                <div class="add_info" v-if="!showAdd">
                         <textarea autofocus v-model="taskTitle" class="task_title">
                         </textarea>
-                        <div class="info">
-                            <div class="choose_task_type">
-                                <i class="el-icon-document-checked font_focus_color"></i>
-                                <span class="task_type">任务</span>
-                                <span class="el-icon-arrow-down"></span>
-                            </div>
-                            <span class="current_user">吴鹏</span>
-                            <i class="fa fa-calendar-check-o time"></i>
+                    <div class="info">
+                        <div class="choose_task_type">
+                            <i class="el-icon-document-checked font_focus_color"></i>
+                            <span class="task_type">任务</span>
+                            <span class="el-icon-arrow-down"></span>
                         </div>
-                        <div class="button_group">
-                            <el-button round>确定</el-button>
-                            <span class="cancel" @click="cancel()">取消</span>
-                        </div>
+                        <span class="current_user">吴鹏</span>
+                        <i class="fa fa-calendar-check-o time"></i>
                     </div>
-                    <div class="add_task" @click="addTask()" v-if="showAdd">
-                        <i class="fa fa-plus"></i>
-                        <span style="margin-left: 10px">添加新任务</span>
+                    <div class="button_group">
+                        <el-button round>确定</el-button>
+                        <span class="cancel" @click="cancel()">取消</span>
                     </div>
-                </transition>
-            </div>
+                </div>
+                <div class="add_task" @click="addTask()" v-if="showAdd">
+                    <i class="fa fa-plus"></i>
+                    <span style="margin-left: 10px">添加新任务</span>
+                </div>
+            </transition>
         </div>
     </el-card>
 </template>
+<style lang="scss">
+    .task-item {
+        > .el-card__body {
+            padding: 17px 10px 10px !important;
+        }
+        .el-card__body {
+            padding: 12px 12px 7px !important;
+        }
+        .card-item{
+            margin-bottom: 5px;
+        }
+        .card-item:hover{
+            box-shadow: 0 2px 13px 3px rgba(0, 0, 0, .15) !important;
+            cursor: pointer;
+
+        }
+    }
+</style>
 <style scoped lang="scss">
     .box-card {
         width: 280px;
@@ -45,6 +73,66 @@
         .title {
             font-size: 16px;
         }
+        .inner-card {
+            margin-bottom: 10px;
+            span.task-state {
+                font-size: 12px;
+                display: inline-block;
+                background-color: rgba(255, 164, 21, 0.1);
+                padding: 5px 10px;
+                height: 24px;
+                line-height: 14px;
+                float: left;
+                i{
+                    margin-right: 5px;
+                    font-weight: bolder;
+                    color: rgb(255, 164, 21);
+                }
+            }
+            span.charge_per {
+                font-size: 12px;
+                display: inline-block;
+                width: 26px;
+                height: 26px;
+                background-color: rgb(45, 188, 255);
+                line-height: 24px;
+                float: right;
+                border-radius: 13px;
+                color: #ffffff;
+                text-align: center;
+            }
+        }
+        .inner-card:hover {
+            cursor: pointer;
+        }
+        .task-title {
+            height: 25px;
+            line-height: 25px;
+            margin: 5px 0;
+        }
+        .trips {
+            .trip {
+                float: left;
+                margin-right: 8px;
+                margin-bottom: 8px;
+                display: inline-block;
+                height: 20px;
+                font-size: 12px;
+                line-height: 12px;
+                background-color: rgba(102, 102, 102, .1);
+                padding: 4px 10px;
+                border-radius: 2px;
+                color: #aaa;
+            }
+            .icon{
+                float: left;
+                color: #22d7bb;
+                height: 20px;
+                display: inline-block;
+                line-height: 20px;
+
+            }
+        }
         .bottom {
             > * {
                 transition: all linear .2s;
@@ -52,6 +140,7 @@
             .add_task {
                 color: #666;
                 height: 35px;
+                margin-bottom: 5px;
             }
             .add_task:hover {
                 color: #404040;

@@ -21,6 +21,9 @@ router.get('/menus', (req, res) => {
 router.get('/getTasks', (req, res) => {
     TaskRequest.taskQuery(req,res);
 });
+router.post('/addTask',(req,res)=>{
+    TaskRequest.addTask(req,res);
+});
 router.get('/test', (req, res) => {
 
 });

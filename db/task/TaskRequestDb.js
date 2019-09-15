@@ -32,5 +32,27 @@ module.exports = {
             sql += ` AND t.charge_per = ${mysql.escape(email)}`;
         }
         return sql;
+    },
+    addTask(taskTitle, email,chargePer) {
+        var querySql = `
+                        INSERT INTO task
+                        SET task_id = (
+                            SELECT
+                                max(t.task_id) + 1
+                            FROM
+                                task t
+                            WHERE
+                                t.create_per = create_per
+                        ),
+                         create_per = ${mysql.escape(email)},
+                         create_date = SYSDATE()
+                       `;
+        if (taskTitle) {
+            querySql += ` ,task_title =${mysql.escape(taskTitle)}`;
+        }
+        if(chargePer){
+            querySql += ` ,charge_per =${mysql.escape(chargePer)}`;
+        }
+        return querySql;
     }
-}
+};

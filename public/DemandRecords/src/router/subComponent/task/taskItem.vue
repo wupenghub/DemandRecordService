@@ -3,6 +3,11 @@
         <div class="box-card item-card" :style="{paddingBottom:showAdd?'35px':'10px'}" style="padding-bottom: 10px">
             <div class="header clearfix">
                 <span class="title">收件箱</span>
+                <div class="bar_percentage">
+                    <div v-for="item in taskCountList" :style="{width:(item.count/totalCount)*100+'%',float:'left'}">
+                    {{item.progress_state}}
+                    </div>
+                </div>
             </div>
             <div class="content">
                 <div class="item-card item-content" v-for="item in mineChargeList">
@@ -327,7 +332,9 @@
                 showAdd: true,
                 taskTitle: '',
                 mineChargeList: [],
-                currentTime: moment(new Date()).format('YYYY-MM-DD')
+                currentTime: moment(new Date()).format('YYYY-MM-DD'),
+                taskCountList: [],
+                totalCount: 0
             }
         },
         created() {
@@ -362,7 +369,11 @@
                     method: 'get',
                     params: {type: 'mineCharge', email: '565784355@qq.com'}
                 }, data => {
-                    this.mineChargeList = data.returnData;
+                    console.log(data)
+                    this.mineChargeList = data.returnData.taskList;
+                    this.taskCountList = data.returnData.countList;
+                    this.taskCountList.forEach(item => this.totalCount += item.count);
+                    console.log(this.totalCount)
                     this.mineChargeList.map(item => {
                         if (item.endDate)
                             item.endDate = moment(item.endDate).format('YYYY-MM-DD');

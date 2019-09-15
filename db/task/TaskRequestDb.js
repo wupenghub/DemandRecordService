@@ -33,6 +33,20 @@ module.exports = {
         }
         return sql;
     },
+    queryTaskCount(email){
+        return `
+                SELECT
+                    t.progress_state,
+                    count(1) AS count
+                FROM
+                    task t
+                WHERE
+                    t.del_flag = 0
+                AND t.create_per = ${mysql.escape(email)}
+                GROUP BY
+                    t.progress_state
+               `;
+    },
     addTask(taskTitle, email,chargePer) {
         var querySql = `
                         INSERT INTO task

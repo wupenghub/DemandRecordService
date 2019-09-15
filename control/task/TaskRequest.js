@@ -3,12 +3,23 @@ var TaskRequestDb = require('../../db/task/TaskRequestDb.js');
 var TaskRequest = {
     taskQuery(req, res) {
         var querySql = TaskRequestDb.taskQuery(req.query.type, req.query.email);
-        console.log(querySql);
+        console.log('taskQuery查询任务明细：' + querySql);
         DbUtils.queryData(querySql, result => {
-            res.json({
-                code: 0,
-                returnData: result
-            })
+            var querySql = TaskRequestDb.queryTaskCount(req.query.email);
+            var returnData = {};
+            returnData.taskList = result;
+            DbUtils.queryData(querySql, result => {
+                returnData.countList = result;
+                res.json({
+                    code: 0,
+                    returnData: returnData
+                })
+            }, error => {
+                res.json({
+                    code: -1,
+                    error
+                })
+            });
         }, error => {
             res.json({
                 code: -1,
@@ -17,14 +28,14 @@ var TaskRequest = {
         });
     },
     addTask(req, res) {
-        var querySql = TaskRequestDb.addTask(req.body.taskTitle,req.body.email,req.body.chargePer);
-        console.log('addTask添加任务：'+querySql);
-        DbUtils.queryData(querySql,result=>{
+        var querySql = TaskRequestDb.addTask(req.body.taskTitle, req.body.email, req.body.chargePer);
+        console.log('addTask添加任务：' + querySql);
+        DbUtils.queryData(querySql, result => {
             res.json({
                 code: 0,
                 returnData: result
             })
-        },error=>{
+        }, error => {
             res.json({
                 code: -1,
                 error

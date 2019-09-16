@@ -3,9 +3,17 @@
         <div class="box-card item-card" :style="{paddingBottom:showAdd?'35px':'10px'}" style="padding-bottom: 10px">
             <div class="header clearfix">
                 <span class="title">收件箱</span>
-                <div class="bar_percentage">
-                    <div v-for="item in taskCountList" :style="{width:(item.count/totalCount)*100+'%',float:'left'}">
-                    {{item.progress_state}}
+                <div class="task-count">
+                    <span class="wc-count">{{taskCountList[0] && taskCountList[0].count}}</span>
+                    <span class="separator">/</span>
+                    <span class="ing-count">{{taskCountList[1] && taskCountList[1].count}}</span>
+                    <span class="separator">/</span>
+                    <span class="ws-count">{{taskCountList[2] && taskCountList[2].count}}</span>
+                </div>
+                <div class="bar">
+                    <div :class="['bar_percentage',item.barClass]" v-for="item in taskCountList"
+                         :style="{width:(item.count/totalCount)*100+'%',float:'left'}">
+
                     </div>
                 </div>
             </div>
@@ -85,8 +93,36 @@
         .header {
             height: 35px;
             line-height: 25px;
-            border-bottom: 2px solid #ccc;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            .bar_percentage {
+                height: 6px;
+            }
+            .task-count {
+                display: inline-block;
+                text-align: center;
+                .separator{
+                    margin: 0 1px;
+                    color: #aaa;
+                }
+                .wc-count {
+                    color: #22d7bb;
+                }
+                .ing-count {
+                    color: #ffc442;
+                }
+                .ws-count {
+                    color: #aaa;
+                }
+            }
+            .ing {
+                background: #ffc442;
+            }
+            .wc {
+                background: #22d7bb;
+            }
+            .ws {
+                background: #eee;;
+            }
         }
         .font_focus_color {
             color: #22d7bb;
@@ -96,6 +132,8 @@
             font-size: 16px;
             display: inline-block;
             height: 24px;
+            margin-bottom: 10px;
+            margin-right: 10px;
         }
         .content {
             /*overflow: auto;*/
@@ -369,11 +407,20 @@
                     method: 'get',
                     params: {type: 'mineCharge', email: '565784355@qq.com'}
                 }, data => {
-                    console.log(data)
+                    console.log(data);
                     this.mineChargeList = data.returnData.taskList;
                     this.taskCountList = data.returnData.countList;
-                    this.taskCountList.forEach(item => this.totalCount += item.count);
-                    console.log(this.totalCount)
+                    this.totalCount = 0;
+                    this.taskCountList.forEach(item => {
+                        this.totalCount += item.count;
+                        if (item.progress_state == 0) {
+                            item.barClass = 'ws';
+                        } else if (item.progress_state == 1) {
+                            item.barClass = 'ing';
+                        } else {
+                            item.barClass = 'wc';
+                        }
+                    });
                     this.mineChargeList.map(item => {
                         if (item.endDate)
                             item.endDate = moment(item.endDate).format('YYYY-MM-DD');

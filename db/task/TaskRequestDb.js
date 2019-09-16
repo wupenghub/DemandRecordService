@@ -45,6 +45,7 @@ module.exports = {
                 AND t.create_per = ${mysql.escape(email)}
                 GROUP BY
                     t.progress_state
+                    order by t.progress_state desc
                `;
     },
     addTask(taskTitle, email,chargePer) {

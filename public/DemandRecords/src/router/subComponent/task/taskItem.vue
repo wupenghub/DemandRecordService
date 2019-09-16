@@ -4,11 +4,11 @@
             <div class="header clearfix">
                 <span class="title">收件箱</span>
                 <div class="task-count">
-                    <span class="wc-count">{{taskCountList[0] && taskCountList[0].count}}</span>
+                    <span class="wc-count">{{taskCountList[0]?taskCountList[0].count:0}}</span>
                     <span class="separator">/</span>
-                    <span class="ing-count">{{taskCountList[1] && taskCountList[1].count}}</span>
+                    <span class="ing-count">{{taskCountList[1]?taskCountList[1].count:0}}</span>
                     <span class="separator">/</span>
-                    <span class="ws-count">{{taskCountList[2] && taskCountList[2].count}}</span>
+                    <span class="ws-count">{{taskCountList[2]?taskCountList[2].count:0}}</span>
                 </div>
                 <div class="bar">
                     <div :class="['bar_percentage',item.barClass]" v-for="item in taskCountList"

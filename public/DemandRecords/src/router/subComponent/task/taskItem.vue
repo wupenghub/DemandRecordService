@@ -1,5 +1,5 @@
 <template>
-    <div class="contain">
+    <div class="contain" v-show="showItem">
         <div class="box-card item-card" :style="{paddingBottom:showAdd?'35px':'10px'}" style="padding-bottom: 10px">
             <div class="header clearfix">
                 <span class="title">收件箱</span>
@@ -372,7 +372,8 @@
                 mineChargeList: [],
                 currentTime: moment(new Date()).format('YYYY-MM-DD'),
                 taskCountList: [],
-                totalCount: 0
+                totalCount: 0,
+                showItem:false
             }
         },
         created() {
@@ -407,7 +408,6 @@
                     method: 'get',
                     params: {type: 'mineCharge', email: '565784355@qq.com'}
                 }, data => {
-                    console.log(data);
                     this.mineChargeList = data.returnData.taskList;
                     this.taskCountList = data.returnData.countList;
                     this.totalCount = 0;
@@ -436,7 +436,8 @@
                             item.icon = 'el-icon-circle-check';
                             item.bgc = 'task-state-wc';
                         }
-                    })
+                    });
+                    this.showItem = true;
                 }, error => {
                 });
             }

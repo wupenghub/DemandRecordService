@@ -1,7 +1,7 @@
 <template>
     <div class="contain">
         <div class="category-task-item" v-for="item in categoryListArray">
-            <taskItem :category-list-array="item"></taskItem>
+            <taskItem :category-list-array="item" @fun="queryMineTask"></taskItem>
         </div>
     </div>
 
@@ -30,6 +30,8 @@
                     params: {type: 'mineCharge', email: '565784355@qq.com'}
                 }, data => {
                     this.dataList = data;
+                    this.categoryListObject = [];
+                    this.categoryListArray = [];
                     this.dataList.returnData.taskList.forEach(item => {
                         if (!this.categoryListObject[item.taskModelId]) {
                             this.categoryListObject[item.taskModelId] = [];
@@ -42,11 +44,10 @@
                         objList.key = key;
                         objList.ListArry = this.categoryListObject[key];
                         objList.desc = objList.ListArry[0].taskModelDesc;
-//                        objList.taskPro = this.dataList.returnData.taskPro;
                         objList.taskPro = [];
-                        this.dataList.returnData.taskPro.forEach(item=>{
+                        this.dataList.returnData.taskPro.forEach(item => {
                             var obj = {};
-                            for(var key in item){
+                            for (var key in item) {
                                 obj[key] = item[key];
                             }
                             objList.taskPro.push(obj)

@@ -400,52 +400,12 @@
                     }, data => {
                         this.taskTitle = '';
                         if (data.returnData.affectedRows > 0) {
-                            this.queryMineTask();
+                            this.$emit('fun');
                         }
                     }, error => {
 
                     });
                 }
-            },
-            queryMineTask() {
-                utils.request(this, {
-                    url: '/getTasks',
-                    method: 'get',
-                    params: {type: 'mineCharge', email: '565784355@qq.com'}
-                }, data => {
-                    /*this.mineChargeList = data.returnData.taskList;
-                    this.taskCountList = data.returnData.countList;
-                    this.totalCount = 0;
-                    this.taskCountList.forEach(item => {
-                        this.totalCount += item.count;
-                        if (item.progress_state == 0) {
-                            item.barClass = 'ws';
-                        } else if (item.progress_state == 1) {
-                            item.barClass = 'ing';
-                        } else {
-                            item.barClass = 'wc';
-                        }
-                    });
-                    this.mineChargeList.map(item => {
-                        if (item.endDate)
-                            item.endDate = moment(item.endDate).format('YYYY-MM-DD');
-                    });
-                    this.mineChargeList.forEach(item => {
-                        if (item.taskPro == 0) {
-                            item.icon = 'el-icon-time';
-                            item.bgc = 'task-state-ws';
-                        } else if (item.taskPro == 1) {
-                            item.icon = 'el-icon-remove-outline';
-                            item.bgc = 'task-state';
-                        } else if (item.taskPro == 2) {
-                            item.icon = 'el-icon-circle-check';
-                            item.bgc = 'task-state-wc';
-                        }
-                    });
-                    this.showItem = true;*/
-                    this.injectData(data);
-                }, error => {
-                });
             },
             injectData(data) {
                 if (data) {

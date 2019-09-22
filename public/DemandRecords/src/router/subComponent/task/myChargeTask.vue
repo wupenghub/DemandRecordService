@@ -42,33 +42,26 @@
                         objList.key = key;
                         objList.ListArry = this.categoryListObject[key];
                         objList.desc = objList.ListArry[0].taskModelDesc;
-                        objList.taskPro = this.dataList.returnData.taskPro;
+//                        objList.taskPro = this.dataList.returnData.taskPro;
+                        objList.taskPro = [];
+                        this.dataList.returnData.taskPro.forEach(item=>{
+                            var obj = {};
+                            for(var key in item){
+                                obj[key] = item[key];
+                            }
+                            objList.taskPro.push(obj)
+                        });
                         objList.taskPro.forEach(item => item.count = 0);
-                         objList.ListArry.forEach(obj => {
-                             console.log(obj)
-                            objList.taskPro.forEach(taskPro=>{
-                                if(obj.taskPro == taskPro.taskPro){
-                                    taskPro.count ++;
+                        objList.ListArry.forEach(obj => {
+                            objList.taskPro.forEach(taskPro => {
+                                if (obj.taskPro == taskPro.taskPro) {
+                                    taskPro.count++;
                                 }
                             })
                         });
-                        /*for (var i = 0; i < objList.ListArry.length; i++) {
-                            var obj = objList.ListArry[i];
-                            for (var j = 0; j < objList.taskPro.length; j++) {
-                                var taskPro = objList.taskPro[j];
-                                if (obj.taskPro == taskPro.taskPro) {
-                                    taskPro.count++;
-                                    break;
-                                }
-
-                            }
-                        }*/
                         this.categoryListArray.push(objList);
-                        console.log('==========' + key + '=============');
-                        console.log(JSON.stringify(this.categoryListArray, null, '  '));
-                        console.log('==========' + key + '=============');
                     }
-//                    console.log(JSON.stringify(this.categoryListArray,null,'  '));
+                    console.log(JSON.stringify(this.categoryListArray,null,'  '))
                 }, error => {
                 });
             }

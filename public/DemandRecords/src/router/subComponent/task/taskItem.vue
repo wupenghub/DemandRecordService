@@ -2,20 +2,20 @@
     <div class="contain" v-show="showItem">
         <div class="box-card item-card" :style="{paddingBottom:showAdd?'35px':'10px'}" style="padding-bottom: 10px">
             <div class="header clearfix">
-                <span class="title">收件箱</span>
+                <span class="title">{{categoryListArray.desc}}</span>
                 <div class="task-count">
-                    <span class="wc-count">{{taskCountList[0]?taskCountList[0].count:0}}</span>
+                    <span class="wc-count">{{taskCountList[0] ? taskCountList[0].count : 0}}</span>
                     <span class="separator">/</span>
-                    <span class="ing-count">{{taskCountList[1]?taskCountList[1].count:0}}</span>
+                    <span class="ing-count">{{taskCountList[1] ? taskCountList[1].count : 0}}</span>
                     <span class="separator">/</span>
-                    <span class="ws-count">{{taskCountList[2]?taskCountList[2].count:0}}</span>
+                    <span class="ws-count">{{taskCountList[2] ? taskCountList[2].count : 0}}</span>
                 </div>
-                <div class="bar">
+               <!-- <div class="bar">
                     <div :class="['bar_percentage',item.barClass]" v-for="item in taskCountList"
                          :style="{width:(item.count/totalCount)*100+'%',float:'left'}">
 
                     </div>
-                </div>
+                </div>-->
             </div>
             <div class="content">
                 <div class="item-card item-content" v-for="item in mineChargeList">
@@ -100,7 +100,7 @@
             .task-count {
                 display: inline-block;
                 text-align: center;
-                .separator{
+                .separator {
                     margin: 0 1px;
                     color: #aaa;
                 }
@@ -373,18 +373,23 @@
                 currentTime: moment(new Date()).format('YYYY-MM-DD'),
                 taskCountList: [],
                 totalCount: 0,
-                showItem:false
+                showItem: false,
+
             }
         },
-        created() {
-            this.queryMineTask();
-        },
+        created(){
+            this.injectData(this.categoryListArray);
+
+        }
+        ,
         methods: {
             showAddTask() {
                 this.showAdd = !this.showAdd;
             },
             cancel() {
                 this.showAdd = true;
+            },
+            created(){
             },
             addTask() {
                 if (this.taskTitle) {
@@ -408,6 +413,42 @@
                     method: 'get',
                     params: {type: 'mineCharge', email: '565784355@qq.com'}
                 }, data => {
+                    /*this.mineChargeList = data.returnData.taskList;
+                    this.taskCountList = data.returnData.countList;
+                    this.totalCount = 0;
+                    this.taskCountList.forEach(item => {
+                        this.totalCount += item.count;
+                        if (item.progress_state == 0) {
+                            item.barClass = 'ws';
+                        } else if (item.progress_state == 1) {
+                            item.barClass = 'ing';
+                        } else {
+                            item.barClass = 'wc';
+                        }
+                    });
+                    this.mineChargeList.map(item => {
+                        if (item.endDate)
+                            item.endDate = moment(item.endDate).format('YYYY-MM-DD');
+                    });
+                    this.mineChargeList.forEach(item => {
+                        if (item.taskPro == 0) {
+                            item.icon = 'el-icon-time';
+                            item.bgc = 'task-state-ws';
+                        } else if (item.taskPro == 1) {
+                            item.icon = 'el-icon-remove-outline';
+                            item.bgc = 'task-state';
+                        } else if (item.taskPro == 2) {
+                            item.icon = 'el-icon-circle-check';
+                            item.bgc = 'task-state-wc';
+                        }
+                    });
+                    this.showItem = true;*/
+//                    this.injectData(data);
+                }, error => {
+                });
+            },
+            /*injectData(data) {
+                if (data) {
                     this.mineChargeList = data.returnData.taskList;
                     this.taskCountList = data.returnData.countList;
                     this.totalCount = 0;
@@ -438,9 +479,49 @@
                         }
                     });
                     this.showItem = true;
-                }, error => {
-                });
+                }
+            }*/
+            injectData(data) {
+                if (data) {
+                    this.mineChargeList = data.ListArry;
+//                    this.taskCountList = data.returnData.countList;
+                    this.totalCount = 0;
+                   /* this.taskCountList.forEach(item => {
+                        this.totalCount += item.count;
+                        if (item.progress_state == 0) {
+                            item.barClass = 'ws';
+                        } else if (item.progress_state == 1) {
+                            item.barClass = 'ing';
+                        } else {
+                            item.barClass = 'wc';
+                        }
+                    });*/
+                    this.mineChargeList.map(item => {
+                        if (item.endDate)
+                            item.endDate = moment(item.endDate).format('YYYY-MM-DD');
+                    });
+                    this.mineChargeList.forEach(item => {
+                        if (item.taskPro == 0) {
+                            item.icon = 'el-icon-time';
+                            item.bgc = 'task-state-ws';
+                        } else if (item.taskPro == 1) {
+                            item.icon = 'el-icon-remove-outline';
+                            item.bgc = 'task-state';
+                        } else if (item.taskPro == 2) {
+                            item.icon = 'el-icon-circle-check';
+                            item.bgc = 'task-state-wc';
+                        }
+                    });
+                    this.showItem = true;
+                }
             }
-        }
+        },
+        props: ['categoryListArray'],
+       /* watch: {
+            'categoryListArray': function (newVal) {
+                console.log(JSON.stringify(newVal));
+                this.injectData(newVal);
+            }
+        }*/
     }
 </script>

@@ -2,14 +2,15 @@
     <div class="contain">
         <el-tabs v-model="activeName" @tab-click="handleClick" ref="tabs">
             <el-tab-pane v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
-                <taskItem v-if="tab.menuCode == 'chargeOfMine'"></taskItem>
+                <!--<taskItem v-if="tab.menuCode == 'chargeOfMine'"></taskItem>-->
+                <myChargeTask  v-if="tab.menuCode == 'chargeOfMine'"></myChargeTask>
             </el-tab-pane>
         </el-tabs>
     </div>
 </template>
 <script>
     import utils from '../../utils/utils.js';
-    import taskItem from '../subComponent/task/taskItem.vue';
+    import myChargeTask from '../subComponent/task/myChargeTask.vue';
     export default {
         data() {
             return {
@@ -36,7 +37,8 @@
         },
         props: ['info'],
         components:{
-            taskItem
+//            taskItem,
+            myChargeTask
         },
         watch: {
             '$store.state.selectItem': function (newVal) {
@@ -57,6 +59,7 @@
 </script>
 <style scoped lang="scss">
     .contain {
+        overflow: scroll;
     }
 </style>
 

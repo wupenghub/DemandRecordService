@@ -5,11 +5,11 @@ var TaskRequest = {
         var querySql = TaskRequestDb.taskQuery(req.query.type, req.query.email);
         console.log('taskQuery查询任务明细：' + querySql);
         DbUtils.queryData(querySql, result => {
-            var querySql = TaskRequestDb.queryTaskCount(req.query.email);
+            var querySql = TaskRequestDb.queryTaskPro();
             var returnData = {};
             returnData.taskList = result;
             DbUtils.queryData(querySql, result => {
-                returnData.countList = result;
+                returnData.taskPro = result;
                 res.json({
                     code: 0,
                     returnData: returnData

@@ -10,12 +10,12 @@
                     <span class="separator">/</span>
                     <span class="ws-count">{{categoryListArray.taskPro[2] ? categoryListArray.taskPro[2].count : 0}}</span>
                 </div>
-               <!-- <div class="bar">
-                    <div :class="['bar_percentage',item.barClass]" v-for="item in taskCountList"
+                <div class="bar">
+                    <div :class="['bar_percentage',item.barClass]" v-for="item in categoryListArray.taskPro"
                          :style="{width:(item.count/totalCount)*100+'%',float:'left'}">
 
                     </div>
-                </div>-->
+                </div>
             </div>
             <div class="content">
                 <div class="item-card item-content" v-for="item in mineChargeList">
@@ -378,7 +378,6 @@
             }
         },
         created(){
-            console.log(JSON.stringify(this.categoryListArray,null,'  '))
             this.injectData(this.categoryListArray);
 
         }
@@ -444,59 +443,24 @@
                         }
                     });
                     this.showItem = true;*/
-//                    this.injectData(data);
+                    this.injectData(data);
                 }, error => {
                 });
             },
-            /*injectData(data) {
-                if (data) {
-                    this.mineChargeList = data.returnData.taskList;
-                    this.taskCountList = data.returnData.countList;
-                    this.totalCount = 0;
-                    this.taskCountList.forEach(item => {
-                        this.totalCount += item.count;
-                        if (item.progress_state == 0) {
-                            item.barClass = 'ws';
-                        } else if (item.progress_state == 1) {
-                            item.barClass = 'ing';
-                        } else {
-                            item.barClass = 'wc';
-                        }
-                    });
-                    this.mineChargeList.map(item => {
-                        if (item.endDate)
-                            item.endDate = moment(item.endDate).format('YYYY-MM-DD');
-                    });
-                    this.mineChargeList.forEach(item => {
-                        if (item.taskPro == 0) {
-                            item.icon = 'el-icon-time';
-                            item.bgc = 'task-state-ws';
-                        } else if (item.taskPro == 1) {
-                            item.icon = 'el-icon-remove-outline';
-                            item.bgc = 'task-state';
-                        } else if (item.taskPro == 2) {
-                            item.icon = 'el-icon-circle-check';
-                            item.bgc = 'task-state-wc';
-                        }
-                    });
-                    this.showItem = true;
-                }
-            }*/
             injectData(data) {
                 if (data) {
                     this.mineChargeList = data.ListArry;
-//                    this.taskCountList = data.returnData.countList;
                     this.totalCount = 0;
-                   /* this.taskCountList.forEach(item => {
+                    this.categoryListArray.taskPro.forEach(item => {
                         this.totalCount += item.count;
-                        if (item.progress_state == 0) {
+                        if (item.taskPro == 0) {
                             item.barClass = 'ws';
-                        } else if (item.progress_state == 1) {
+                        } else if (item.taskPro == 1) {
                             item.barClass = 'ing';
                         } else {
                             item.barClass = 'wc';
                         }
-                    });*/
+                    });
                     this.mineChargeList.map(item => {
                         if (item.endDate)
                             item.endDate = moment(item.endDate).format('YYYY-MM-DD');
@@ -518,11 +482,5 @@
             }
         },
         props: ['categoryListArray'],
-       /* watch: {
-            'categoryListArray': function (newVal) {
-                console.log(JSON.stringify(newVal));
-                this.injectData(newVal);
-            }
-        }*/
     }
 </script>

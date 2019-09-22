@@ -61,7 +61,6 @@
                         });
                         this.categoryListArray.push(objList);
                     }
-                    console.log(JSON.stringify(this.categoryListArray,null,'  '))
                 }, error => {
                 });
             }

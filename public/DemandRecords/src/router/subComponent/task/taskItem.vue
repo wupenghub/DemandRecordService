@@ -4,11 +4,11 @@
             <div class="header clearfix">
                 <span class="title">{{categoryListArray.desc}}</span>
                 <div class="task-count">
-                    <span class="wc-count">{{taskCountList[0] ? taskCountList[0].count : 0}}</span>
+                    <span class="wc-count">{{categoryListArray.taskPro[0] ? categoryListArray.taskPro[0].count : 0}}</span>
                     <span class="separator">/</span>
-                    <span class="ing-count">{{taskCountList[1] ? taskCountList[1].count : 0}}</span>
+                    <span class="ing-count">{{categoryListArray.taskPro[1] ? categoryListArray.taskPro[1].count : 0}}</span>
                     <span class="separator">/</span>
-                    <span class="ws-count">{{taskCountList[2] ? taskCountList[2].count : 0}}</span>
+                    <span class="ws-count">{{categoryListArray.taskPro[2] ? categoryListArray.taskPro[2].count : 0}}</span>
                 </div>
                <!-- <div class="bar">
                     <div :class="['bar_percentage',item.barClass]" v-for="item in taskCountList"
@@ -378,6 +378,7 @@
             }
         },
         created(){
+            console.log(JSON.stringify(this.categoryListArray,null,'  '))
             this.injectData(this.categoryListArray);
 
         }

@@ -50,6 +50,8 @@ module.exports = {
                 FROM
                     task_progress_state_l l
                 where l.del_flag = 0
+                            ORDER BY
+                l.task_progress_state_code DESC
                `;
     },
     addTask(taskTitle, email, chargePer) {

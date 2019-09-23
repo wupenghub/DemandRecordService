@@ -28,7 +28,7 @@ var TaskRequest = {
         });
     },
     addTask(req, res) {
-        var querySql = TaskRequestDb.addTask(req.body.taskTitle, req.body.email, req.body.chargePer);
+        var querySql = TaskRequestDb.addTask(req.body.taskTitle, req.body.email, req.body.chargePer,req.body.taskModelId);
         console.log('addTask添加任务：' + querySql);
         DbUtils.queryData(querySql, result => {
             res.json({

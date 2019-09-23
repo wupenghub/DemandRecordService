@@ -54,7 +54,8 @@ module.exports = {
                 l.task_progress_state_code DESC
                `;
     },
-    addTask(taskTitle, email, chargePer) {
+    addTask(taskTitle, email, chargePer,taskModelId) {
+        taskModelId = taskModelId?taskModelId:0;
         var querySql = `
                         INSERT INTO task
                         SET task_id = (
@@ -66,7 +67,8 @@ module.exports = {
                                 t.create_per = create_per
                         ),
                          create_per = ${mysql.escape(email)},
-                         create_date = SYSDATE()
+                         create_date = SYSDATE(),
+                         task_model_id = ${taskModelId}
                        `;
         if (taskTitle) {
             querySql += ` ,task_title =${mysql.escape(taskTitle)}`;

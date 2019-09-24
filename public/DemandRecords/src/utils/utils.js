@@ -33,18 +33,23 @@ var utils = {
             }
         }
     },
-    request(vue,requestParam,success,err){
-        const loading = vue.$loading({
-            lock: true,
-            spinner: 'fa fa-spinner fa-pulse',
-            background:'rgba(225,225,225,0.8)',
-        });
+    request(vue, requestParam, success, err, notShowLoading) {
+        var loading = null;
+        if (!notShowLoading) {
+            loading = vue.$loading({
+                lock: true,
+                spinner: 'fa fa-spinner fa-pulse',
+                background: 'rgba(225,225,225,0.8)',
+            });
+        }
         vue.$axios(requestParam).then(data => {
             success(data);
-            loading.close();
+            if (loading)
+                loading.close();
         }).catch(error => {
             err(error);
-            loading.close();
+            if (loading)
+                loading.close();
         });
     }
 };

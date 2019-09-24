@@ -63,7 +63,7 @@
                         this.categoryListArray.push(objList);
                     }
                 }, error => {
-                });
+                }, true);
             }
         },
         components: {

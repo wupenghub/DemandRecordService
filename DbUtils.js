@@ -13,9 +13,9 @@ const db_config = {
     connectionLimit: 5,
     host: "127.0.0.1",
     user: "root",
-    password: "080902abc",
+    password: "080902abc!",
     port: "3306",
-    database: "baixiu"
+    database: "DemandRecord"
 };*/
 const db_config_cis = {
     connectionLimit: 5,

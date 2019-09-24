@@ -59,7 +59,7 @@
 </script>
 <style scoped lang="scss">
     .contain {
-        overflow: scroll;
+        overflow: auto;
     }
 </style>
 

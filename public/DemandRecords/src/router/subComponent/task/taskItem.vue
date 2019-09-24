@@ -136,7 +136,6 @@
             margin-right: 10px;
         }
         .content {
-            /*overflow: auto;*/
             transition: all linear 2s;
             padding: 5px;
             .item-content {
@@ -379,7 +378,6 @@
         },
         created() {
             this.injectData(this.categoryListArray);
-
         }
         ,
         methods: {
@@ -397,15 +395,21 @@
                     utils.request(this, {
                         url: '/addTask',
                         method: 'post',
-                        data: {taskTitle: this.taskTitle, email: '565784355@qq.com', chargePer: '565784355@qq.com',taskModelId}
+                        data: {
+                            taskTitle: this.taskTitle,
+                            email: '565784355@qq.com',
+                            chargePer: '565784355@qq.com',
+                            taskModelId
+                        },
                     }, data => {
                         this.taskTitle = '';
                         if (data.returnData.affectedRows > 0) {
                             this.$emit('fun');
+                            // this.injectData(this.categoryListArray);
                         }
                     }, error => {
 
-                    });
+                    }, true);
                 }
             },
             injectData(data) {
@@ -443,5 +447,10 @@
             }
         },
         props: ['categoryListArray'],
+        watch: {
+            'categoryListArray': function (newval) {
+                this.injectData(this.categoryListArray);
+            }
+        }
     }
 </script>

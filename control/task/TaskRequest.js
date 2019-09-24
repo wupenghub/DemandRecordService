@@ -10,10 +10,20 @@ var TaskRequest = {
             returnData.taskList = result;
             DbUtils.queryData(querySql, result => {
                 returnData.taskPro = result;
-                res.json({
-                    code: 0,
-                    returnData: returnData
-                })
+                var queryTaskModelSql = TaskRequestDb.queryTaskModel();
+                DbUtils.queryData(queryTaskModelSql,result=>{
+                    returnData.taskModel = result;
+                    res.json({
+                        code: 0,
+                        returnData: returnData
+                    })
+                },error=>{
+                    res.json({
+                        code: -1,
+                        error
+                    })
+                });
+
             }, error => {
                 res.json({
                     code: -1,

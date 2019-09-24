@@ -77,5 +77,8 @@ module.exports = {
             querySql += ` ,charge_per =${mysql.escape(chargePer)}`;
         }
         return querySql;
+    },
+    queryTaskModel(){
+        return `select t.task_model_id as taskModelId,t.task_model_desc as taskModelDesc from task_model t where t.del_flag = 0`;
     }
 };

@@ -59,6 +59,7 @@
 <style scoped lang="scss">
     .contain {
         overflow: auto;
+        width: 1200px;
     }
 </style>
 

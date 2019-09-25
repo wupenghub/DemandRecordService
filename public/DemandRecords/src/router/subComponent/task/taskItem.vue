@@ -18,10 +18,13 @@
                 </div>
             </div>
             <div class="content">
-                <div class="item-card item-content" v-for="item in mineChargeList">
+                <div class="item-card item-content" v-for="item in mineChargeList" @click="showTaskDetail()">
                     <div class="inner-card  clearfix">
-                        <span :class="item.bgc"><i :class="item.icon"></i>{{item.taskProDesc}}</span>
+                        <span :class="item.bgc" @click.stop="showTaskPro(item)"><i :class="item.icon"></i>{{item.taskProDesc}}</span>
                         <span class="charge_per">{{item.nickName}}</span>
+                         <div class="task-pro-list">
+
+                         </div>
                     </div>
                     <div class="task-title">{{item.taskTitle}}</div>
                     <div class="trips clearfix">
@@ -149,6 +152,7 @@
 
             }
             .inner-card {
+                position: relative;
                 span.task-state {
                     font-size: 12px;
                     display: inline-block;
@@ -204,6 +208,17 @@
                     text-align: center;
                     padding: 1px;
                     float: right;
+                }
+                .task-pro-list {
+                    width: 240px;
+                    height: 130px;
+                    position: absolute;
+                    padding: 5px 0;
+                    background-color: #ffffff;
+                    top: 25px;
+                    left: -80px;
+                    box-shadow: 0 2px 13px 1px rgba(0, 0, 0, .15);
+                    z-index: 9999999999999999;
                 }
             }
             .inner-card:hover {
@@ -444,6 +459,12 @@
                     });
                     this.showItem = true;
                 }
+            },
+            showTaskPro(item) {
+                alert(item.nickName);
+            },
+            showTaskDetail() {
+                alert('showTaskDetail');
             }
         },
         props: ['categoryListArray'],

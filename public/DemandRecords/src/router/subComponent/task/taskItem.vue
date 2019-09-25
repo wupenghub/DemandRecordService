@@ -22,7 +22,7 @@
                     <div class="inner-card  clearfix">
                         <span :class="item.bgc" @click.stop="showTaskPro(item)"><i :class="item.icon"></i>{{item.taskProDesc}}</span>
                         <span class="charge_per">{{item.nickName}}</span>
-                         <div class="task-pro-list">
+                         <div class="task-pro-list" @click="chooseTaskPro($event,item)">
 
                          </div>
                     </div>
@@ -465,6 +465,12 @@
             },
             showTaskDetail() {
                 alert('showTaskDetail');
+            },
+            chooseTaskPro(e,item){
+                console.log(e.target.className)
+                if(e.target.className == 'task-pro-list'){
+                    alert('chooseTaskPro');
+                }
             }
         },
         props: ['categoryListArray'],

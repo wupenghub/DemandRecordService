@@ -1,7 +1,7 @@
 <template>
-    <div class="contain">
+    <div class="contain project-header">
         <el-tabs v-model="activeName" @tab-click="handleClick" ref="tabs">
-            <el-tab-pane v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
+            <el-tab-pane class="pane" v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
                 <myChargeTask  v-if="tab.menuCode == 'chargeOfMine'"></myChargeTask>
             </el-tab-pane>
         </el-tabs>
@@ -56,10 +56,21 @@
     }
     ;
 </script>
+<style lang="scss">
+    .project-header{
+        .el-tab-pane{
+            width: 1200px !important;
+            overflow: auto !important;
+        }
+    }
+</style>
 <style scoped lang="scss">
     .contain {
-        overflow: auto;
-        width: 1200px;
+
+        .pane{
+
+
+        }
     }
 </style>
 

@@ -18,13 +18,15 @@
                 </div>
             </div>
             <div class="content">
-                <div class="item-card item-content" v-for="item in mineChargeList" @click="showTaskDetail()">
+                <div class="item-card item-content" v-for="item in mineChargeList" @click="showTaskDetail()"
+                     @mouseup="keyUp()" @mousedown="keyDown($event,item)" @mousemove="keyMove($event,item)">
                     <div class="inner-card  clearfix">
-                        <span :class="item.bgc" @click.stop="showTaskPro(item)"><i :class="item.icon"></i>{{item.taskProDesc}}</span>
+                        <span :class="item.bgc" @click.stop="showTaskPro(item)"><i
+                                :class="item.icon"></i>{{item.taskProDesc}}</span>
                         <span class="charge_per">{{item.nickName}}</span>
-                         <div class="task-pro-list" @click="chooseTaskPro($event,item)">
+                        <!-- <div class="task-pro-list" @click="chooseTaskPro($event,item)">
 
-                         </div>
+                         </div>-->
                     </div>
                     <div class="task-title">{{item.taskTitle}}</div>
                     <div class="trips clearfix">
@@ -93,6 +95,7 @@
         width: 290px;
         position: relative;
         padding-bottom: 35px;
+        user-select: none;
         .header {
             height: 35px;
             line-height: 25px;
@@ -218,7 +221,7 @@
                     top: 25px;
                     left: -80px;
                     box-shadow: 0 2px 13px 1px rgba(0, 0, 0, .15);
-                    z-index: 9999999999999999;
+                    z-index: 999;
                 }
             }
             .inner-card:hover {
@@ -388,7 +391,8 @@
                 taskCountList: [],
                 totalCount: 0,
                 showItem: false,
-
+                mouseDown: false,
+                rootParent: null
             }
         },
         created() {
@@ -461,15 +465,39 @@
                 }
             },
             showTaskPro(item) {
-                alert(item.nickName);
             },
             showTaskDetail() {
-                alert('showTaskDetail');
             },
-            chooseTaskPro(e,item){
+            chooseTaskPro(e, item) {
                 console.log(e.target.className)
-                if(e.target.className == 'task-pro-list'){
+                if (e.target.className == 'task-pro-list') {
                     alert('chooseTaskPro');
+                }
+            },
+            keyDown(e, item) {
+                this.mouseDown = true;
+                var dd = e.target;
+                if (this.mouseDown) {
+                    /*var startX = e.target.offsetLeft;
+                    console.log(startX)
+                    console.log(e.target)*/
+                    this.findRootParent(dd);
+                    console.log(this.rootParent);
+
+
+                }
+            },
+            keyUp() {
+                this.mouseDown = false;
+            },
+            keyMove(e) {
+
+            },
+            findRootParent(dd) {
+                if (dd.className != 'item-card item-content') {
+                    this.findRootParent(dd.parentNode)
+                } else {
+                    this.rootParent = dd;
                 }
             }
         },

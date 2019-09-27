@@ -1,5 +1,5 @@
 <template>
-    <div class="contain" v-show="showItem">
+    <div class="contain" v-show="showItem"  @mouseup="keyUp()">
         <div class="box-card item-card" :style="{paddingBottom:showAdd?'35px':'10px'}" style="padding-bottom: 10px">
             <div class="header clearfix">
                 <span class="title">{{categoryListArray.desc}}</span>
@@ -18,8 +18,7 @@
                 </div>
             </div>
             <div class="content">
-                <div class="item-card item-content" v-for="item in mineChargeList" @click="showTaskDetail()"
-                     @mouseup="keyUp()" @mousedown="keyDown($event,item)" @mousemove="keyMove($event,item)">
+                <div class="item-card item-content" v-for="item in mineChargeList" @click="showTaskDetail()" @mousedown="keyDown($event,item)" @mousemove="keyMove($event,item)">
                     <div class="inner-card  clearfix">
                         <span :class="item.bgc" @click.stop="showTaskPro(item)"><i
                                 :class="item.icon"></i>{{item.taskProDesc}}</span>
@@ -89,6 +88,7 @@
         background: #fdfdfd;
         border-radius: 3px;
         padding: 17px 10px 10px;
+        position: relative;
     }
 
     .box-card {
@@ -392,7 +392,9 @@
                 totalCount: 0,
                 showItem: false,
                 mouseDown: false,
-                rootParent: null
+                itemRootParent: null,
+                itemRootParentStartX:0,
+                itemRootParentStartY:0
             }
         },
         created() {
@@ -469,35 +471,42 @@
             showTaskDetail() {
             },
             chooseTaskPro(e, item) {
-                console.log(e.target.className)
+                // console.log(e.target.className);
                 if (e.target.className == 'task-pro-list') {
                     alert('chooseTaskPro');
                 }
             },
             keyDown(e, item) {
                 this.mouseDown = true;
-                var dd = e.target;
-                if (this.mouseDown) {
-                    /*var startX = e.target.offsetLeft;
-                    console.log(startX)
-                    console.log(e.target)*/
-                    this.findRootParent(dd);
-                    console.log(this.rootParent);
-
-
-                }
+                var target = e.target;
+                this.findRootParent(target);
+                this.itemRootParent.style.zIndex = '1000';
+                this.itemRootParentStartX = e.clientX;
+                this.itemRootParentStartY = e.clientY;
             },
             keyUp() {
                 this.mouseDown = false;
+                this.itemRootParent.style.zIndex = '999';
+                // this.itemRootParent.style.transform ="translate("+this.itemRootParentTransformX+"px,"+this.itemRootParentTransformY+"px)";
+                this.itemRootParent.style.transform ="translate(0px,0px)";
+                this.itemRootParent = null;
+                console.log('itemRootParentTransformX:'+this.itemRootParentTransformX);
             },
             keyMove(e) {
-
+                if (this.mouseDown) {
+                    var distanceX = e.clientX - this.itemRootParentStartX;
+                    var distanceY = e.clientY - this.itemRootParentStartY;
+                    this.itemRootParent.style.transform ="translate("+distanceX+"px,"+distanceY+"px)";
+                    this.itemRootParentTransformX = -distanceX;
+                    this.itemRootParentTransformY = -distanceY;
+                    console.log('itemRootParentTransformX:'+distanceX);
+                }
             },
             findRootParent(dd) {
                 if (dd.className != 'item-card item-content') {
                     this.findRootParent(dd.parentNode)
                 } else {
-                    this.rootParent = dd;
+                    this.itemRootParent = dd;
                 }
             }
         },

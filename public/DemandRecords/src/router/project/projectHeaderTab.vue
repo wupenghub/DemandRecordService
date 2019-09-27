@@ -59,7 +59,7 @@
 <style lang="scss">
     .project-header{
         .el-tab-pane{
-            width: 1200px !important;
+            width: 1500px !important;
             overflow: auto !important;
         }
     }

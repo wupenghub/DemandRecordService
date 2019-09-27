@@ -471,7 +471,6 @@
             showTaskDetail() {
             },
             chooseTaskPro(e, item) {
-                // console.log(e.target.className);
                 if (e.target.className == 'task-pro-list') {
                     alert('chooseTaskPro');
                 }
@@ -487,19 +486,15 @@
             keyUp() {
                 this.mouseDown = false;
                 this.itemRootParent.style.zIndex = '999';
-                // this.itemRootParent.style.transform ="translate("+this.itemRootParentTransformX+"px,"+this.itemRootParentTransformY+"px)";
                 this.itemRootParent.style.transform ="translate(0px,0px)";
-                this.itemRootParent = null;
-                console.log('itemRootParentTransformX:'+this.itemRootParentTransformX);
+                this.itemRootParent.style.opacity = '1'
             },
             keyMove(e) {
                 if (this.mouseDown) {
                     var distanceX = e.clientX - this.itemRootParentStartX;
                     var distanceY = e.clientY - this.itemRootParentStartY;
                     this.itemRootParent.style.transform ="translate("+distanceX+"px,"+distanceY+"px)";
-                    this.itemRootParentTransformX = -distanceX;
-                    this.itemRootParentTransformY = -distanceY;
-                    console.log('itemRootParentTransformX:'+distanceX);
+                    this.itemRootParent.style.opacity = '0.8'
                 }
             },
             findRootParent(dd) {

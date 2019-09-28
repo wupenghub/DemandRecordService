@@ -7,6 +7,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Vuex from 'vuex';
 import request from './utils/Http.js';
 import moment from './lib/moment.min.js';
+// import './lib/dragula/dist/dragula.css';
+
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(Vuex);

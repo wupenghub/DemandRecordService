@@ -1,5 +1,5 @@
 <template>
-    <div class="contain" v-show="showItem"  @mouseup="keyUp()">
+    <div class="contain" v-show="showItem">
         <div class="box-card item-card" :style="{paddingBottom:showAdd?'35px':'10px'}" style="padding-bottom: 10px">
             <div class="header clearfix">
                 <span class="title">{{categoryListArray.desc}}</span>
@@ -18,22 +18,28 @@
                 </div>
             </div>
             <div class="content">
-                <div class="item-card item-content" v-for="item in mineChargeList" @click="showTaskDetail()" @mousedown="keyDown($event,item)" @mousemove="keyMove($event,item)">
-                    <div class="inner-card  clearfix">
+                <div class="copy-item">
+                    <div class="item-card item-content" v-for="item in mineChargeList">
+                        <!-- @click="showTaskDetail()"
+                         @mousedown="keyDown($event,item)"
+                         @mousemove="keyMove($event,item)"-->
+                        <!--&gt;-->
+                        <div class="inner-card  clearfix">
                         <span :class="item.bgc" @click.stop="showTaskPro(item)"><i
                                 :class="item.icon"></i>{{item.taskProDesc}}</span>
-                        <span class="charge_per">{{item.nickName}}</span>
-                        <!-- <div class="task-pro-list" @click="chooseTaskPro($event,item)">
+                            <span class="charge_per">{{item.nickName}}</span>
+                            <!-- <div class="task-pro-list" @click="chooseTaskPro($event,item)">
 
-                         </div>-->
-                    </div>
-                    <div class="task-title">{{item.taskTitle}}</div>
-                    <div class="trips clearfix">
-                        <span class="task-id trip" v-if="item.taskId">任务编号：{{item.taskId}}</span>
-                        <span class="task-id trip" v-if="item.belong">所属项目：{{item.belongDesc}}</span>
-                        <span :class="['task-id',currentTime < item.endDate ? 'trip':'trip-out-time']"
-                              v-if="item.endDate">截止时间：{{item.endDate}}</span>
-                        <i class="el-icon-document-checked font_focus_color icon"></i>
+                             </div>-->
+                        </div>
+                        <div class="task-title">{{item.taskTitle}}</div>
+                        <div class="trips clearfix">
+                            <span class="task-id trip" v-if="item.taskId">任务编号：{{item.taskId}}</span>
+                            <span class="task-id trip" v-if="item.belong">所属项目：{{item.belongDesc}}</span>
+                            <span :class="['task-id',currentTime < item.endDate ? 'trip':'trip-out-time']"
+                                  v-if="item.endDate">截止时间：{{item.endDate}}</span>
+                            <i class="el-icon-document-checked font_focus_color icon"></i>
+                        </div>
                     </div>
                 </div>
                 <div :class="['add-info',showAdd?'hide-animation':'show-animation']">
@@ -380,6 +386,8 @@
 <script>
     import utils from '../../../utils/utils.js';
     import moment from '../../../lib/moment.min.js';
+    import dragula from '../../../lib/dragula/dist/dragula.js';
+//    import  '../../../lib/dragula/dist/dragula.css';
 
     export default {
         data() {
@@ -393,8 +401,8 @@
                 showItem: false,
                 mouseDown: false,
                 itemRootParent: null,
-                itemRootParentStartX:0,
-                itemRootParentStartY:0
+                itemRootParentStartX: 0,
+                itemRootParentStartY: 0
             }
         },
         created() {
@@ -468,14 +476,12 @@
             },
             showTaskPro(item) {
             },
-            showTaskDetail() {
-            },
             chooseTaskPro(e, item) {
                 if (e.target.className == 'task-pro-list') {
                     alert('chooseTaskPro');
                 }
             },
-            keyDown(e, item) {
+            /*keyDown(e, item) {
                 this.mouseDown = true;
                 var target = e.target;
                 this.findRootParent(target);
@@ -487,29 +493,39 @@
                 this.mouseDown = false;
                 this.itemRootParent.style.zIndex = '999';
                 this.itemRootParent.style.transform ="translate(0px,0px)";
-                this.itemRootParent.style.opacity = '1'
+                this.itemRootParent.style.opacity = '1';
+                this.itemRootParent.style.cursor = 'pointer';
             },
             keyMove(e) {
                 if (this.mouseDown) {
                     var distanceX = e.clientX - this.itemRootParentStartX;
                     var distanceY = e.clientY - this.itemRootParentStartY;
                     this.itemRootParent.style.transform ="translate("+distanceX+"px,"+distanceY+"px)";
-                    this.itemRootParent.style.opacity = '0.8'
+                    this.itemRootParent.style.opacity = '0.8';
+                    this.itemRootParent.style.cursor = 'grab';
                 }
-            },
-            findRootParent(dd) {
+            },*/
+            /*findRootParent(dd) {
                 if (dd.className != 'item-card item-content') {
                     this.findRootParent(dd.parentNode)
                 } else {
                     this.itemRootParent = dd;
                 }
-            }
+            }*/
         },
         props: ['categoryListArray'],
         watch: {
             'categoryListArray': function (newval) {
                 this.injectData(this.categoryListArray);
             }
+        },
+        mounted() {
+            var arr = [];
+            for (var i = 0; i < document.querySelectorAll('.copy-item').length; i++) {
+                arr.push(document.querySelectorAll('.copy-item')[i])
+            }
+            console.log(arr)
+            dragula(arr);
         }
     }
 </script>

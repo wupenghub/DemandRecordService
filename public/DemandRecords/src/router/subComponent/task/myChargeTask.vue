@@ -1,7 +1,7 @@
 <template>
     <div class="contain">
         <div class="category-task-item" v-for="item in categoryListArray">
-            <taskItem :category-list-array="item" @fun="queryMineTask"></taskItem>
+            <taskItem :category-list-array="item" @fun="queryMineTask" @renderItem="renderItem"></taskItem>
         </div>
     </div>
 
@@ -10,6 +10,8 @@
 <script>
     import taskItem from '../../subComponent/task/taskItem.vue';
     import utils from '../../../utils/utils.js';
+    import '../../../lib/dragula/dist/dragula.css';
+    import '../../../lib/dragula/dist/item-move.css';
     export default {
         data() {
             return {
@@ -65,6 +67,23 @@
                 }, error => {
                 }, true);
             },
+            renderItem(){
+                var arr = [];
+                for(var i = 0;i<document.querySelectorAll('.copy-item').length;i++){
+                    arr.push(document.querySelectorAll('.copy-item')[i])
+                }
+                var _this = this;
+                dragula(arr).on('drag', function (el) {
+                    el.className = el.className.replace('ex-moved', '');
+                }).on('drop', function (el,target,source) {
+                    console.log(_this.$refs.copyItem.dataset.taskModel);
+                    console.log(target);
+                }).on('over', function (el, container) {
+                    container.className += ' ex-over';
+                }).on('out', function (el, container) {
+                    container.className = container.className.replace('ex-over', '');
+                });
+            }
         },
         components: {
             taskItem

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import appVue from './router/app.vue';
+import hello from './router/hello.vue';
 import VueRouter from 'vue-router';
 import router from './js/router.js';
 import ElementUI from 'element-ui';
@@ -7,7 +8,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Vuex from 'vuex';
 import request from './utils/Http.js';
 import moment from './lib/moment.min.js';
-// import './lib/dragula/dist/dragula.css';
 
 Vue.use(VueRouter);
 Vue.use(ElementUI);
@@ -63,4 +63,5 @@ var vue = new Vue({
     router,
     store,
     render: DemandRecorde => DemandRecorde(appVue)
+    // render: DemandRecorde => DemandRecorde(hello)
 });

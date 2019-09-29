@@ -13,20 +13,18 @@
                 <div class="bar">
                     <div :class="['bar_percentage',item.barClass]" v-for="item in categoryListArray.taskPro"
                          :style="{width:(item.count/totalCount)*100+'%',float:'left'}">
-
                     </div>
                 </div>
             </div>
             <div class="content">
-                <div class="copy-item">
-                    <div class="item-card item-content" v-for="item in mineChargeList">
+                <div class="copy-item" :data-task-model="categoryListArray.key" ref="copyItem">
+                    <div class="item-card item-content" v-for="item in mineChargeList" :key="item.taskId">
                         <!-- @click="showTaskDetail()"
                          @mousedown="keyDown($event,item)"
                          @mousemove="keyMove($event,item)"-->
                         <!--&gt;-->
                         <div class="inner-card  clearfix">
-                        <span :class="item.bgc" @click.stop="showTaskPro(item)"><i
-                                :class="item.icon"></i>{{item.taskProDesc}}</span>
+                            <span :class="item.bgc" @click.stop="showTaskPro(item)"><i :class="item.icon"></i>{{item.taskProDesc}}</span>
                             <span class="charge_per">{{item.nickName}}</span>
                             <!-- <div class="task-pro-list" @click="chooseTaskPro($event,item)">
 
@@ -94,7 +92,7 @@
         background: #fdfdfd;
         border-radius: 3px;
         padding: 17px 10px 10px;
-        position: relative;
+        /*position: relative;*/
     }
 
     .box-card {
@@ -387,7 +385,8 @@
     import utils from '../../../utils/utils.js';
     import moment from '../../../lib/moment.min.js';
     import dragula from '../../../lib/dragula/dist/dragula.js';
-//    import  '../../../lib/dragula/dist/dragula.css';
+    import '../../../lib/dragula/dist/dragula.css';
+    import '../../../lib/dragula/dist/item-move.css';
 
     export default {
         data() {
@@ -407,8 +406,8 @@
         },
         created() {
             this.injectData(this.categoryListArray);
-        }
-        ,
+        },
+        // components: {vuedraggable},
         methods: {
             showAddTask() {
                 this.showAdd = !this.showAdd;
@@ -505,13 +504,13 @@
                     this.itemRootParent.style.cursor = 'grab';
                 }
             },*/
-            /*findRootParent(dd) {
-                if (dd.className != 'item-card item-content') {
-                    this.findRootParent(dd.parentNode)
-                } else {
-                    this.itemRootParent = dd;
-                }
-            }*/
+            /* findRootParent(dd) {
+                 if (dd.className != 'item-card item-content') {
+                     this.findRootParent(dd.parentNode)
+                 } else {
+                     this.itemRootParent = dd;
+                 }
+             }*/
         },
         props: ['categoryListArray'],
         watch: {
@@ -520,12 +519,23 @@
             }
         },
         mounted() {
-            var arr = [];
-            for (var i = 0; i < document.querySelectorAll('.copy-item').length; i++) {
+            this.$emit('renderItem');
+            /*var arr = [];
+            for(var i = 0;i<document.querySelectorAll('.copy-item').length;i++){
                 arr.push(document.querySelectorAll('.copy-item')[i])
             }
-            console.log(arr)
-            dragula(arr);
+            var _this = this;
+            dragula(arr).on('drag', function (el) {
+                el.className = el.className.replace('ex-moved', '');
+            }).on('drop', function (el,target,source) {
+                console.log(_this.$refs.copyItem.dataset.taskModel);
+                console.log(target);
+            }).on('over', function (el, container) {
+                container.className += ' ex-over';
+            }).on('out', function (el, container) {
+                container.className = container.className.replace('ex-over', '');
+            });*/
+
         }
     }
 </script>

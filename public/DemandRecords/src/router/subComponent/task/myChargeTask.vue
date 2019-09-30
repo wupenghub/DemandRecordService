@@ -75,16 +75,23 @@
                 if (arr) {
                     arr.forEach(item => this.sonDataList.push(item));
                 }
+                var _this = this;
                 //完全添加完子组件之后才能进行事件回调
                 if (this.count == this.dataList.returnData.taskModel.length) {
                     dragula(arr).on('drag', function (el) {
                         el.className = el.className.replace('ex-moved', '');
                         el.style.cursor = 'grab';
                     }).on('drop', function (el, target, source) {
-                        console.log(el);
                         el.style.cursor = 'pointer';
                         var taskModelId = target.dataset.taskModel;
-
+                        var taskId = el.dataset.taskId;
+                        utils.request(_this, {
+                            url: '/updateTask',
+                            method: 'post',
+                            data: {taskId, taskModelId}
+                        }, data => {
+                        }, error => {
+                        }, true);
                     }).on('over', function (el, container) {
                     }).on('out', function (el, container) {
                     });

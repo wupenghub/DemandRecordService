@@ -11,13 +11,13 @@ var TaskRequest = {
             DbUtils.queryData(querySql, result => {
                 returnData.taskPro = result;
                 var queryTaskModelSql = TaskRequestDb.queryTaskModel();
-                DbUtils.queryData(queryTaskModelSql,result=>{
+                DbUtils.queryData(queryTaskModelSql, result => {
                     returnData.taskModel = result;
                     res.json({
                         code: 0,
                         returnData: returnData
                     })
-                },error=>{
+                }, error => {
                     res.json({
                         code: -1,
                         error
@@ -38,7 +38,7 @@ var TaskRequest = {
         });
     },
     addTask(req, res) {
-        var querySql = TaskRequestDb.addTask(req.body.taskTitle, req.body.email, req.body.chargePer,req.body.taskModelId);
+        var querySql = TaskRequestDb.addTask(req.body.taskTitle, req.body.email, req.body.chargePer, req.body.taskModelId);
         console.log('addTask添加任务：' + querySql);
         DbUtils.queryData(querySql, result => {
             res.json({
@@ -51,6 +51,21 @@ var TaskRequest = {
                 error
             })
         });
+    },
+    updateTask(req, res) {
+        var querySql = TaskRequestDb.updateTask(req.body.taskId, req.body.taskModelId);
+        DbUtils.queryData(querySql, result => {
+            res.json({
+                code: 0,
+                returnData: result
+            })
+        }, error => {
+            res.json({
+                code: -1,
+                error
+            })
+        });
+
     }
 };
 

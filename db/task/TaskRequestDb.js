@@ -54,8 +54,8 @@ module.exports = {
                 l.task_progress_state_code DESC
                `;
     },
-    addTask(taskTitle, email, chargePer,taskModelId) {
-        taskModelId = taskModelId?taskModelId:0;
+    addTask(taskTitle, email, chargePer, taskModelId) {
+        taskModelId = taskModelId ? taskModelId : 0;
         var querySql = `
                         INSERT INTO task
                         SET task_id = (
@@ -78,7 +78,10 @@ module.exports = {
         }
         return querySql;
     },
-    queryTaskModel(){
+    queryTaskModel() {
         return `select t.task_model_id as taskModelId,t.task_model_desc as taskModelDesc from task_model t where t.del_flag = 0`;
+    },
+    updateTask(taskId, taskModelId) {
+        return `update task t set t.task_model_id = ${taskModelId} where t.task_id = ${taskId}`;
     }
 };

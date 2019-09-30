@@ -18,7 +18,7 @@
             </div>
             <div class="content">
                 <div class="copy-item" :data-task-model="categoryListArray.key" ref="copyItem">
-                    <div class="item-card item-content" v-for="item in mineChargeList" :key="item.taskId">
+                    <div class="item-card item-content" v-for="item in mineChargeList" :key="item.taskId" :data-task-id="item.taskId">
                         <!-- @click="showTaskDetail()"
                          @mousedown="keyDown($event,item)"
                          @mousemove="keyMove($event,item)"-->

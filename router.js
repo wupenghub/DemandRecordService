@@ -24,6 +24,10 @@ router.get('/getTasks', (req, res) => {
 router.post('/addTask',(req,res)=>{
     TaskRequest.addTask(req,res);
 });
+router.post('/updateTask',(req,res)=>{
+    TaskRequest.updateTask(req,res);
+
+});
 router.get('/test', (req, res) => {
 
 });

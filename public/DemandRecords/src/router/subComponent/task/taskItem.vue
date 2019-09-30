@@ -385,8 +385,8 @@
     import utils from '../../../utils/utils.js';
     import moment from '../../../lib/moment.min.js';
     import dragula from '../../../lib/dragula/dist/dragula.js';
-    import '../../../lib/dragula/dist/dragula.css';
-    import '../../../lib/dragula/dist/item-move.css';
+//    import '../../../lib/dragula/dist/dragula.css';
+//    import '../../../lib/dragula/dist/item-move.css';
 
     export default {
         data() {

@@ -10,7 +10,7 @@
 <script>
     import taskItem from '../../subComponent/task/taskItem.vue';
     import utils from '../../../utils/utils.js';
-    import '../../../lib/dragula/dist/item-move.css';
+//    import '../../../lib/dragula/dist/item-move.css';
     export default {
         data() {
             return {

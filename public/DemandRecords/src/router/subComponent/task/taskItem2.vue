@@ -1,28 +1,49 @@
 <template>
-    <div class="contain">
-        <el-card class="task-item box-card">
-            <div slot="header" class="clearfix">
-                <span class="title">收件箱</span>
+    <div class="contain" v-show="showItem">
+        <div class="box-card item-card" :style="{paddingBottom:showAdd?'35px':'10px'}" style="padding-bottom: 10px">
+            <div class="header clearfix">
+                <span class="title">{{categoryListArray.desc}}</span>
+                <div class="task-count">
+                    <span class="wc-count">{{categoryListArray.taskPro[0] ? categoryListArray.taskPro[0].count : 0}}</span>
+                    <span class="separator">/</span>
+                    <span class="ing-count">{{categoryListArray.taskPro[1] ? categoryListArray.taskPro[1].count : 0}}</span>
+                    <span class="separator">/</span>
+                    <span class="ws-count">{{categoryListArray.taskPro[2] ? categoryListArray.taskPro[2].count : 0}}</span>
+                </div>
+                <div class="bar">
+                    <div :class="['bar_percentage',item.barClass]" v-for="item in categoryListArray.taskPro"
+                         :style="{width:(item.count/totalCount)*100+'%',float:'left'}">
+
+                    </div>
+                </div>
             </div>
             <div class="content">
-                <el-card class="card-item" v-for="item in mineChargeList">
-                    <div class="inner-card clearfix">
-                        <span :class="item.bgc"><i :class="item.icon"></i>{{item.taskProDesc}}</span>
-                        <span class="charge_per">{{item.nickName}}</span>
+                <div class="copy-item">
+                    <div class="item-card item-content" v-for="item in mineChargeList">
+                        <!-- @click="showTaskDetail()"
+                         @mousedown="keyDown($event,item)"
+                         @mousemove="keyMove($event,item)"-->
+                        <!--&gt;-->
+                        <div class="inner-card  clearfix">
+                        <span :class="item.bgc" @click.stop="showTaskPro(item)"><i
+                                :class="item.icon"></i>{{item.taskProDesc}}</span>
+                            <span class="charge_per">{{item.nickName}}</span>
+                            <!-- <div class="task-pro-list" @click="chooseTaskPro($event,item)">
+
+                             </div>-->
+                        </div>
+                        <div class="task-title">{{item.taskTitle}}</div>
+                        <div class="trips clearfix">
+                            <span class="task-id trip" v-if="item.taskId">任务编号：{{item.taskId}}</span>
+                            <span class="task-id trip" v-if="item.belong">所属项目：{{item.belongDesc}}</span>
+                            <span :class="['task-id',currentTime < item.endDate ? 'trip':'trip-out-time']"
+                                  v-if="item.endDate">截止时间：{{item.endDate}}</span>
+                            <i class="el-icon-document-checked font_focus_color icon"></i>
+                        </div>
                     </div>
-                    <div class="task-title">{{item.taskTitle}}</div>
-                    <div class="trips clearfix">
-                        <span class="task-id trip" v-if="item.taskId">任务编号：{{item.taskId}}</span>
-                        <span class="task-id trip" v-if="item.belong">所属项目：{{item.belongDesc}}</span>
-                        <span :class="['task-id',currentTime < item.endDate ? 'trip':'trip-out-time']"
-                              v-if="item.endDate">截止时间：{{item.endDate}}</span>
-                        <i class="el-icon-document-checked font_focus_color icon"></i>
-                    </div>
-                </el-card>
-            </div>
-            <div class="bottom">
-                <transition name="mybox">
-                    <div class="add_info" v-if="!showAdd">
+                </div>
+                <div :class="['add-info',showAdd?'hide-animation':'show-animation']">
+                    <div class="box" v-show="!showAdd">
                         <textarea autofocus v-model="taskTitle" class="task_title">
                         </textarea>
                         <div class="info">
@@ -39,60 +60,115 @@
                             <span class="cancel" @click="cancel()">取消</span>
                         </div>
                     </div>
-                    <div class="add_task" @click="showAddTask()" v-if="showAdd">
-                        <i class="fa fa-plus"></i>
-                        <span style="margin-left: 10px">添加新任务</span>
-                    </div>
-                </transition>
+                </div>
             </div>
-        </el-card>
+            <div class="bottom">
+                <div class="add_task" @click="showAddTask()" v-if="showAdd">
+                    <i class="fa fa-plus"></i>
+                    <span style="margin-left: 10px">添加新任务</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
-<style lang="scss">
-    .task-item {
-        user-select: none;
-        > .el-card__body {
-            padding: 17px 10px 43px !important;
-            overflow: auto;
-            position: relative;
+<style scoped lang="scss">
+    @keyframes showAddInfo {
+        from {
+            height: 0;
         }
-        .el-card__body {
-            padding: 12px 12px 7px !important;
-        }
-        .card-item {
-            margin-bottom: 10px;
-        }
-        .card-item:hover {
-            box-shadow: 0 2px 13px 3px rgba(0, 0, 0, .15) !important;
-            cursor: pointer;
-
+        to {
+            height: 130px;
         }
     }
-</style>
-<style scoped lang="scss">
+
+    @keyframes hideAddInfo {
+        from {
+            height: 130px;
+        }
+        to {
+            height: 0;
+        }
+    }
+
+    .item-card {
+        background: #fdfdfd;
+        border-radius: 3px;
+        padding: 17px 10px 10px;
+        /*position: relative;*/
+    }
+
     .box-card {
         width: 290px;
-        display: flex;
-        flex-direction: column;
+        position: relative;
+        padding-bottom: 35px;
+        user-select: none;
+        .header {
+            height: 35px;
+            line-height: 25px;
+            margin-bottom: 10px;
+            .bar_percentage {
+                height: 6px;
+            }
+            .task-count {
+                display: inline-block;
+                text-align: center;
+                .separator {
+                    margin: 0 1px;
+                    color: #aaa;
+                }
+                .wc-count {
+                    color: #22d7bb;
+                }
+                .ing-count {
+                    color: #ffc442;
+                }
+                .ws-count {
+                    color: #aaa;
+                }
+            }
+            .ing {
+                background: #ffc442;
+            }
+            .wc {
+                background: #22d7bb;
+            }
+            .ws {
+                background: #eee;;
+            }
+        }
         .font_focus_color {
             color: #22d7bb;
             font-size: 23px;
         }
         .title {
             font-size: 16px;
+            display: inline-block;
+            height: 24px;
+            margin-bottom: 10px;
+            margin-right: 10px;
         }
         .content {
-            overflow: auto;
-            flex: 1;
-            .inner-card {
+            transition: all linear 2s;
+            padding: 5px;
+            .item-content {
                 margin-bottom: 10px;
+                box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .1)
+
+            }
+            .item-content:hover {
+                cursor: pointer;
+                box-shadow: 0 2px 13px 1px rgba(0, 0, 0, .15)
+
+            }
+            .inner-card {
+                /*position: relative;*/
                 span.task-state {
                     font-size: 12px;
                     display: inline-block;
                     background-color: rgba(255, 164, 21, 0.1);
                     padding: 5px 10px;
-                    height: 24px;
-                    line-height: 14px;
+                    height: 28px;
+                    line-height: 18px;
                     float: left;
                     i {
                         margin-right: 5px;
@@ -140,6 +216,18 @@
                     color: #ffffff;
                     text-align: center;
                     padding: 1px;
+                    float: right;
+                }
+                .task-pro-list {
+                    width: 240px;
+                    height: 130px;
+                    position: absolute;
+                    padding: 5px 0;
+                    background-color: #ffffff;
+                    top: 25px;
+                    left: -80px;
+                    box-shadow: 0 2px 13px 1px rgba(0, 0, 0, .15);
+                    /*z-index: 999;*/
                 }
             }
             .inner-card:hover {
@@ -186,8 +274,9 @@
 
                 }
             }
-            .add_info {
-                height: 130px;
+            .add-info {
+                margin-top: 10px;
+                height: 0px;
                 .task_title {
                     display: block;
                     width: 100%;
@@ -269,103 +358,27 @@
                 }
 
             }
+            .show-animation {
+                animation: showAddInfo .3s;
+                height: 130px;
+            }
+            .hide-animation {
+                animation: hideAddInfo .3s;
+                height: 0px;
+            }
         }
         .bottom {
-            > * {
-                transition: all linear .2s;
-            }
+            position: absolute;
+            bottom: 5px;
+            left: 15px;
             .add_task {
                 color: #666;
                 height: 35px;
                 margin-bottom: 5px;
-                bottom: 0;
             }
             .add_task:hover {
                 color: #404040;
                 cursor: pointer;
-            }
-            .add_info {
-                height: 130px;
-                .task_title {
-                    display: block;
-                    width: 100%;
-                    border-radius: 3px;
-                    border: 1px solid #eee;
-                    height: 52px;
-                    outline: none;
-                    margin-bottom: 10px;
-                }
-                .task_title:focus {
-                    border-color: #22d7bb;
-                }
-                .task_title:hover {
-                    border-color: #22d7bb;
-                }
-                .info {
-                    height: 24px;
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    .choose_task_type {
-                        display: inline-flex;
-                        flex-direction: row;
-                        align-items: center;
-                        margin-right: 16px;
-                        .task_type {
-                            margin: 0 3px;
-                        }
-                        .el-icon-arrow-down {
-                            font-size: 16px;
-                            color: #aaa
-                        }
-                    }
-                    .choose_task_type:hover {
-                        cursor: pointer;
-                    }
-                    .current_user {
-                        display: inline-block;
-                        width: 22px;
-                        height: 22px;
-                        border-radius: 11px;
-                        line-height: 22px;
-                        text-align: center;
-                        overflow: hidden;
-                        background-color: rgb(45, 188, 255);
-                        color: #ffffff;
-                        margin-right: 10px;
-                    }
-                    .current_user:hover {
-                        cursor: pointer;
-                    }
-                    .time:hover {
-                        color: #22d7bb;
-                        cursor: pointer;
-                    }
-                }
-                .button_group {
-                    .el-button.el-button--default.is-round {
-                        background: #22d7bb !important;
-                        color: #ffffff;
-                        border: none;
-                        width: 70px;
-                        height: 28px;
-                        line-height: 28px;
-                        padding: 0;
-
-                    }
-                    .el-button.el-button--default.is-round:hover {
-                        box-shadow: 1px 1px 5px #22d7bb;
-                    }
-                    .cancel {
-                        margin-left: 10px;
-                        color: #aaa;
-                    }
-                    .cancel:hover {
-                        cursor: pointer;
-                        color: #22d7bb;
-                    }
-                }
-
             }
         }
     }
@@ -373,19 +386,28 @@
 <script>
     import utils from '../../../utils/utils.js';
     import moment from '../../../lib/moment.min.js';
-
+    import dragula from '../../../lib/dragula/dist/dragula.js';
+    import '../../../lib/dragula/dist/dragula.css';
     export default {
         data() {
             return {
                 showAdd: true,
                 taskTitle: '',
                 mineChargeList: [],
-                currentTime: moment(new Date()).format('YYYY-MM-DD')
+                currentTime: moment(new Date()).format('YYYY-MM-DD'),
+                taskCountList: [],
+                totalCount: 0,
+                showItem: false,
+                mouseDown: false,
+                itemRootParent: null,
+                itemRootParentStartX: 0,
+                itemRootParentStartY: 0
             }
         },
         created() {
-            this.queryMineTask();
-        },
+            this.injectData(this.categoryListArray);
+        }
+        ,
         methods: {
             showAddTask() {
                 this.showAdd = !this.showAdd;
@@ -393,35 +415,48 @@
             cancel() {
                 this.showAdd = true;
             },
+            created() {
+            },
             addTask() {
                 if (this.taskTitle) {
+                    var taskModelId = this.categoryListArray.key;
                     utils.request(this, {
                         url: '/addTask',
                         method: 'post',
-                        data: {taskTitle: this.taskTitle, email: '565784355@qq.com', chargePer: '565784355@qq.com'}
+                        data: {
+                            taskTitle: this.taskTitle,
+                            email: '565784355@qq.com',
+                            chargePer: '565784355@qq.com',
+                            taskModelId
+                        },
                     }, data => {
                         this.taskTitle = '';
                         if (data.returnData.affectedRows > 0) {
-                            this.queryMineTask();
+                            this.$emit('fun');
+                            // this.injectData(this.categoryListArray);
                         }
                     }, error => {
 
-                    });
+                    }, true);
                 }
             },
-            queryMineTask() {
-                utils.request(this, {
-                    url: '/getTasks',
-                    method: 'get',
-                    params: {type: 'mineCharge', email: '565784355@qq.com'}
-                }, data => {
-                    this.mineChargeList = data.returnData;
-                    console.log(this.mineChargeList)
-                    this.mineChargeList.map(item => {
-                        console.log(item.endDate)
-                        if (item.endDate) {
-                            item.endDate = moment(item.endDate).format('YYYY-MM-DD');
+            injectData(data) {
+                if (data) {
+                    this.mineChargeList = data.ListArry;
+                    this.totalCount = 0;
+                    this.categoryListArray.taskPro.forEach(item => {
+                        this.totalCount += item.count;
+                        if (item.taskPro == 0) {
+                            item.barClass = 'ws';
+                        } else if (item.taskPro == 1) {
+                            item.barClass = 'ing';
+                        } else {
+                            item.barClass = 'wc';
                         }
+                    });
+                    this.mineChargeList.map(item => {
+                        if (item.endDate)
+                            item.endDate = moment(item.endDate).format('YYYY-MM-DD');
                     });
                     this.mineChargeList.forEach(item => {
                         if (item.taskPro == 0) {
@@ -434,10 +469,62 @@
                             item.icon = 'el-icon-circle-check';
                             item.bgc = 'task-state-wc';
                         }
-                    })
-                }, error => {
-                });
+                    });
+                    this.showItem = true;
+                }
+            },
+            showTaskPro(item) {
+            },
+            chooseTaskPro(e, item) {
+                if (e.target.className == 'task-pro-list') {
+                    alert('chooseTaskPro');
+                }
+            },
+            /*keyDown(e, item) {
+                this.mouseDown = true;
+                var target = e.target;
+                this.findRootParent(target);
+                this.itemRootParent.style.zIndex = '1000';
+                this.itemRootParentStartX = e.clientX;
+                this.itemRootParentStartY = e.clientY;
+            },
+            keyUp() {
+                this.mouseDown = false;
+                this.itemRootParent.style.zIndex = '999';
+                this.itemRootParent.style.transform ="translate(0px,0px)";
+                this.itemRootParent.style.opacity = '1';
+                this.itemRootParent.style.cursor = 'pointer';
+            },
+            keyMove(e) {
+                if (this.mouseDown) {
+                    var distanceX = e.clientX - this.itemRootParentStartX;
+                    var distanceY = e.clientY - this.itemRootParentStartY;
+                    this.itemRootParent.style.transform ="translate("+distanceX+"px,"+distanceY+"px)";
+                    this.itemRootParent.style.opacity = '0.8';
+                    this.itemRootParent.style.cursor = 'grab';
+                }
+            },*/
+            /*findRootParent(dd) {
+                if (dd.className != 'item-card item-content') {
+                    this.findRootParent(dd.parentNode)
+                } else {
+                    this.itemRootParent = dd;
+                }
+            }*/
+        },
+        props: ['categoryListArray'],
+        watch: {
+            'categoryListArray': function (newval) {
+                this.injectData(this.categoryListArray);
             }
+
+        },
+        mounted() {
+            var arr = [];
+            for (var i = 0; i < document.querySelectorAll('.copy-item').length; i++) {
+                arr.push(document.querySelectorAll('.copy-item')[i])
+            }
+            dragula(arr);
         }
     }
 </script>

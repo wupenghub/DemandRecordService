@@ -384,10 +384,6 @@
 <script>
     import utils from '../../../utils/utils.js';
     import moment from '../../../lib/moment.min.js';
-    import dragula from '../../../lib/dragula/dist/dragula.js';
-//    import '../../../lib/dragula/dist/dragula.css';
-//    import '../../../lib/dragula/dist/item-move.css';
-
     export default {
         data() {
             return {
@@ -407,7 +403,6 @@
         created() {
             this.injectData(this.categoryListArray);
         },
-        // components: {vuedraggable},
         methods: {
             showAddTask() {
                 this.showAdd = !this.showAdd;
@@ -519,23 +514,11 @@
             }
         },
         mounted() {
-            this.$emit('renderItem');
             var arr = [];
             for(var i = 0;i<document.querySelectorAll('.copy-item').length;i++){
                 arr.push(document.querySelectorAll('.copy-item')[i])
             }
-            var _this = this;
-            dragula(arr).on('drag', function (el) {
-                el.className = el.className.replace('ex-moved', '');
-            }).on('drop', function (el,target,source) {
-                console.log(_this.$refs.copyItem.dataset.taskModel);
-                console.log(target);
-            }).on('over', function (el, container) {
-                container.className += ' ex-over';
-            }).on('out', function (el, container) {
-                container.className = container.className.replace('ex-over', '');
-            });
-
+            this.$emit('addData',arr);
         }
     }
 </script>

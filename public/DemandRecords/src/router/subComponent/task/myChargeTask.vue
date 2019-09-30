@@ -1,7 +1,7 @@
 <template>
     <div class="contain">
         <div class="category-task-item" v-for="item in categoryListArray">
-            <taskItem :category-list-array="item" @fun="queryMineTask"></taskItem>
+            <taskItem :category-list-array="item" @fun="queryMineTask" @addData="addData"></taskItem>
         </div>
     </div>
 
@@ -10,13 +10,17 @@
 <script>
     import taskItem from '../../subComponent/task/taskItem.vue';
     import utils from '../../../utils/utils.js';
-//    import '../../../lib/dragula/dist/item-move.css';
+    import dragula from '../../../lib/dragula/dist/dragula.js';
+    import '../../../lib/dragula/dist/dragula.css';
+
     export default {
         data() {
             return {
                 dataList: [],
                 categoryListObject: {},
-                categoryListArray: []
+                categoryListArray: [],
+                sonDataList: [],
+                count: 0
             }
         },
         created() {
@@ -55,9 +59,9 @@
                         });
                     });
                     this.categoryListArray.forEach(taskItem => {
-                        taskItem.ListArry.forEach(listItem=>{
-                            taskItem.taskPro.forEach(taskPro=>{
-                                if(listItem.taskPro == taskPro.taskPro){
+                        taskItem.ListArry.forEach(listItem => {
+                            taskItem.taskPro.forEach(taskPro => {
+                                if (listItem.taskPro == taskPro.taskPro) {
                                     taskPro.count++;
                                 }
                             })
@@ -66,6 +70,24 @@
                 }, error => {
                 }, true);
             },
+            addData(arr) {
+                this.count++;
+                if (arr) {
+                    arr.forEach(item => this.sonDataList.push(item));
+                }
+                if (this.count == this.dataList.returnData.taskModel.length) {
+                    dragula(arr).on('drag', function (el) {
+                        el.className = el.className.replace('ex-moved', '');
+                    }).on('drop', function (el, target, source) {
+                        console.log(target.dataset.taskModel);
+                    }).on('over', function (el, container) {
+                        container.className += ' ex-over';
+                    }).on('out', function (el, container) {
+                        container.className = container.className.replace('ex-over', '');
+                    });
+                }
+
+            }
         },
         components: {
             taskItem

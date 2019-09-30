@@ -520,7 +520,7 @@
         },
         mounted() {
             this.$emit('renderItem');
-            /*var arr = [];
+            var arr = [];
             for(var i = 0;i<document.querySelectorAll('.copy-item').length;i++){
                 arr.push(document.querySelectorAll('.copy-item')[i])
             }
@@ -534,7 +534,7 @@
                 container.className += ' ex-over';
             }).on('out', function (el, container) {
                 container.className = container.className.replace('ex-over', '');
-            });*/
+            });
 
         }
     }

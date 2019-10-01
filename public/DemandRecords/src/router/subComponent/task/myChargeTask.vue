@@ -44,7 +44,7 @@
                             if (taskItem.taskModelId == obj.key) {
                                 obj.ListArry.push(taskItem);
                             }
-                        })
+                        });
                         this.categoryListArray.push(obj)
                     });
                     this.categoryListArray.forEach(item => {
@@ -61,7 +61,7 @@
                     this.categoryListArray.forEach(taskItem => {
                         taskItem.ListArry.forEach(listItem => {
                             taskItem.taskPro.forEach(taskPro => {
-                                if (listItem.taskPro == taskPro.taskPro) {
+                                if (listItem.taskPro == taskPro.taskPro)  {
                                     taskPro.count++;
                                 }
                             })
@@ -90,6 +90,10 @@
                             method: 'post',
                             data: {taskId, taskModelId}
                         }, data => {
+                            if(data.returnData.affectedRows > 0){
+                                console.log(data);
+                                this.queryMineTask();
+                            }
                         }, error => {
                         }, true);
                     }).on('over', function (el, container) {
@@ -102,6 +106,15 @@
         components: {
             taskItem
         },
+        watch:{
+            'categoryListArray':{
+                handler(val, oldVal){
+//                    this.injectData(this.categoryListArray);
+                    console.log('=====');
+                },
+                deep:true
+            }
+        }
     }
 </script>
 

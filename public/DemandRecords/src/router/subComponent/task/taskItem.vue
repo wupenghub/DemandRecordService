@@ -509,8 +509,14 @@
         },
         props: ['categoryListArray'],
         watch: {
-            'categoryListArray': function (newval) {
+            /*'categoryListArray': function (newval) {
                 this.injectData(this.categoryListArray);
+            }*/
+            'categoryListArray':{
+                handler(val, oldVal){
+                    this.injectData(this.categoryListArray);
+                },
+                deep:true
             }
         },
         mounted() {

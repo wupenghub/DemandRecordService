@@ -18,6 +18,7 @@
             </div>
             <div class="content">
                 <div class="copy-item" :data-task-model="categoryListArray.key" ref="copyItem">
+                    <div class="item-card item-content" style="display: none"></div>
                     <div class="item-card item-content" v-for="item in mineChargeList" :key="item.taskId" :data-task-id="item.taskId">
                         <!-- @click="showTaskDetail()"
                          @mousedown="keyDown($event,item)"
@@ -26,7 +27,7 @@
                         <div class="inner-card  clearfix">
                             <span :class="item.bgc" @click.stop="showTaskPro(item)"><i :class="item.icon"></i>{{item.taskProDesc}}</span>
                             <span class="charge_per">{{item.nickName}}</span>
-                            <!-- <div class="task-pro-list" @click="chooseTaskPro($event,item)">
+                             <!--<div class="task-pro-list" @click="chooseTaskPro($event,item)">
 
                              </div>-->
                         </div>
@@ -86,6 +87,9 @@
         to {
             height: 0;
         }
+    }
+    .copy-item{
+        min-height: 1px;
     }
 
     .item-card {

@@ -28,6 +28,7 @@
         },
         methods: {
             queryMineTask() {
+                console.log('查询');
                 utils.request(this, {
                     url: '/getTasks',
                     method: 'get',
@@ -91,8 +92,7 @@
                             data: {taskId, taskModelId}
                         }, data => {
                             if(data.returnData.affectedRows > 0){
-                                console.log(data);
-                                this.queryMineTask();
+                                _this.queryMineTask();
                             }
                         }, error => {
                         }, true);
@@ -105,15 +105,6 @@
         },
         components: {
             taskItem
-        },
-        watch:{
-            'categoryListArray':{
-                handler(val, oldVal){
-//                    this.injectData(this.categoryListArray);
-                    console.log('=====');
-                },
-                deep:true
-            }
         }
     }
 </script>

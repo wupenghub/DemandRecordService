@@ -28,7 +28,6 @@
         },
         methods: {
             queryMineTask() {
-                console.log('查询');
                 utils.request(this, {
                     url: '/getTasks',
                     method: 'get',

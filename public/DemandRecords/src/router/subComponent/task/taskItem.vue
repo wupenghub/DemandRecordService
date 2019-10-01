@@ -27,9 +27,9 @@
                         <div class="inner-card  clearfix">
                             <span :class="item.bgc" @click.stop="showTaskPro(item)"><i :class="item.icon"></i>{{item.taskProDesc}}</span>
                             <span class="charge_per">{{item.nickName}}</span>
-                             <!--<div class="task-pro-list" @click="chooseTaskPro($event,item)">
+                             <div class="task-pro-list" @click="chooseTaskPro($event,item)">
 
-                             </div>-->
+                             </div>
                         </div>
                         <div class="task-title">{{item.taskTitle}}</div>
                         <div class="trips clearfix">
@@ -223,13 +223,16 @@
                 .task-pro-list {
                     width: 240px;
                     height: 130px;
-                    position: absolute;
                     padding: 5px 0;
                     background-color: #ffffff;
                     top: 25px;
                     left: -80px;
                     box-shadow: 0 2px 13px 1px rgba(0, 0, 0, .15);
-                    z-index: 999;
+                    position: absolute !important;
+                    margin: 0 !important;
+                    z-index: 9999 !important;
+                    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+                    filter: alpha(opacity=80);
                 }
             }
             .inner-card:hover {

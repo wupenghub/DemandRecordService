@@ -40,6 +40,7 @@ module.exports = {
         if (type == 'mineCharge') {
             sql += ` AND t.charge_per = ${mysql.escape(email)}`;
         }
+        sql += ` ORDER BY t.sort desc,t.create_date asc`;
         return sql;
     },
     queryTaskPro() {

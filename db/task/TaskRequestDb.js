@@ -31,7 +31,8 @@ module.exports = {
                                 task_model tm
                             WHERE
                                 tm.task_model_id = t.task_model_id
-                        ) AS taskModelDesc
+                        ) AS taskModelDesc,
+                        t.start_date as startDate
                     FROM
                         task t
                     WHERE

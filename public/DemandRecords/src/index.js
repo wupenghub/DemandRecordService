@@ -57,7 +57,12 @@ Vue.filter('timeFormat', function (value) {
     if (!value) return '';
     value = value.toString()
     return moment(value).format('YYYY-MM-DD')
-})
+});
+Vue.filter('timeFormatMonthAndDay', function (value) {
+    if (!value) return '';
+    value = value.toString();
+    return moment(value).format('MM月DD日')
+});
 var vue = new Vue({
     el: '#app',
     router,

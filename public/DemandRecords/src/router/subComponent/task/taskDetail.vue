@@ -66,13 +66,15 @@
                             <span class="group-key">截止时间</span>
                         </div>
                     </div>
-                    <!--<div class="task-detail-nav">
-                        <el-tabs v-model="activeName" @tab-click="handleClick" ref="tabs">
-                            <el-tab-pane class="pane" v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
-                            </el-tab-pane>
-                        </el-tabs>
-                    </div>-->
                 </div>
+                <div class="task-detail-nav clearfix">
+                    <el-tabs v-model="activeName" @tab-click="handleClick" ref="tabs">
+                        <el-tab-pane class="pane" v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
+                        </el-tab-pane>
+                    </el-tabs>
+                </div>
+                <loading v-if="showLoading"></loading>
+
             </div>
         </el-dialog>
     </div>
@@ -80,16 +82,42 @@
 </template>
 
 <script>
+    import loading from '../../common/loading.vue'
+
     export default {
         data() {
             return {
-                showDialog: false
+                showDialog: false,
+                showLoading: true,
+                activeName: 'taskInfo',
+                tabs: [
+                    {
+                        menuCode: 'taskInfo',
+                        descr: '任务信息',
+                        icon:'fa fa-tasks'
+                    },
+                    {
+                        menuCode: 'sonTask',
+                        descr: '子任务'
+                    },
+                    {
+                        menuCode: 'connectTask',
+                        descr: '关联任务'
+                    },
+                    {
+                        menuCode: 'workTime',
+                        descr: '任务工时'
+                    },
+                    {
+                        menuCode: 'file',
+                        descr: '任务附件',
+                        icon:'el-icon-paperclip'
+                    }
+                ]
 
             }
         },
         created() {
-//            this.showDialog = this.dialogVisible;
-//            console.log('====='+this.showDialog);
         }
         ,
         props: ['dialogVisible', 'chooseTask'],
@@ -103,10 +131,13 @@
                 this.showDialog = false;
                 this.$emit('passStatus', this.showDialog);
             },
-            closeDialog(){
+            closeDialog() {
                 this.showDialog = false;
                 this.$emit('passStatus', this.showDialog);
             }
+        },
+        components: {
+            loading
         }
     }
 </script>
@@ -239,6 +270,24 @@
             .task-end-time:hover .el-icon-timer {
                 color: #22d7bb;
             }
+        }
+        /deep/ .el-tabs__header.is-top {
+            display: flex;
+            float: left;
+        }
+
+        /deep/ .el-card__header {
+            padding: 17px 10px 10px !important;
+            height: 45px !important;
+            line-height: 18px;
+        }
+        /deep/ .el-tabs__item {
+            padding: 7px 60px 7px 0;
+            width: 86px;
+            color: #888;
+        }
+        /deep/ .el-tabs__active-bar {
+            width: 55px !important;
         }
     }
 

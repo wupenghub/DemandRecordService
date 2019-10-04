@@ -2,7 +2,7 @@
     <div class="contain project-header">
         <el-tabs v-model="activeName" @tab-click="handleClick" ref="tabs">
             <el-tab-pane class="pane" v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
-                <myChargeTask  v-if="tab.menuCode == 'chargeOfMine'"></myChargeTask>
+                <myChargeTask v-if="tab.menuCode == 'chargeOfMine'"></myChargeTask>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -10,6 +10,7 @@
 <script>
     import utils from '../../utils/utils.js';
     import myChargeTask from '../subComponent/task/myChargeTask.vue';
+
     export default {
         data() {
             return {
@@ -35,8 +36,7 @@
             });
         },
         props: ['info'],
-        components:{
-//            taskItem,
+        components: {
             myChargeTask
         },
         watch: {
@@ -57,8 +57,8 @@
     ;
 </script>
 <style lang="scss">
-    .project-header{
-        .el-tab-pane{
+    .project-header {
+        .el-tab-pane {
             width: 1500px !important;
             overflow: auto !important;
         }
@@ -66,9 +66,19 @@
 </style>
 <style scoped lang="scss">
     .contain {
+        /deep/ .el-tabs__header.is-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 55px;
+        }
 
-        .pane{
-
+        /deep/ .el-card__header {
+            padding: 17px 10px 10px !important;
+            height: 45px !important;
+            line-height: 18px;
+        }
+        .pane {
 
         }
     }

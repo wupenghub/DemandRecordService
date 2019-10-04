@@ -1,9 +1,9 @@
 <template>
     <div class="contain">
-        <el-dialog :visible.sync="showDialog" :before-close="handleClose">
+        <el-dialog :visible.sync="showDialog" ref="eDialog">
             <div slot="title" class="detail-head">
                 <span class="task-id-sp clearfix">
-                    <span>{{chooseTask && chooseTask.taskId}}</span>
+                    <span>{{this.$store.state.chooseTask && this.$store.state.chooseTask.taskId}}</span>
                 </span>
                 <ul class="right-box">
                     <li class="close" @click="closeDialog()">
@@ -34,47 +34,49 @@
             <div class="detail-body">
                 <div class="detail-title">
                     <span class="detail-title-content">
-                        {{chooseTask && chooseTask.taskTitle}}
+                        {{this.$store.state.chooseTask && this.$store.state.chooseTask.taskTitle}}
                     </span>
                 </div>
                 <div class="operation-group clearfix">
                     <div class="task-progress group clearfix">
                         <span class="el-icon-time icon"></span>
                         <div class="group-content">
-                            <span class="group-value">{{chooseTask && chooseTask.taskProDesc}}</span>
+                            <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.taskProDesc}}</span>
                             <span class="group-key">当前状态</span>
                         </div>
                     </div>
                     <div class="task-charge-man group clearfix">
                         <span class="icon">吴鹏</span>
                         <div class="group-content">
-                            <span class="group-value">{{chooseTask && chooseTask.nickName}}</span>
+                            <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
                             <span class="group-key">负责人</span>
                         </div>
                     </div>
                     <div class="task-start-time group clearfix">
                         <span class="el-icon-alarm-clock icon"></span>
                         <div class="group-content">
-                            <span class="group-value">{{chooseTask ? (chooseTask.showStartDate ? chooseTask.showStartDate : '无') : '无'}}</span>
+                            <span class="group-value">{{this.$store.state.chooseTask ? (this.$store.state.chooseTask.showStartDate ? this.$store.state.chooseTask.showStartDate : '无') : '无'}}</span>
                             <span class="group-key">开始时间</span>
                         </div>
                     </div>
                     <div class="task-end-time group clearfix">
                         <span class="el-icon-timer icon"></span>
                         <div class="group-content">
-                            <span class="group-value">{{chooseTask ? (chooseTask.showEndDate ? chooseTask.showEndDate : '无') : '无'}}</span>
+                            <span class="group-value">{{this.$store.state.chooseTask ? (this.$store.state.chooseTask.showEndDate ? this.$store.state.chooseTask.showEndDate : '无') : '无'}}</span>
                             <span class="group-key">截止时间</span>
                         </div>
                     </div>
                 </div>
-                <div class="task-detail-nav clearfix">
-                    <el-tabs v-model="activeName" @tab-click="handleClick" ref="tabs">
-                        <el-tab-pane class="pane" v-for="tab in tabs" :label="tab.descr" :name="tab.menuCode">
-                        </el-tab-pane>
-                    </el-tabs>
+                <div class="detail-nav">
+                    <a :class="['tab',tab.select?'select':'']" v-for="tab in tabs">
+                        <span :class="[tab.icon,'icon']"></span>
+                        <span class="descr">{{tab.descr}}
+                            <i v-show="tab.id != tabs.length" class="divider-line"></i>
+                        </span>
+                    </a>
                 </div>
+                <div class="comment-body"></div>
                 <loading v-if="showLoading"></loading>
-
             </div>
         </el-dialog>
     </div>
@@ -92,26 +94,34 @@
                 activeName: 'taskInfo',
                 tabs: [
                     {
+                        id: 1,
                         menuCode: 'taskInfo',
                         descr: '任务信息',
-                        icon:'fa fa-tasks'
+                        icon: 'fa fa-tasks'
                     },
                     {
+                        id: 2,
                         menuCode: 'sonTask',
-                        descr: '子任务'
+                        descr: '子任务',
+                        icon: 'el-icon-s-operation'
                     },
                     {
+                        id: 3,
                         menuCode: 'connectTask',
-                        descr: '关联任务'
+                        descr: '关联任务',
+                        icon: 'fa fa-link'
                     },
                     {
+                        id: 4,
                         menuCode: 'workTime',
-                        descr: '任务工时'
+                        descr: '任务工时',
+                        icon: 'el-icon-time'
                     },
                     {
+                        id: 5,
                         menuCode: 'file',
                         descr: '任务附件',
-                        icon:'el-icon-paperclip'
+                        icon: 'el-icon-paperclip'
                     }
                 ]
 
@@ -124,20 +134,26 @@
         watch: {
             'dialogVisible': function (newval) {
                 this.showDialog = newval;
+            },
+            'showDialog': function (newval) {
+                this.$emit('passStatus', newval)
             }
         },
         methods: {
-            handleClose() {
-                this.showDialog = false;
-                this.$emit('passStatus', this.showDialog);
-            },
             closeDialog() {
                 this.showDialog = false;
-                this.$emit('passStatus', this.showDialog);
             }
         },
         components: {
             loading
+        },
+        mounted() {
+            console.log(document.querySelectorAll('.el-dialog').length);
+            document.querySelector('.el-dialog').onscroll = function () {
+                var st = document.querySelector('.el-dialog').scrollTop || document.querySelector('.el-dialog').scrollTop;
+                console.log(st)
+                document.querySelector('.comment-body').style.bottom = -st + 'px';
+            }
         }
     }
 </script>
@@ -160,7 +176,12 @@
     }
 
     /deep/ .el-dialog {
-        width: 924px !important;
+        width: 980px !important;
+        position: relative;
+        border-radius: 5px !important;
+        overflow: auto !important;
+        height: 580px;
+        margin-top: 50px !important;
     }
 
     .detail-head {
@@ -203,6 +224,7 @@
     }
 
     .detail-body {
+        min-height: 600px;
         .detail-title {
             margin-bottom: 26px;
             .detail-title-content {
@@ -271,24 +293,57 @@
                 color: #22d7bb;
             }
         }
-        /deep/ .el-tabs__header.is-top {
-            display: flex;
-            float: left;
-        }
+        .detail-nav {
+            border-bottom: 1px solid #eee;
+            .tab {
+                display: inline-block;
+                margin-right: 60px;
+                /*padding:7px 0;*/
+                height: 35px;
+                color: #888;
+                line-height: 21px;
+                .icon {
+                    font-size: 16px;
+                    margin-right: 5px;
+                }
+                .descr {
+                    position: relative;
+                    display: inline-block;
+                    .divider-line {
+                        position: absolute;
+                        right: -30px;
+                        width: 1px;
+                        background-color: #eee;
+                        height: 100%;
+                    }
+                }
+            }
+            .tab:hover {
+                cursor: pointer;
+                color: #22d7bb;
+                border-bottom: 2px solid #22d7bb;
 
-        /deep/ .el-card__header {
-            padding: 17px 10px 10px !important;
-            height: 45px !important;
-            line-height: 18px;
+            }
+            .select {
+                border-bottom: 2px solid #22d7bb;
+                color: #22d7bb;
+
+            }
         }
-        /deep/ .el-tabs__item {
-            padding: 7px 60px 7px 0;
-            width: 86px;
-            color: #888;
-        }
-        /deep/ .el-tabs__active-bar {
-            width: 55px !important;
-        }
+    }
+
+    .comment-body {
+        height: 61px;
+        border-top: 1px #eee solid;
+        display: flex;
+        flex-direction: row;
+        background: #ddd;
+        width: 980px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
     }
 
 </style>

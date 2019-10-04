@@ -66,7 +66,6 @@
                 </div>
             </div>
         </div>
-        <taskDetail :dialogVisible="dialogVisible" :chooseTask="chooseTask" @passStatus="passStatus"></taskDetail>
     </div>
 </template>
 <style scoped lang="scss">
@@ -407,8 +406,6 @@
                 itemRootParent: null,
                 itemRootParentStartX: 0,
                 itemRootParentStartY: 0,
-                dialogVisible: false,
-                chooseTask: null
             }
         },
         created() {
@@ -484,18 +481,12 @@
 
             },
             chooseTaskPro(e, item) {
-                if (e.target.className == 'task-pro-list') {
-                    alert('chooseTaskPro');
-                }
             },
             showTaskDetail(item) {
-                this.dialogVisible = true;
-                this.chooseTask = item;
-                this.chooseTask.showStartDate = this.chooseTask.startDate ? moment(this.chooseTask.startDate).format('MM月DD号') : '无';
-                this.chooseTask.showEndDate = this.chooseTask.endDate ? moment(this.chooseTask.endDate).format('MM月DD号') : '无';
-            },
-            passStatus(status){
-                this.dialogVisible = status;
+                item.showStartDate = item.startDate ? moment(item.startDate).format('MM月DD号') : '无';
+                item.showEndDate = item.endDate ? moment(item.endDate).format('MM月DD号') : '无';
+                this.$store.commit('updateSelectTaskDetail', item);
+                this.$emit('passStatus', true);
             }
         },
         props: ['categoryListArray'],

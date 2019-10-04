@@ -85,6 +85,27 @@
             transform: scale(1);
         }
     }
+    .outter{
+        width: 500px;
+        height: 500px;
+        border: 1px solid #000000;
+        overflow: auto;
+        position: relative;
+    }
+    .inner{
+        width: 500px;
+        height: 600px;
+        background: red;
+    }
+    .bottom{
+        width: 500px;
+        height: 80px;
+        background: green;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
 </style>
 <body>
 <div class="container">
@@ -126,10 +147,16 @@
         <li></li>
         <li></li>
     </ul>-->
-    <div class="sk-three-bounce" id="sk-three-bounce">
+    <!--<div class="sk-three-bounce" id="sk-three-bounce">
         <div class="sk-child sk-bounce1"></div>
         <div class="sk-child sk-bounce2"></div>
         <div class="sk-child sk-bounce3"></div>
+    </div>-->
+    <div class="outter">
+        <div class="inner"></div>
+        <div class="bottom">
+
+        </div>
     </div>
 </div>
 <script src="lib/dragula/dist/dragula.js"></script>
@@ -137,8 +164,17 @@
     /*var arr = [];
     document.querySelectorAll('.list').forEach(item => arr.push(item));
     dragula(arr)*/
-    $("#sk-three-bounce").hide();
-    $("#sk-three-bounce").show();
+   /* $("#sk-three-bounce").hide();
+    $("#sk-three-bounce").show();*/
+    window.onload = document.querySelector('.outter').onscroll = function () {
+        var st = document.querySelector('.outter').scrollTop || document.querySelector('.outter').scrollTop;
+        console.log(st)
+        var bottom = document.querySelector('.bottom');
+        bottom.style.bottom = -st+'px'
+//        var deh = document.documentElement.clientHeight;
+//        console.log(document.querySelector('.bottom'));
+//        document.querySelector('.bottom').style.top = st+deh-cc.offsetHeight+"px";
+    }
 </script>
 </body>
 </html>

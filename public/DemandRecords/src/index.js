@@ -33,7 +33,8 @@ const store = new Vuex.Store({
             "parentCode": "work",
             "menuCode": "myTask",
             "open": true
-        }
+        },
+        chooseTask: {}
     },
     mutations: {
         updateSideInfo(state, sideTitleObj) {
@@ -50,6 +51,10 @@ const store = new Vuex.Store({
         },
         updateSelectItem(state, selectItem) {
             state.selectItem = selectItem ? selectItem : state.selectItem;
+        },
+        updateSelectTaskDetail(state, selectTaskDetail) {
+            state.chooseTask = selectTaskDetail;
+
         }
     }
 });

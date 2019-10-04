@@ -1,8 +1,10 @@
 <template>
     <div class="contain">
         <div class="category-task-item" v-for="item in categoryListArray">
-            <taskItem :category-list-array="item" @fun="queryMineTask" @addData="addData"></taskItem>
+            <taskItem :category-list-array="item" @fun="queryMineTask" @addData="addData"
+                      @passStatus="passStatus"></taskItem>
         </div>
+        <taskDetail :dialogVisible="dialogVisible" @passStatus="passStatus"></taskDetail>
     </div>
 
 </template>
@@ -12,6 +14,7 @@
     import utils from '../../../utils/utils.js';
     import dragula from '../../../lib/dragula/dist/dragula.js';
     import '../../../lib/dragula/dist/dragula.css';
+    import taskDetail from './taskDetail.vue'
 
     export default {
         data() {
@@ -20,7 +23,8 @@
                 categoryListObject: {},
                 categoryListArray: [],
                 sonDataList: [],
-                count: 0
+                count: 0,
+                dialogVisible: false
             }
         },
         created() {
@@ -61,7 +65,7 @@
                     this.categoryListArray.forEach(taskItem => {
                         taskItem.ListArry.forEach(listItem => {
                             taskItem.taskPro.forEach(taskPro => {
-                                if (listItem.taskPro == taskPro.taskPro)  {
+                                if (listItem.taskPro == taskPro.taskPro) {
                                     taskPro.count++;
                                 }
                             })
@@ -90,7 +94,7 @@
                             method: 'post',
                             data: {taskId, taskModelId}
                         }, data => {
-                            if(data.returnData.affectedRows > 0){
+                            if (data.returnData.affectedRows > 0) {
                                 _this.queryMineTask();
                             }
                         }, error => {
@@ -100,10 +104,13 @@
                     });
                 }
 
+            },
+            passStatus(status) {
+                this.dialogVisible = status;
             }
         },
         components: {
-            taskItem
+            taskItem, taskDetail
         }
     }
 </script>

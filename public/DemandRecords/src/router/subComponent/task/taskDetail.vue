@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="task-charge-man group clearfix">
-                        <span class="icon">吴鹏</span>
+                        <span class="icon">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
                         <div class="group-content">
                             <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
                             <span class="group-key">负责人</span>
@@ -75,7 +75,29 @@
                         </span>
                     </a>
                 </div>
-                <div class="comment-body"></div>
+                <div class="comment-body">
+                    <span class="charge-man">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
+                    <div class="comment-body-content">
+                        <input v-show="showCommentText" @click="showComment(this)" type="text" class="show-text"
+                               placeholder="评论内容，文字上限2000（Ctrl+Enter发送）"/>
+                        <div class="comment-content" v-show="!showCommentText">
+                            <textarea maxlength="2000" class="show-text-area" placeholder="评论内容，文字上限2000（Ctrl+Enter发送）">
+                            </textarea>
+                            <div class="divider"></div>
+                            <div class="comment-content-footer clearfix">
+                                <ul>
+                                    <li class="footer-item"><a class="el-icon-paperclip"></a></li>
+                                    <li class="footer-item"><a class="fa fa-smile-o"></a></li>
+                                    <li class="footer-item"><a class="el-icon-s-operation"></a></li>
+                                </ul>
+                                <div class="button-groups">
+                                    <span class="send-cancel" @click="cancelSend()">取消</span>
+                                    <button class="send-msg">发送</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <loading v-if="showLoading"></loading>
             </div>
         </el-dialog>
@@ -123,7 +145,8 @@
                         descr: '任务附件',
                         icon: 'el-icon-paperclip'
                     }
-                ]
+                ],
+                showCommentText: true
 
             }
         },
@@ -142,16 +165,20 @@
         methods: {
             closeDialog() {
                 this.showDialog = false;
+            },
+            showComment() {
+                this.showCommentText = false;
+            },
+            cancelSend(){
+                this.showCommentText = true;
             }
         },
         components: {
             loading
         },
         mounted() {
-            console.log(document.querySelectorAll('.el-dialog').length);
             document.querySelector('.el-dialog').onscroll = function () {
                 var st = document.querySelector('.el-dialog').scrollTop || document.querySelector('.el-dialog').scrollTop;
-                console.log(st)
                 document.querySelector('.comment-body').style.bottom = -st + 'px';
             }
         }
@@ -224,7 +251,6 @@
     }
 
     .detail-body {
-        min-height: 600px;
         .detail-title {
             margin-bottom: 26px;
             .detail-title-content {
@@ -298,7 +324,6 @@
             .tab {
                 display: inline-block;
                 margin-right: 60px;
-                /*padding:7px 0;*/
                 height: 35px;
                 color: #888;
                 line-height: 21px;
@@ -333,17 +358,125 @@
     }
 
     .comment-body {
-        height: 61px;
         border-top: 1px #eee solid;
         display: flex;
         flex-direction: row;
-        background: #ddd;
+        background: #fff;
         width: 980px;
         border-bottom-right-radius: 5px;
         border-bottom-left-radius: 5px;
         position: absolute;
         bottom: 0;
         left: 0;
+        z-index: 999;
+        padding: 11px 50px;
+        .charge-man {
+            width: 38px;
+            height: 38px;
+            border-radius: 19px;
+            line-height: 38px;
+            font-size: 12px;
+            color: white;
+            text-align: center;
+            background-color: rgb(45, 188, 255);
+            margin-top: 5px;
+        }
+        .comment-body-content {
+            .show-text {
+                height: 38px;
+                width: 826px;
+                border: none;
+                padding: 1px 1px 1px 19px;
+                display: inline-block;
+                margin-left: 10px;
+                outline: none;
+                background-color: #f3f3f3;
+            }
+            .show-text:hover {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                padding-left: 18px;
+            }
+            .comment-content {
+                margin-left: 10px;
+                border: 1px solid #ddd;
+                border-radius: 3px 3px 0 0;
+                height: 141px;
+                position: relative;
+                .show-text-area {
+                    display: inline-block;
+                    outline: none;
+                    padding: 10px 20px;
+                    height: 80px;
+                    min-height: 80px;
+                    resize: none;
+                    width: 826px;
+                    border: none;
+                }
+                .show-text-area:hover .comment-content {
+                    border: 1px solid #22d7bb;
+                    cursor: pointer;
+                }
+                .divider {
+                    width: 826px;
+                    height: 5px;
+                }
+                .comment-content-footer {
+                    position: absolute;
+                    bottom: 0px;
+                    left: 0px;
+                    padding: 8px 20px;
+                    height: 44px;
+                    width: 826px;
+                    ul {
+                        float: left;
+                    }
+                    .footer-item {
+                        float: left;
+                        margin-right: 20px;
+                        font-size: 16px;
+                        font-weight: 400;
+                        color: #bbb;
+                        height: 28px;
+                        line-height: 28px;
+                    }
+                    .footer-item:hover {
+                        cursor: pointer;
+                        color: #22d7bb;
+                    }
+                    .button-groups {
+                        float: right;
+                        height: 28px;
+                        line-height: 28px;
+                        .send-cancel {
+                            display: inline-block;
+                            cursor: pointer;
+                            color: #aaa;
+                            height: 28px;
+                            line-height: 28px;
+                            margin-right: 5px;
+                            text-align: center;
+                        }
+                        .send-cancel:hover {
+                            color: #22d7bb;
+                        }
+                        .send-msg {
+                            width: 70px;
+                            height: 28px;
+                            background-color: #22d7bb;
+                            border: none;
+                            line-height: 28px;
+                            border-radius: 14px;
+                            color: white;
+                            margin: 0 !important;
+                            padding: 0 !important;
+                            outline: none;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
     }
 
 </style>

@@ -4,8 +4,9 @@
         <ul>
             <li v-for="item in taskStateList" :key="item.taskState"
                 @click.self="chooseTaskState($event,item.taskState)">
-                <i :class="['icon',item.icon,item.taskState==0?'ws':(item.taskState==1?'ing':'wc')]"></i>
-                <span>{{item.taskStateDesc}}</span>
+                <i :class="['icon','clearfix',item.icon,item.taskState==0?'ws':(item.taskState==1?'ing':'wc')]"></i>
+                <span class="descr">{{item.taskStateDesc}}</span>
+                <i class="el-icon-check current-state icon" v-if="$store.state.chooseTask&&($store.state.chooseTask.taskPro == item.taskState)"></i>
             </li>
         </ul>
     </div>
@@ -63,6 +64,9 @@
                 padding: 10px 20px;
                 line-height: 20px;
                 color: #666;
+                .current-state{
+                    float: right;
+                }
             }
             li:hover {
                 background-color: #f3f3f3;
@@ -83,6 +87,9 @@
             font-size: 16px;
             margin-right: 5px;
             font-weight: bolder;
+            line-height: 16px;
+        }
+        .descr {
         }
     }
 

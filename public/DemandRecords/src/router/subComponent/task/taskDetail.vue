@@ -75,16 +75,17 @@
                         </span>
                     </a>
                 </div>
-                <div class="comment-body">
-                    <span class="charge-man">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
+                <div :class="['comment-body',!showCommentText?'show-animation':'hide-animation']">
+                    <span :class="['charge-man']">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
                     <div class="comment-body-content">
                         <input v-show="showCommentText" @click="showComment(this)" type="text" class="show-text"
                                placeholder="评论内容，文字上限2000（Ctrl+Enter发送）"/>
-                        <div class="comment-content" v-show="!showCommentText">
+                        <div :class="['comment-content']"
+                             v-show="!showCommentText">
                             <textarea maxlength="2000" class="show-text-area" placeholder="评论内容，文字上限2000（Ctrl+Enter发送）">
                             </textarea>
                             <div class="divider"></div>
-                            <div class="comment-content-footer clearfix">
+                            <div :class="['comment-content-footer','clearfix']">
                                 <ul>
                                     <li class="footer-item"><a class="el-icon-paperclip"></a></li>
                                     <li class="footer-item"><a class="fa fa-smile-o"></a></li>
@@ -169,7 +170,7 @@
             showComment() {
                 this.showCommentText = false;
             },
-            cancelSend(){
+            cancelSend() {
                 this.showCommentText = true;
             }
         },
@@ -186,6 +187,32 @@
 </script>
 
 <style scoped lang="scss">
+    @keyframes showCommentInfo {
+        from {
+            transform: translateY(91px);
+        }
+        to {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes hideCommentInfo {
+        from {
+            transform: translateY(-91px);
+        }
+        to {
+            transform: translateY(0px);
+        }
+    }
+
+    .show-animation {
+        animation: showCommentInfo .3s;
+    }
+
+    .hide-animation {
+        animation: hideCommentInfo .3s;
+    }
+
     /deep/ .el-dialog__header {
         height: 51px;
         border-bottom: 1px #eee solid;

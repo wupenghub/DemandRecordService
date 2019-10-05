@@ -38,7 +38,7 @@
                     </span>
                 </div>
                 <div class="operation-group clearfix">
-                    <div class="task-progress group clearfix" @click="loadTaskStates()">
+                    <div class="task-progress group clearfix" @click="loadTaskStates($event)">
                         <span class="el-icon-time icon"></span>
                         <div class="group-content">
                             <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.taskProDesc}}</span>
@@ -182,7 +182,9 @@
             closeComment() {
 //                alert(123);
             },
-            loadTaskStates() {
+            loadTaskStates(e) {
+                if (e.target.tagName == 'LI')
+                    return;
                 this.loadTaskStateList = true;
             },
             changeState(val) {

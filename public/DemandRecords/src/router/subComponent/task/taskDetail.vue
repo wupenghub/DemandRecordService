@@ -80,11 +80,12 @@
                 <div :class="['comment-body',!showCommentText?'show-animation':'hide-animation']">
                     <span :class="['charge-man']">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
                     <div class="comment-body-content">
-                        <input v-show="showCommentText" @click="showComment(this)" type="text" class="show-text"
+                        <input v-model="comments" v-show="showCommentText" @click="showComment(this)" type="text"
+                               class="show-text"
                                placeholder="评论内容，文字上限2000（Ctrl+Enter发送）"/>
                         <div :class="['comment-content']"
                              v-show="!showCommentText">
-                            <textarea autofocus maxlength="2000" class="show-text-area"
+                            <textarea v-model="comments" autofocus maxlength="2000" class="show-text-area"
                                       placeholder="评论内容，文字上限2000（Ctrl+Enter发送）">
                             </textarea>
                             <div class="divider"></div>
@@ -152,7 +153,8 @@
                     }
                 ],
                 showCommentText: true,
-                showTaskStateList: false
+                showTaskStateList: false,
+                comments: ''
 
             }
         },
@@ -165,7 +167,15 @@
                 this.showDialog = newval;
             },
             'showDialog': function (newval) {
-                this.$emit('passStatus', newval)
+                this.$emit('passStatus', newval);
+                if (!newval) {
+                    this.$store.commit('updateSelectTaskDetail', null);
+                    this.showCommentText = true;
+                    this.comments = '';
+                }
+            },
+            '$store.state.chooseTask': function (newval) {
+
             }
         },
         methods: {
@@ -185,10 +195,8 @@
                 if (e.target.tagName == 'LI')
                     return;
                 this.showTaskStateList = true;
-                this.loadTaskStateList = true;
             },
             changeState(val) {
-                this.loadTaskStateList = val;
                 this.showTaskStateList = false;
             }
         },

@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 module.exports = {
-    taskQuery(type, email,taskId) {
+    taskQuery(type, email, taskId) {
         var sql = `
                     SELECT
                         t.task_id AS taskId,
@@ -38,7 +38,7 @@ module.exports = {
                     WHERE
                         t.del_flag = 0
                   `;
-        if(taskId){
+        if (taskId) {
             sql += ` AND t.task_id = ${taskId}`;
         }
         if (type == 'mineCharge') {
@@ -94,5 +94,18 @@ module.exports = {
     },
     updateTaskState(taskId, taskState) {
         return `update task t set t.progress_state = ${taskState} where t.task_id = ${taskId}`;
+    },
+    updateTaskTime(taskId, startDate, endDate) {
+        var querySql = `
+                        UPDATE task t
+                        SET t.task_id = ${taskId} `;
+        if (startDate) {
+            querySql += `,t.start_date = STR_TO_DATE(${mysql.escape(startDate)},'%Y-%m-%d %H:%i:%s')`;
+        }
+        if (endDate) {
+            querySql += `,t.start_date = STR_TO_DATE(${mysql.escape(endDate)},'%Y-%m-%d %H:%i:%s')`;
+        }
+        querySql += ` WHERE t.task_id = ${taskId}`;
+        return querySql;
     }
 };

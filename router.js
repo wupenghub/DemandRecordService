@@ -33,6 +33,9 @@ router.get('/getTaskStateList', (req, res) => {
 router.post('/updateTaskState',(req,res)=>{
     TaskRequest.updateTaskState(req,res);
 });
+router.post('/updateTaskTime',(req,res)=>{
+    TaskRequest.updateTaskTime(req,res);
+});
 router.get('/test', (req, res) => {
 
 });

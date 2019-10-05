@@ -54,12 +54,18 @@
                             <span class="group-key">负责人</span>
                         </div>
                     </div>
-                    <div class="task-start-time group clearfix">
+                    <div class="task-start-time group clearfix" @click="chooseStartTime()">
                         <span class="el-icon-alarm-clock icon"></span>
                         <div class="group-content">
                             <span class="group-value">{{this.$store.state.chooseTask ? (this.$store.state.chooseTask.showStartDate ? this.$store.state.chooseTask.showStartDate : '无') : '无'}}</span>
                             <span class="group-key">开始时间</span>
                         </div>
+                        <el-date-picker
+                                v-model="startTime"
+                                type="date"
+                                placeholder="开始日期"
+                        >
+                        </el-date-picker>
                     </div>
                     <div class="task-end-time group clearfix">
                         <span class="el-icon-timer icon"></span>
@@ -113,6 +119,8 @@
 <script>
     import loading from '../../common/loading.vue'
     import taskStateList from '../../common/taskStateList.vue';
+    import moment from '../../../lib/moment.min.js';
+    import utils from '../../../utils/utils.js';
 
     export default {
         data() {
@@ -154,7 +162,8 @@
                 ],
                 showCommentText: true,
                 showTaskStateList: false,
-                comments: ''
+                comments: '',
+                startTime: new Date()
 
             }
         },
@@ -176,7 +185,35 @@
                 }
             },
             '$store.state.chooseTask': function (newval) {
-
+                console.log(JSON.stringify(newval, null, '  '))
+                if (newval) {
+                    this.startTime = newval.startDate;
+                    newval.showStartDate = newval.startDate ? moment(newval.startDate).format('MM月DD号') : '无';
+                }
+            },
+            'startTime': function (newval) {
+                var item = this.$store.state.chooseTask;
+                if (item) {
+                    item.startDate = newval;
+                    item.showStartDate = item.startDate ? moment(item.startDate).format('MM月DD号') : '无';
+                    utils.request(this, {
+                        url: '/updateTaskTime',
+                        method: 'post',
+                        data: {
+                            taskId: this.$store.state.chooseTask.taskId,
+                            startDate: moment(newval).format('YYYY-MM-DD HH:mm:ss'),
+                            type: 'start'
+                        },
+                    }, data => {
+                        console.log(JSON.stringify(data, null, '  '));
+                        var taskItem = data.returnData[0];
+                        taskItem.showStartDate = taskItem.startDate ? moment(taskItem.startDate).format('MM月DD号') : '无';
+                        taskItem.showEndDate = taskItem.endDate ? moment(taskItem.endDate).format('MM月DD号') : '无';
+                        this.$store.commit('updateSelectTaskDetail', taskItem);
+                        this.$emit('changeState', false);
+                    }, error => {
+                    }, true);
+                }
             }
         },
         methods: {
@@ -199,6 +236,9 @@
             },
             changeState(val) {
                 this.showTaskStateList = false;
+            },
+            chooseStartTime() {
+                document.querySelector('.el-input__inner').focus()
             }
         },
         components: {
@@ -322,6 +362,7 @@
                 float: left;
                 height: 100%;
                 cursor: pointer;
+                z-index: 999;
                 .icon {
                     display: inline-block;
                     height: 39px;
@@ -353,6 +394,15 @@
                     margin-top: 40px;
                     margin-left: -10px;
                     position: absolute;
+                }
+                /deep/ .el-date-editor {
+                    opacity: 0;
+                    top: 0;
+                    left: 0;
+                    position: absolute;
+                }
+                /deep/ .el-input__inner {
+                    cursor: pointer;
                 }
             }
             .task-progress {

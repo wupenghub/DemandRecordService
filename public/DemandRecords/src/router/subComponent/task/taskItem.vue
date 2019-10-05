@@ -390,7 +390,6 @@
 <script>
     import utils from '../../../utils/utils.js';
     import moment from '../../../lib/moment.min.js';
-    import taskDetail from './taskDetail.vue'
 
     export default {
         data() {
@@ -508,8 +507,6 @@
             }
             this.$emit('addData', arr);
         },
-        components: {
-            taskDetail
-        }
+        components: {}
     }
 </script>

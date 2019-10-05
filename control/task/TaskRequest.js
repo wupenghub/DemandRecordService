@@ -86,12 +86,12 @@ var TaskRequest = {
         console.log('更新任务状态updateTaskState:' + querySql);
         DbUtils.queryData(querySql, result => {
             querySql = TaskRequestDb.taskQuery(null, null, req.body.taskId);
-            DbUtils.queryData(querySql,result=>{
+            DbUtils.queryData(querySql, result => {
                 res.json({
                     code: 0,
                     returnData: result
                 })
-            },error=>{
+            }, error => {
                 res.json({
                     code: -1,
                     returnData: error
@@ -103,6 +103,35 @@ var TaskRequest = {
                 returnData: error
             })
         });
+    },
+    updateTaskTime(req, res) {
+        var querySql = '';
+        if (req.body.type == 'start') {
+            querySql = TaskRequestDb.updateTaskTime(req.body.taskId, req.body.startDate);
+        } else {
+            querySql = TaskRequestDb.updateTaskTime(req.body.taskId, null, req.body.endDate);
+
+        }
+        console.log('updateTaskTime修改任务开始时间：'+querySql);
+        DbUtils.queryData(querySql, reslut => {
+            querySql = TaskRequestDb.taskQuery(null, null, req.body.taskId);
+            DbUtils.queryData(querySql, result => {
+                res.json({
+                    code: 0,
+                    returnData: result
+                })
+            }, error => {
+                res.json({
+                    code: -1,
+                    returnData: error
+                })
+            })
+        }, error => {
+            res.json({
+                code: -1,
+                returnData: error
+            })
+        })
     }
 };
 

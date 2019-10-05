@@ -6,7 +6,8 @@
                 @click.self="chooseTaskState($event,item.taskState)">
                 <i :class="['icon','clearfix',item.icon,item.taskState==0?'ws':(item.taskState==1?'ing':'wc')]"></i>
                 <span class="descr">{{item.taskStateDesc}}</span>
-                <i class="el-icon-check current-state icon" v-if="$store.state.chooseTask&&($store.state.chooseTask.taskPro == item.taskState)"></i>
+                <i class="el-icon-check current-state icon"
+                   v-if="$store.state.chooseTask&&($store.state.chooseTask.taskPro == item.taskState)"></i>
             </li>
         </ul>
     </div>
@@ -15,7 +16,7 @@
 <script>
     import loading from './loading.vue'
     import utils from '../../utils/utils.js';
-
+    import moment from '../../lib/moment.min.js';
     export default {
         data() {
             return {
@@ -39,8 +40,21 @@
             loading
         },
         methods: {
-            chooseTaskState() {
-                this.$emit('changeState', false);
+            chooseTaskState(e, taskState) {
+                utils.request(this, {
+                    url: '/updateTaskState',
+                    method: 'post',
+                    data: {taskId: this.$store.state.chooseTask.taskId, taskState},
+                }, data => {
+                    console.log(JSON.stringify(data, null, '  '));
+                    var taskItem = data.returnData[0];
+                    taskItem.showStartDate = taskItem.startDate ? moment(taskItem.startDate).format('MM月DD号') : '无';
+                    taskItem.showEndDate = taskItem.endDate ? moment(taskItem.endDate).format('MM月DD号') : '无';
+                    this.$store.commit('updateSelectTaskDetail', taskItem);
+                    this.$emit('changeState', false);
+                }, error => {
+                }, true);
+
             }
         }
     }
@@ -64,7 +78,7 @@
                 padding: 10px 20px;
                 line-height: 20px;
                 color: #666;
-                .current-state{
+                .current-state {
                     float: right;
                 }
             }

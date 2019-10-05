@@ -80,6 +80,29 @@ var TaskRequest = {
                 returnData: error
             })
         })
+    },
+    updateTaskState(req, res) {
+        var querySql = TaskRequestDb.updateTaskState(req.body.taskId, req.body.taskState);
+        console.log('更新任务状态updateTaskState:' + querySql);
+        DbUtils.queryData(querySql, result => {
+            querySql = TaskRequestDb.taskQuery(null, null, req.body.taskId);
+            DbUtils.queryData(querySql,result=>{
+                res.json({
+                    code: 0,
+                    returnData: result
+                })
+            },error=>{
+                res.json({
+                    code: -1,
+                    returnData: error
+                })
+            })
+        }, error => {
+            res.json({
+                code: -1,
+                returnData: error
+            })
+        });
     }
 };
 

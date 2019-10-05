@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 module.exports = {
-    taskQuery(type, email) {
+    taskQuery(type, email,taskId) {
         var sql = `
                     SELECT
                         t.task_id AS taskId,
@@ -38,6 +38,9 @@ module.exports = {
                     WHERE
                         t.del_flag = 0
                   `;
+        if(taskId){
+            sql += ` AND t.task_id = ${taskId}`;
+        }
         if (type == 'mineCharge') {
             sql += ` AND t.charge_per = ${mysql.escape(email)}`;
         }
@@ -88,5 +91,8 @@ module.exports = {
     },
     getTaskStateList() {
         return `select l.task_progress_state_code taskState,l.task_progress_state_desc taskStateDesc,l.icon icon from task_progress_state_l l where l.del_flag = 0`;
+    },
+    updateTaskState(taskId, taskState) {
+        return `update task t set t.progress_state = ${taskState} where t.task_id = ${taskId}`;
     }
 };

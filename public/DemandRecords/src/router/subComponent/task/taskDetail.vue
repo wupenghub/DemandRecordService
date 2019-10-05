@@ -103,7 +103,7 @@
                         </div>
                     </div>
                 </div>
-                <loading v-if="showLoading"></loading>
+                <!--<loading v-if="showLoading"></loading>-->
             </div>
         </el-dialog>
     </div>
@@ -172,6 +172,7 @@
                     this.$store.commit('updateSelectTaskDetail', null);
                     this.showCommentText = true;
                     this.comments = '';
+                    this.showTaskStateList = false;
                 }
             },
             '$store.state.chooseTask': function (newval) {

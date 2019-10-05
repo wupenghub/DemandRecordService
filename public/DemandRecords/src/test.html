@@ -6,194 +6,38 @@
     <link href='lib/dragula/dist/dragula.css' rel='stylesheet' type='text/css'/>
 </head>
 <style>
-    /* .list {
-         float: left;
-         border: 1px solid black;
-         margin: 5px;
-         min-height: 100px;
-         min-width: 100px;
-     }
-
-     .item {
-         width: 100px;
-         height: 50px;
-         background: red;
-         margin: 10px;
-         cursor: pointer;
-     }*/
-
-    /*li {
-        width: 100%;
-        height: 100px;
-        background-color: red;
-        float: left;
-        margin: 8px;
-        list-style: none;
-        display: inline-block;
-    }*/
-
-    .sk-three-bounce {
-        /*使用弹性布局让加载动画持续会于页面中央，不随滚动条变化*/
-        /* position: fixed;
-         top: 50%;
-         left: 50%;*/
-
-    }
-
-    .sk-three-bounce .sk-child {
-        /*在这里设置加载球的大小*/
-        width: 10px;
-        height: 10px;
-        /*加载求的颜色在这里修改*/
-        background-color: #22d7bb;;
-        border-radius: 100%;
-        display: inline-block;
-        -webkit-animation: sk-three-bounce 1.4s ease-in-out 0s infinite both;
-        animation: sk-three-bounce 1.4s ease-in-out 0s infinite both;
-    }
-
-    .sk-three-bounce .sk-bounce1 {
-        -webkit-animation-delay: -0.32s;
-        animation-delay: -0.32s;
-    }
-
-    .sk-three-bounce .sk-bounce2 {
-        -webkit-animation-delay: -0.16s;
-        animation-delay: -0.16s;
-    }
-
-    @-webkit-keyframes sk-three-bounce {
-        0%, 80%, 100% {
-            -webkit-transform: scale(0);
-            transform: scale(0);
-        }
-
-        40% {
-            -webkit-transform: scale(1);
-            transform: scale(1);
-        }
-    }
-
-    @keyframes sk-three-bounce {
-        0%, 80%, 100% {
-            -webkit-transform: scale(0);
-            transform: scale(0);
-        }
-
-        40% {
-            -webkit-transform: scale(1);
-            transform: scale(1);
-        }
-    }
-
-    .outter {
-        width: 500px;
-        height: 500px;
-        border: 1px solid #000000;
-        overflow: auto;
-        position: relative;
-    }
-
-    .inner {
-        width: 500px;
-        height: 600px;
-        background: red;
-    }
-
-    .bottom {
-        width: 500px;
-        height: 80px;
-        background: green;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-    }
-
-    .btg {
-        width: 50px;
-        height: 28px;
+    .outter{
+        width: 300px;
+        height: 300px;
         background: lightblue;
     }
-    button{
-        margin: 0;
-        padding: 0;
-        border: none;
-        height: 28px;
-        background: #22d7bb;
-        border-radius: 14px;
+    .innner{
+        width: 300px;
+        height: 500px;
+        background: lightcoral;
+        z-index: 1000;
+
+    }
+    .show{
+        width: 300px;
+        height: 100px;
+        background: lightskyblue;
+        clear: both;
+
     }
 </style>
 <body>
 <div class="container">
-    <!-- <div>
-         <div class="list">
-             <div class="item">1</div>
-             <div class="item">2</div>
-             <div class="item">3</div>
-             <div class="item">4</div>
-         </div>
-     </div>
-     <div>
-         <div class="list">
-             &lt;!&ndash;<div class="item">5</div>
-             <div class="item">6</div>
-             <div class="item">7</div>
-             <div class="item">8</div>&ndash;&gt;
-         </div>
-     </div>
-     <div class="demo">
-         <div class="list">
-             <div class="item">9</div>
-             <div class="item">10</div>
-             <div class="item">11</div>
-             <div class="item">12</div>
-         </div>
-     </div>
-     <div>
-         <div class="list">
-             <div class="item">13</div>
-             <div class="item">14</div>
-             <div class="item">15</div>
-             <div class="item">16</div>
-         </div>
-     </div>
-     <ul>
-         <li></li>
-         <li></li>
-         <li></li>
-         <li></li>
-     </ul>-->
-    <!--<div class="sk-three-bounce" id="sk-three-bounce">
-        <div class="sk-child sk-bounce1"></div>
-        <div class="sk-child sk-bounce2"></div>
-        <div class="sk-child sk-bounce3"></div>
-    </div>-->
-    <!--<div class="outter">
-        <div class="inner"></div>
-        <div class="bottom">
+    <div class="outter">
+        <div class="innner">
 
         </div>
-    </div>-->
-    <div class="btg">
-        <button>发送</button>
+    </div>
+    <div class="show">
     </div>
 </div>
 <script src="lib/dragula/dist/dragula.js"></script>
 <script>
-    /*var arr = [];
-    document.querySelectorAll('.list').forEach(item => arr.push(item));
-    dragula(arr)*/
-    /* $("#sk-three-bounce").hide();
-     $("#sk-three-bounce").show();*/
-    //    window.onload = document.querySelector('.outter').onscroll = function () {
-    //        var st = document.querySelector('.outter').scrollTop || document.querySelector('.outter').scrollTop;
-    //        console.log(st)
-    //        var bottom = document.querySelector('.bottom');
-    //        bottom.style.bottom = -st+'px'
-    //        var deh = document.documentElement.clientHeight;
-    //        console.log(document.querySelector('.bottom'));
-    //        document.querySelector('.bottom').style.top = st+deh-cc.offsetHeight+"px";
-    //    }
 </script>
 </body>
 </html>

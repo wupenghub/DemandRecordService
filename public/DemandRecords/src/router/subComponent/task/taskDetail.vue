@@ -1,5 +1,5 @@
 <template>
-    <div class="contain">
+    <div class="contain" @click="closeComment()">
         <el-dialog :visible.sync="showDialog" ref="eDialog">
             <div slot="title" class="detail-head">
                 <span class="task-id-sp clearfix">
@@ -38,12 +38,14 @@
                     </span>
                 </div>
                 <div class="operation-group clearfix">
-                    <div class="task-progress group clearfix">
+                    <div class="task-progress group clearfix" @click="loadTaskStates()">
                         <span class="el-icon-time icon"></span>
                         <div class="group-content">
                             <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.taskProDesc}}</span>
                             <span class="group-key">当前状态</span>
                         </div>
+                        <taskStateList :loadTaskStateList="loadTaskStateList" class="task-state-list"
+                                       @changeState="changeState"></taskStateList>
                     </div>
                     <div class="task-charge-man group clearfix">
                         <span class="icon">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
@@ -82,7 +84,8 @@
                                placeholder="评论内容，文字上限2000（Ctrl+Enter发送）"/>
                         <div :class="['comment-content']"
                              v-show="!showCommentText">
-                            <textarea maxlength="2000" class="show-text-area" placeholder="评论内容，文字上限2000（Ctrl+Enter发送）">
+                            <textarea autofocus maxlength="2000" class="show-text-area"
+                                      placeholder="评论内容，文字上限2000（Ctrl+Enter发送）">
                             </textarea>
                             <div class="divider"></div>
                             <div :class="['comment-content-footer','clearfix']">
@@ -108,6 +111,7 @@
 
 <script>
     import loading from '../../common/loading.vue'
+    import taskStateList from '../../common/taskStateList.vue';
 
     export default {
         data() {
@@ -147,7 +151,8 @@
                         icon: 'el-icon-paperclip'
                     }
                 ],
-                showCommentText: true
+                showCommentText: true,
+                loadTaskStateList: false
 
             }
         },
@@ -169,13 +174,23 @@
             },
             showComment() {
                 this.showCommentText = false;
+                document.querySelector('.show-text-area').focus();
             },
             cancelSend() {
                 this.showCommentText = true;
+            },
+            closeComment() {
+//                alert(123);
+            },
+            loadTaskStates() {
+                this.loadTaskStateList = true;
+            },
+            changeState(val) {
+                this.loadTaskStateList = val;
             }
         },
         components: {
-            loading
+            loading, taskStateList
         },
         mounted() {
             document.querySelector('.el-dialog').onscroll = function () {
@@ -290,6 +305,7 @@
             height: 39px;
             margin-bottom: 26px;
             .group {
+                position: relative;
                 width: 25%;
                 float: left;
                 height: 100%;
@@ -320,6 +336,11 @@
                         height: 20px;
                         line-height: 20px;
                     }
+                }
+                .task-state-list {
+                    margin-top: 40px;
+                    margin-left: -10px;
+                    position: absolute;
                 }
             }
             .task-progress {
@@ -426,6 +447,7 @@
             }
             .comment-content {
                 margin-left: 10px;
+                margin-top: 6px;
                 border: 1px solid #ddd;
                 border-radius: 3px 3px 0 0;
                 height: 141px;

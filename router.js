@@ -19,14 +19,16 @@ router.get('/menus', (req, res) => {
     MenuRequest.menusQuery(req, res);
 });
 router.get('/getTasks', (req, res) => {
-    TaskRequest.taskQuery(req,res);
+    TaskRequest.taskQuery(req, res);
 });
-router.post('/addTask',(req,res)=>{
-    TaskRequest.addTask(req,res);
+router.post('/addTask', (req, res) => {
+    TaskRequest.addTask(req, res);
 });
-router.post('/updateTask',(req,res)=>{
-    TaskRequest.updateTask(req,res);
-
+router.post('/updateTask', (req, res) => {
+    TaskRequest.updateTask(req, res);
+});
+router.get('/getTaskStateList', (req, res) => {
+    TaskRequest.getTaskStateList(req, res);
 });
 router.get('/test', (req, res) => {
 

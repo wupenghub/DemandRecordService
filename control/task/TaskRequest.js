@@ -66,6 +66,20 @@ var TaskRequest = {
             })
         });
 
+    },
+    getTaskStateList(req, res) {
+        var querySql = TaskRequestDb.getTaskStateList();
+        DbUtils.queryData(querySql, data => {
+            res.json({
+                code: 0,
+                returnData: data
+            })
+        }, error => {
+            res.json({
+                code: -1,
+                returnData: error
+            })
+        })
     }
 };
 

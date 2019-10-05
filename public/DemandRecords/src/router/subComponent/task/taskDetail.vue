@@ -44,7 +44,7 @@
                             <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.taskProDesc}}</span>
                             <span class="group-key">当前状态</span>
                         </div>
-                        <taskStateList :loadTaskStateList="loadTaskStateList" class="task-state-list"
+                        <taskStateList v-if="showTaskStateList" class="task-state-list"
                                        @changeState="changeState"></taskStateList>
                     </div>
                     <div class="task-charge-man group clearfix">
@@ -152,7 +152,7 @@
                     }
                 ],
                 showCommentText: true,
-                loadTaskStateList: false
+                showTaskStateList: false
 
             }
         },
@@ -180,15 +180,16 @@
                 this.showCommentText = true;
             },
             closeComment() {
-//                alert(123);
             },
             loadTaskStates(e) {
                 if (e.target.tagName == 'LI')
                     return;
+                this.showTaskStateList = true;
                 this.loadTaskStateList = true;
             },
             changeState(val) {
                 this.loadTaskStateList = val;
+                this.showTaskStateList = false;
             }
         },
         components: {

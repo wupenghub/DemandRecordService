@@ -19,38 +19,27 @@
         data() {
             return {
                 taskStateList: [],
-                loading: false
+                loading: true
             }
         },
         created() {
-
+            utils.request(this, {
+                url: '/getTaskStateList',
+                method: 'get',
+                data: {},
+            }, data => {
+                this.taskStateList = data.returnData;
+                this.loading = false;
+            }, error => {
+                this.loading = false;
+            }, true);
         },
         components: {
             loading
         },
-        props: ['loadTaskStateList'],
-        watch: {
-            'loadTaskStateList': function (newval) {
-                this.loading = newval;
-                if (newval) {
-                    utils.request(this, {
-                        url: '/getTaskStateList',
-                        method: 'get',
-                        data: {},
-                    }, data => {
-                        this.loading = false;
-                        this.$emit('changeState', this.loading);
-                        this.taskStateList = data.returnData;
-
-                    }, error => {
-                        this.loading = false;
-                    }, true);
-                }
-            }
-        },
         methods: {
-            chooseTaskState(e, taskState) {
-//                console.log(e.target);
+            chooseTaskState() {
+                this.$emit('changeState', false);
             }
         }
     }

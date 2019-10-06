@@ -80,12 +80,18 @@
                     </div>
                 </div>
                 <div class="detail-nav">
-                    <a :class="['tab',tab.select?'select':'']" v-for="tab in tabs">
+                    <router-link  :to="tab.path" :class="['tab',tab.select?'select':'']" v-for="tab in tabs">
                         <span :class="[tab.icon,'icon']"></span>
                         <span class="descr">{{tab.descr}}
                             <i v-show="tab.id != tabs.length" class="divider-line"></i>
                         </span>
-                    </a>
+                    </router-link>
+                    <!--<a :class="['tab',tab.select?'select':'']" v-for="tab in tabs">
+                        <span :class="[tab.icon,'icon']"></span>
+                        <span class="descr">{{tab.descr}}
+                            <i v-show="tab.id != tabs.length" class="divider-line"></i>
+                        </span>
+                    </a>-->
                 </div>
                 <div :class="['comment-body',!showCommentText?'show-animation':'hide-animation']">
                     <span :class="['charge-man']">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
@@ -114,6 +120,7 @@
                     </div>
                 </div>
                 <!--<loading v-if="showLoading"></loading>-->
+                <router-view></router-view>
             </div>
         </el-dialog>
     </div>
@@ -143,31 +150,36 @@
                         id: 1,
                         menuCode: 'taskInfo',
                         descr: '任务信息',
-                        icon: 'fa fa-tasks'
+                        icon: 'fa fa-tasks',
+                        path:'/project/taskDetail/taskInfo'
                     },
                     {
                         id: 2,
                         menuCode: 'sonTask',
                         descr: '子任务',
-                        icon: 'el-icon-s-operation'
+                        icon: 'el-icon-s-operation',
+                        path:'/project/taskDetail/sonTask'
                     },
                     {
                         id: 3,
                         menuCode: 'connectTask',
                         descr: '关联任务',
-                        icon: 'fa fa-link'
+                        icon: 'fa fa-link',
+                        path:'/project/taskDetail/connectTask'
                     },
                     {
                         id: 4,
                         menuCode: 'workTime',
                         descr: '任务工时',
-                        icon: 'el-icon-time'
+                        icon: 'el-icon-time',
+                        path:'/project/taskDetail/workTime'
                     },
                     {
                         id: 5,
                         menuCode: 'file',
                         descr: '任务附件',
-                        icon: 'el-icon-paperclip'
+                        icon: 'el-icon-paperclip',
+                        path:'/project/taskDetail/file'
                     }
                 ],
 
@@ -251,6 +263,9 @@
                         }, true);
                     }
                 }
+            },
+            $route(to, from) {
+                console.log(this.$route.path);
             }
         },
         methods: {

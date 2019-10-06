@@ -65,7 +65,10 @@
 </style>
 <style scoped lang="scss">
     .contain {
-
+        /deep/ .el-tabs__content {
+            overflow: auto !important;
+            padding-bottom: 45px;
+        }
         /deep/ .el-tabs__header.is-top {
             display: flex;
             justify-content: center;

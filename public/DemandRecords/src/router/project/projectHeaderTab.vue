@@ -59,13 +59,13 @@
 <style lang="scss">
     .project-header {
         .el-tab-pane {
-            width: 1500px !important;
-            overflow: auto !important;
+            width: 1200px !important;
         }
     }
 </style>
 <style scoped lang="scss">
     .contain {
+
         /deep/ .el-tabs__header.is-top {
             display: flex;
             justify-content: center;

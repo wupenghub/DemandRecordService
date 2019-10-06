@@ -1,5 +1,8 @@
 <template>
     <div class="contain">
+        <div class="load-box" style="width: 1100px">
+            <loading v-if="requestData"></loading>
+        </div>
         <div class="category-task-item" v-for="item in categoryListArray">
             <taskItem :category-list-array="item" @fun="queryMineTask" @addData="addData"
                       @passStatus="passStatus"></taskItem>
@@ -15,6 +18,7 @@
     import dragula from '../../../lib/dragula/dist/dragula.js';
     import '../../../lib/dragula/dist/dragula.css';
     import taskDetail from './taskDetail.vue'
+    import loading from '../../common/loading.vue'
 
     export default {
         data() {
@@ -24,7 +28,8 @@
                 categoryListArray: [],
                 sonDataList: [],
                 count: 0,
-                dialogVisible: false
+                dialogVisible: false,
+                requestData: true
             }
         },
         created() {
@@ -71,7 +76,9 @@
                             })
                         })
                     });
+                    this.requestData = false;
                 }, error => {
+                    this.requestData = false;
                 }, true);
             },
             addData(arr) {
@@ -110,7 +117,7 @@
             }
         },
         components: {
-            taskItem, taskDetail
+            taskItem, taskDetail, loading
         }
     }
 </script>

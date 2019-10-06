@@ -19,6 +19,8 @@
 </script>
 
 <style scoped lang="scss">
-
+.contain{
+    overflow: auto;
+}
 
 </style>

@@ -15,7 +15,7 @@
         data() {
             return {
                 tabs: [],
-                activeName: ''
+                activeName: '',
             };
         },
         methods: {

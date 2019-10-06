@@ -126,7 +126,6 @@
     .contain {
         .category-task-item {
             float: left;
-            /*display: inline-block;*/
             margin-right: 10px;
         }
     }

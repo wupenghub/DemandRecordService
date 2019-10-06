@@ -61,7 +61,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .container {
         margin: 0;
         padding: 0;

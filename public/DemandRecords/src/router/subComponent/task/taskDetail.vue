@@ -192,12 +192,12 @@
                 }
             },
             '$store.state.chooseTask': function (newval) {
-                /*if (newval) {
+                if (newval) {
                     this.startTime = newval.startDate;
                     this.endTime = newval.endDate;
                     newval.showStartDate = newval.startDate ? moment(newval.startDate).format('MM月DD号') : '无';
                     newval.showEndDate = newval.endDate ? moment(newval.endDate).format('MM月DD号') : '无';
-                }*/
+                }
             },
             'startTime': function (newval) {
                 var item = this.$store.state.chooseTask;
@@ -241,13 +241,11 @@
                                 type: 'end'
                             },
                         }, data => {
-//                            console.log(JSON.stringify(data, null, '  '));
                             var taskItem = data.returnData[0];
                             taskItem.showDate = taskItem.startDate ? moment(taskItem.startDate).format('MM月DD号') : '无';
                             taskItem.showEndDate = taskItem.endDate ? moment(taskItem.endDate).format('MM月DD号') : '无';
                             this.$store.state.chooseTask.endDate = taskItem.endDate;
                             this.$store.state.chooseTask.showEndDate = taskItem.showEndDate;
-                            //                            this.$store.commit('updateSelectTaskDetail', taskItem);
                             this.$emit('changeState', false);
                         }, error => {
                         }, true);

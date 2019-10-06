@@ -17,6 +17,7 @@
     import loading from './loading.vue'
     import utils from '../../utils/utils.js';
     import moment from '../../lib/moment.min.js';
+
     export default {
         data() {
             return {
@@ -52,7 +53,6 @@
                     taskItem.showEndDate = taskItem.endDate ? moment(taskItem.endDate).format('MM月DD号') : '无';
                     this.$store.state.chooseTask.taskPro = taskItem.taskPro;
                     this.$store.state.chooseTask.taskProDesc = taskItem.taskProDesc;
-                    //                    this.$store.commit('updateSelectTaskDetail', taskItem);
                     this.$emit('changeState', false);
                 }, error => {
                 }, true);

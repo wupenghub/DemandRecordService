@@ -25,9 +25,6 @@
                             <span :class="item.bgc" @click.stop="showTaskPro(item)"><i
                                     :class="item.icon"></i>{{item.taskProDesc}}</span>
                             <span class="charge_per">{{item.nickName}}</span>
-                            <!--<div class="task-pro-list" @click="chooseTaskPro($event,item)">
-
-                            </div>-->
                         </div>
                         <div class="task-title">{{item.taskTitle}}</div>
                         <div class="trips clearfix">
@@ -490,12 +487,9 @@
         },
         props: ['categoryListArray'],
         watch: {
-            /*'categoryListArray': function (newval) {
-                this.injectData(this.categoryListArray);
-            }*/
             'categoryListArray': {
-                handler(val, oldVal) {
-                    this.injectData(this.categoryListArray);
+                handler(val) {
+                    this.injectData(val);
                 },
                 deep: true
             }

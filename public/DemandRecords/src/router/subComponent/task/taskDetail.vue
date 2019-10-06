@@ -265,7 +265,7 @@
                 }
             },
             $route(to, from) {
-                console.log(this.$route.path);
+                console.log(to);
             }
         },
         methods: {

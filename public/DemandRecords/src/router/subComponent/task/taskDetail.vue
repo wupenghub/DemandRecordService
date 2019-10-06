@@ -62,7 +62,7 @@
                         </div>
                         <el-date-picker
                                 v-model="startTime"
-                                type="date"
+                                type="datetime"
                                 placeholder="开始日期">
                         </el-date-picker>
                     </div>
@@ -73,7 +73,7 @@
                             <span class="group-key">截止时间</span>
                             <el-date-picker
                                     v-model="endTime"
-                                    type="date"
+                                    type="datetime"
                                     placeholder="开始日期">
                             </el-date-picker>
                         </div>

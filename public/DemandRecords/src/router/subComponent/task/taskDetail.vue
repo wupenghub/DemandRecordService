@@ -63,15 +63,19 @@
                         <el-date-picker
                                 v-model="startTime"
                                 type="date"
-                                placeholder="开始日期"
-                        >
+                                placeholder="开始日期">
                         </el-date-picker>
                     </div>
-                    <div class="task-end-time group clearfix">
+                    <div class="task-end-time group clearfix" @click="chooseEndTime()">
                         <span class="el-icon-timer icon"></span>
                         <div class="group-content">
                             <span class="group-value">{{this.$store.state.chooseTask ? (this.$store.state.chooseTask.showEndDate ? this.$store.state.chooseTask.showEndDate : '无') : '无'}}</span>
                             <span class="group-key">截止时间</span>
+                            <el-date-picker
+                                    v-model="endTime"
+                                    type="date"
+                                    placeholder="开始日期">
+                            </el-date-picker>
                         </div>
                     </div>
                 </div>
@@ -128,6 +132,12 @@
                 showDialog: false,
                 showLoading: true,
                 activeName: 'taskInfo',
+                showCommentText: true,
+                showTaskStateList: false,
+                comments: '',
+                startTime: new Date(),
+                endTime: new Date(),
+                updateTime: false,
                 tabs: [
                     {
                         id: 1,
@@ -160,10 +170,6 @@
                         icon: 'el-icon-paperclip'
                     }
                 ],
-                showCommentText: true,
-                showTaskStateList: false,
-                comments: '',
-                startTime: new Date()
 
             }
         },
@@ -182,37 +188,67 @@
                     this.showCommentText = true;
                     this.comments = '';
                     this.showTaskStateList = false;
+                    this.updateTime = false;
                 }
             },
             '$store.state.chooseTask': function (newval) {
-                console.log(JSON.stringify(newval, null, '  '))
                 if (newval) {
                     this.startTime = newval.startDate;
+                    this.endTime = newval.endDate;
                     newval.showStartDate = newval.startDate ? moment(newval.startDate).format('MM月DD号') : '无';
+                    newval.showEndDate = newval.endDate ? moment(newval.endDate).format('MM月DD号') : '无';
                 }
             },
             'startTime': function (newval) {
+//                console.log(newval);
                 var item = this.$store.state.chooseTask;
                 if (item) {
                     item.startDate = newval;
                     item.showStartDate = item.startDate ? moment(item.startDate).format('MM月DD号') : '无';
-                    utils.request(this, {
-                        url: '/updateTaskTime',
-                        method: 'post',
-                        data: {
-                            taskId: this.$store.state.chooseTask.taskId,
-                            startDate: moment(newval).format('YYYY-MM-DD HH:mm:ss'),
-                            type: 'start'
-                        },
-                    }, data => {
-                        console.log(JSON.stringify(data, null, '  '));
-                        var taskItem = data.returnData[0];
-                        taskItem.showStartDate = taskItem.startDate ? moment(taskItem.startDate).format('MM月DD号') : '无';
-                        taskItem.showEndDate = taskItem.endDate ? moment(taskItem.endDate).format('MM月DD号') : '无';
-                        this.$store.commit('updateSelectTaskDetail', taskItem);
-                        this.$emit('changeState', false);
-                    }, error => {
-                    }, true);
+                    if (this.updateTime) {
+                        utils.request(this, {
+                            url: '/updateTaskTime',
+                            method: 'post',
+                            data: {
+                                taskId: this.$store.state.chooseTask.taskId,
+                                startDate: moment(newval).format('YYYY-MM-DD HH:mm:ss'),
+                                type: 'start'
+                            },
+                        }, data => {
+                            var taskItem = data.returnData[0];
+                            taskItem.showStartDate = taskItem.startDate ? moment(taskItem.startDate).format('MM月DD号') : '无';
+                            taskItem.showEndDate = taskItem.endDate ? moment(taskItem.endDate).format('MM月DD号') : '无';
+                            this.$store.commit('updateSelectTaskDetail', taskItem);
+                            this.$emit('changeState', false);
+                        }, error => {
+                        }, true);
+                    }
+                }
+            },
+            'endTime': function (newval) {
+                var item = this.$store.state.chooseTask;
+                if (item) {
+                    item.endDate = newval;
+                    item.showEndDate = item.endDate ? moment(item.endDate).format('MM月DD号') : '无';
+                    if (this.updateTime) {
+                        utils.request(this, {
+                            url: '/updateTaskTime',
+                            method: 'post',
+                            data: {
+                                taskId: this.$store.state.chooseTask.taskId,
+                                endDate: moment(newval).format('YYYY-MM-DD HH:mm:ss'),
+                                type: 'end'
+                            },
+                        }, data => {
+                            console.log(JSON.stringify(data, null, '  '));
+                            var taskItem = data.returnData[0];
+                            taskItem.showDate = taskItem.startDate ? moment(taskItem.startDate).format('MM月DD号') : '无';
+                            taskItem.showEndDate = taskItem.endDate ? moment(taskItem.endDate).format('MM月DD号') : '无';
+                            this.$store.commit('updateSelectTaskDetail', taskItem);
+                            this.$emit('changeState', false);
+                        }, error => {
+                        }, true);
+                    }
                 }
             }
         },
@@ -238,7 +274,12 @@
                 this.showTaskStateList = false;
             },
             chooseStartTime() {
-                document.querySelector('.el-input__inner').focus()
+                document.querySelector('.el-input__inner').focus();
+                this.updateTime = true;
+            },
+            chooseEndTime() {
+                this.updateTime = true;
+
             }
         },
         components: {

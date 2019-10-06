@@ -103,7 +103,7 @@ module.exports = {
             querySql += `,t.start_date = STR_TO_DATE(${mysql.escape(startDate)},'%Y-%m-%d %H:%i:%s')`;
         }
         if (endDate) {
-            querySql += `,t.start_date = STR_TO_DATE(${mysql.escape(endDate)},'%Y-%m-%d %H:%i:%s')`;
+            querySql += `,t.end_date = STR_TO_DATE(${mysql.escape(endDate)},'%Y-%m-%d %H:%i:%s')`;
         }
         querySql += ` WHERE t.task_id = ${taskId}`;
         return querySql;

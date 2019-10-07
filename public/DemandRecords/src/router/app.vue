@@ -35,7 +35,7 @@
                 } else if (this.$route.path == '/application') {
                     this.initPage();
                 } else {
-
+                    this.initPage();
                 }
             },
             initPage() {

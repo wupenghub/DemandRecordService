@@ -489,6 +489,18 @@
         watch: {
             'categoryListArray': {
                 handler(val) {
+                    //重新计算taskPro对象的值
+                    val.taskPro.forEach(taskPro => {
+                        taskPro.count = 0;
+                    });
+                    //重新渲染状态
+                    val.ListArry.forEach(listItem => {
+                        val.taskPro.forEach(taskPro => {
+                            if (listItem.taskPro == taskPro.taskPro) {
+                                taskPro.count++;
+                            }
+                        })
+                    });
                     this.injectData(val);
                 },
                 deep: true

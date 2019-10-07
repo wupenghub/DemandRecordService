@@ -120,7 +120,7 @@
                     </div>
                 </div>
                 <!--<loading v-if="showLoading"></loading>-->
-                <router-view></router-view>
+                <router-view name="taskDetail"></router-view>
             </div>
         </el-dialog>
     </div>
@@ -151,35 +151,35 @@
                         menuCode: 'taskInfo',
                         descr: '任务信息',
                         icon: 'fa fa-tasks',
-                        path:'/project/taskDetail/taskInfo'
+                        path:'/taskDetail/taskInfo'
                     },
                     {
                         id: 2,
                         menuCode: 'sonTask',
                         descr: '子任务',
                         icon: 'el-icon-s-operation',
-                        path:'/project/taskDetail/sonTask'
+                        path:'/taskDetail/sonTask'
                     },
                     {
                         id: 3,
                         menuCode: 'connectTask',
                         descr: '关联任务',
                         icon: 'fa fa-link',
-                        path:'/project/taskDetail/connectTask'
+                        path:'/taskDetail/connectTask'
                     },
                     {
                         id: 4,
                         menuCode: 'workTime',
                         descr: '任务工时',
                         icon: 'el-icon-time',
-                        path:'/project/taskDetail/workTime'
+                        path:'/taskDetail/workTime'
                     },
                     {
                         id: 5,
                         menuCode: 'file',
                         descr: '任务附件',
                         icon: 'el-icon-paperclip',
-                        path:'/project/taskDetail/file'
+                        path:'/taskDetail/file'
                     }
                 ],
 

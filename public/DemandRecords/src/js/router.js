@@ -4,6 +4,7 @@ import taskInfo from '../router/taskDetail/taskInfo.vue';
 import sonTask from '../router/taskDetail/sonTask.vue';
 import workTime from '../router/taskDetail/workTime.vue';
 import file from '../router/taskDetail/file.vue';
+import connectTask from '../router/taskDetail/connectTask.vue';
 
 var vueRouter = new VueRouter({
     routes: [
@@ -17,25 +18,35 @@ var vueRouter = new VueRouter({
             name: 'projectSideMiddleContent'
         },
         {
-            name:'taskDetail',
+            name: 'taskInfo',
             path: '/taskDetail/taskInfo',
-            component: taskInfo
+            component: {
+                taskDetail: taskInfo
+            }
         },
         {
-            name:'taskDetail',
+            name: 'sonTask',
             path: '/taskDetail/sonTask',
-            component: sonTask
+            component: {
+                taskDetail: sonTask
+            }
         },
         {
-            name:'taskDetail',
+            name: 'workTime',
             path: '/taskDetail/workTime',
-            component: workTime
+            component: {taskDetail: workTime}
         },
         {
-            name:'taskDetail',
+            name: 'file',
             path: '/taskDetail/file',
-            component: file
+            component: {taskDetail: file}
         },
+        {
+            name: 'connectTask',
+            path: 'taskDetail/connectTask',
+            component: {taskDetail: connectTask}
+        }
+
     ]
 });
 export default vueRouter;

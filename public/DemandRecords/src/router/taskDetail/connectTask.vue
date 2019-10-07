@@ -1,5 +1,7 @@
 <template>
-
+    <div class="connect-task">
+        connect-task
+    </div>
 
 </template>
 

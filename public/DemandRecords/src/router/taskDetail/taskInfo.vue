@@ -1,5 +1,7 @@
 <template>
-
+    <div class="task_info">
+        task_info
+    </div>
 
 </template>
 

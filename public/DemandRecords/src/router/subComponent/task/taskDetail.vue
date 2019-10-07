@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="detail-nav">
-                    <router-link  :to="tab.path" :class="['tab',tab.select?'select':'']" v-for="tab in tabs">
+                    <router-link :to="tab.path" :class="['tab',tab.select?'select':'']" v-for="tab in tabs">
                         <span :class="[tab.icon,'icon']"></span>
                         <span class="descr">{{tab.descr}}
                             <i v-show="tab.id != tabs.length" class="divider-line"></i>
@@ -151,35 +151,35 @@
                         menuCode: 'taskInfo',
                         descr: '任务信息',
                         icon: 'fa fa-tasks',
-                        path:'/taskDetail/taskInfo'
+                        path: '/taskDetail/taskInfo'
                     },
                     {
                         id: 2,
                         menuCode: 'sonTask',
                         descr: '子任务',
                         icon: 'el-icon-s-operation',
-                        path:'/taskDetail/sonTask'
+                        path: '/taskDetail/sonTask'
                     },
                     {
                         id: 3,
                         menuCode: 'connectTask',
                         descr: '关联任务',
                         icon: 'fa fa-link',
-                        path:'/taskDetail/connectTask'
+                        path: '/taskDetail/connectTask'
                     },
                     {
                         id: 4,
                         menuCode: 'workTime',
                         descr: '任务工时',
                         icon: 'el-icon-time',
-                        path:'/taskDetail/workTime'
+                        path: '/taskDetail/workTime'
                     },
                     {
                         id: 5,
                         menuCode: 'file',
                         descr: '任务附件',
                         icon: 'el-icon-paperclip',
-                        path:'/taskDetail/file'
+                        path: '/taskDetail/file'
                     }
                 ],
 

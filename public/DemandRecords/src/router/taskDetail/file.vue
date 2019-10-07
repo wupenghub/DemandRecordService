@@ -1,5 +1,7 @@
 <template>
-
+    <div class="file">
+        file
+    </div>
 
 </template>
 

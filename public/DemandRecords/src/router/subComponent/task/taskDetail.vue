@@ -38,44 +38,48 @@
                     </span>
                 </div>
                 <div class="operation-group clearfix">
-                    <div class="task-progress group clearfix" @click="loadTaskStates($event)">
-                        <span class="el-icon-time icon"></span>
-                        <div class="group-content">
-                            <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.taskProDesc}}</span>
-                            <span class="group-key">当前状态</span>
+                    <loading v-if="queryTastProList"></loading>
+                    <div v-if="!queryTastProList">
+                        <div class="task-progress group clearfix" @click="loadTaskStates($event)">
+                            <!--<span class="el-icon-time icon"></span>-->
+                            <span :class="[item.icon,'icon']" v-for="item in taskProList"></span>
+                            <div class="group-content">
+                                <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.taskProDesc}}</span>
+                                <span class="group-key">当前状态</span>
+                            </div>
+                            <taskStateList v-if="showTaskStateList" class="task-state-list"
+                                           @changeState="changeState"></taskStateList>
                         </div>
-                        <taskStateList v-if="showTaskStateList" class="task-state-list"
-                                       @changeState="changeState"></taskStateList>
-                    </div>
-                    <div class="task-charge-man group clearfix">
-                        <span class="icon">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
-                        <div class="group-content">
-                            <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
-                            <span class="group-key">负责人</span>
+                        <div class="task-charge-man group clearfix">
+                            <span class="icon">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
+                            <div class="group-content">
+                                <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
+                                <span class="group-key">负责人</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="task-start-time group clearfix" @click="chooseStartTime()">
-                        <span class="el-icon-alarm-clock icon"></span>
-                        <div class="group-content">
-                            <span class="group-value">{{this.$store.state.chooseTask ? (this.$store.state.chooseTask.showStartDate ? this.$store.state.chooseTask.showStartDate : '无') : '无'}}</span>
-                            <span class="group-key">开始时间</span>
-                        </div>
-                        <el-date-picker
-                                v-model="startTime"
-                                type="datetime"
-                                placeholder="开始日期">
-                        </el-date-picker>
-                    </div>
-                    <div class="task-end-time group clearfix" @click="chooseEndTime()">
-                        <span class="el-icon-timer icon"></span>
-                        <div class="group-content">
-                            <span class="group-value">{{this.$store.state.chooseTask ? (this.$store.state.chooseTask.showEndDate ? this.$store.state.chooseTask.showEndDate : '无') : '无'}}</span>
-                            <span class="group-key">截止时间</span>
+                        <div class="task-start-time group clearfix" @click="chooseStartTime()">
+                            <span class="el-icon-alarm-clock icon"></span>
+                            <div class="group-content">
+                                <span class="group-value">{{this.$store.state.chooseTask ? (this.$store.state.chooseTask.showStartDate ? this.$store.state.chooseTask.showStartDate : '无') : '无'}}</span>
+                                <span class="group-key">开始时间</span>
+                            </div>
                             <el-date-picker
-                                    v-model="endTime"
+                                    v-model="startTime"
                                     type="datetime"
                                     placeholder="开始日期">
                             </el-date-picker>
+                        </div>
+                        <div class="task-end-time group clearfix" @click="chooseEndTime()">
+                            <span class="el-icon-timer icon"></span>
+                            <div class="group-content">
+                                <span class="group-value">{{this.$store.state.chooseTask ? (this.$store.state.chooseTask.showEndDate ? this.$store.state.chooseTask.showEndDate : '无') : '无'}}</span>
+                                <span class="group-key">截止时间</span>
+                                <el-date-picker
+                                        v-model="endTime"
+                                        type="datetime"
+                                        placeholder="开始日期">
+                                </el-date-picker>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -145,6 +149,7 @@
                 startTime: new Date(),
                 endTime: new Date(),
                 updateTime: false,
+                queryTastProList: true,
                 tabs: [
                     {
                         id: 1,
@@ -182,6 +187,7 @@
                         path: '/taskDetail/file'
                     }
                 ],
+                taskProList:[]
 
             }
         },
@@ -192,6 +198,19 @@
         watch: {
             'dialogVisible': function (newval) {
                 this.showDialog = newval;
+                if (newval) {
+                    utils.request(this, {
+                        url: '/getTaskStateList',
+                        method: 'get',
+                        data: {},
+                    }, data => {
+                        this.taskStateList = data.returnData;
+                        this.queryTastProList = false;
+                        console.log(this.taskStateList);
+                    }, error => {
+                        this.queryTastProList = false;
+                    }, true);
+                }
             },
             'showDialog': function (newval) {
                 this.$emit('passStatus', newval);
@@ -204,6 +223,7 @@
                 }
             },
             '$store.state.chooseTask': function (newval) {
+                console.log(JSON.stringify(newval, null, ' '));
                 if (newval) {
                     this.startTime = newval.startDate;
                     this.endTime = newval.endDate;

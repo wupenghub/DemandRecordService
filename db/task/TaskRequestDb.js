@@ -90,7 +90,7 @@ module.exports = {
         return `update task t set t.task_model_id = ${taskModelId} where t.task_id = ${taskId}`;
     },
     getTaskStateList() {
-        return `select l.task_progress_state_code taskState,l.task_progress_state_desc taskStateDesc,l.icon icon from task_progress_state_l l where l.del_flag = 0`;
+        return `select l.task_progress_state_code taskState,l.task_progress_state_desc taskStateDesc,l.icon icon,l.font_color fc,l.bg_color bc from task_progress_state_l l where l.del_flag = 0`;
     },
     updateTaskState(taskId, taskState) {
         return `update task t set t.progress_state = ${taskState} where t.task_id = ${taskId}`;

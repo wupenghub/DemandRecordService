@@ -51,7 +51,10 @@ module.exports = {
         return `
                 SELECT
                     l.task_progress_state_code taskPro,
-                    l.task_progress_state_desc taskProDesc
+                    l.task_progress_state_desc taskProDesc,
+                    l.font_color as taskProFc,
+                    l.bg_color as taskProBc,
+                    l.icon as icon
                 FROM
                     task_progress_state_l l
                 where l.del_flag = 0

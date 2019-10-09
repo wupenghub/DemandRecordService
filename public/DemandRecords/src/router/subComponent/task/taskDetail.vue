@@ -277,7 +277,6 @@
                 }
             },
             $route(to, from) {
-                console.log(to.path);
                 this.tabs.forEach(item=>{
                     if(item.path == to.path){
                         item.selectTabStyle = 'select-tab';

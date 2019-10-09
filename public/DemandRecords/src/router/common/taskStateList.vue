@@ -47,7 +47,6 @@
                     method: 'post',
                     data: {taskId: this.$store.state.chooseTask.taskId, taskState},
                 }, data => {
-                    console.log(JSON.stringify(data, null, '  '));
                     var taskItem = data.returnData[0];
                     taskItem.showStartDate = taskItem.startDate ? moment(taskItem.startDate).format('MM月DD号') : '无';
                     taskItem.showEndDate = taskItem.endDate ? moment(taskItem.endDate).format('MM月DD号') : '无';

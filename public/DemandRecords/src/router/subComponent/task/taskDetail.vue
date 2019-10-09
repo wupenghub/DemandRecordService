@@ -84,18 +84,12 @@
                     </div>
                 </div>
                 <div class="detail-nav">
-                    <router-link :to="tab.path" :class="['tab',tab.select?'select':'']" v-for="tab in tabs">
+                    <router-link :to="tab.path" :class="['tab',tab.select?'select':'',tab.selectTabStyle]" v-for="tab in tabs">
                         <span :class="[tab.icon,'icon']"></span>
                         <span class="descr">{{tab.descr}}
                             <i v-show="tab.id != tabs.length" class="divider-line"></i>
                         </span>
                     </router-link>
-                    <!--<a :class="['tab',tab.select?'select':'']" v-for="tab in tabs">
-                        <span :class="[tab.icon,'icon']"></span>
-                        <span class="descr">{{tab.descr}}
-                            <i v-show="tab.id != tabs.length" class="divider-line"></i>
-                        </span>
-                    </a>-->
                 </div>
                 <div :class="['comment-body',!showCommentText?'show-animation':'hide-animation']">
                     <span :class="['charge-man']">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
@@ -206,7 +200,6 @@
                     }, data => {
                         this.taskStateList = data.returnData;
                         this.queryTastProList = false;
-                        console.log(this.taskStateList);
                     }, error => {
                         this.queryTastProList = false;
                     }, true);
@@ -223,7 +216,6 @@
                 }
             },
             '$store.state.chooseTask': function (newval) {
-                console.log(JSON.stringify(newval, null, ' '));
                 if (newval) {
                     this.startTime = newval.startDate;
                     this.endTime = newval.endDate;
@@ -285,7 +277,14 @@
                 }
             },
             $route(to, from) {
-                console.log(to);
+                console.log(to.path);
+                this.tabs.forEach(item=>{
+                    if(item.path == to.path){
+                        item.selectTabStyle = 'select-tab';
+                    }else {
+                        item.selectTabStyle = '';
+                    }
+                });
             }
         },
         methods: {
@@ -665,6 +664,10 @@
                 }
             }
         }
+    }
+    .select-tab{
+        color: #22d7bb !important;
+        border-bottom: 2px solid #22d7bb;
     }
 
 </style>

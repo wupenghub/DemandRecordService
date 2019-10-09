@@ -41,10 +41,8 @@
                     <loading v-if="queryTastProList"></loading>
                     <div v-if="!queryTastProList">
                         <div class="task-progress group clearfix" @click="loadTaskStates($event)">
-                            <!--<span class="el-icon-time icon"></span>-->
                             <span :class="[item.icon,'icon']" :style="'color:'+item.fc" v-for="item in taskStateList"
                                   v-if="$store.state.chooseTask && $store.state.chooseTask.taskPro == item.taskState"></span>
-                            <!--<span>{{taskProList.length}}</span>-->
                             <div class="group-content">
                                 <span class="group-value">{{this.$store.state.chooseTask && this.$store.state.chooseTask.taskProDesc}}</span>
                                 <span class="group-key">当前状态</span>

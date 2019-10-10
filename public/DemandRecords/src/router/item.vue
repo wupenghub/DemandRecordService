@@ -23,7 +23,7 @@
             }
         },
         updated() {
-            console.log(this.list)
+//            console.log(this.list)
         },
         methods: {}
     }

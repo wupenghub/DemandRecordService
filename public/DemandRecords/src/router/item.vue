@@ -22,9 +22,6 @@
                 list: [1, 2, 34]
             }
         },
-        updated() {
-//            console.log(this.list)
-        },
         methods: {}
     }
 </script>

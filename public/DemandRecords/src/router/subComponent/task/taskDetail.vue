@@ -93,6 +93,7 @@
                     </a>
                 </div>
                 <div class="box">
+
                     <!--<taskInfo></taskInfo>-->
                 </div>
                 <div :class="['comment-body',!showCommentText?'show-animation':'hide-animation']">

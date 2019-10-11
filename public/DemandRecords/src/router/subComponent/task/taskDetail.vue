@@ -84,12 +84,16 @@
                     </div>
                 </div>
                 <div class="detail-nav">
-                    <a @click="chooseTab(tab)" :data-select-tab="tab.selectTabStyle" :class="['tab',tab.selectTabStyle]" v-for="tab in tabs">
+                    <a @click="chooseTab(tab)" :data-select-tab="tab.selectTabStyle" :class="['tab',tab.selectTabStyle]"
+                       v-for="tab in tabs">
                         <span :class="[tab.icon,'icon']"></span>
                         <span class="descr">{{tab.descr}}
                             <i v-show="tab.id != tabs.length" class="divider-line"></i>
                         </span>
                     </a>
+                </div>
+                <div class="box">
+                    <!--<taskInfo></taskInfo>-->
                 </div>
                 <div :class="['comment-body',!showCommentText?'show-animation':'hide-animation']">
                     <span :class="['charge-man']">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
@@ -117,8 +121,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<loading v-if="showLoading"></loading>-->
-                <router-view name="taskDetail"></router-view>
             </div>
         </el-dialog>
     </div>
@@ -130,6 +132,11 @@
     import taskStateList from '../../common/taskStateList.vue';
     import moment from '../../../lib/moment.min.js';
     import utils from '../../../utils/utils.js';
+    import taskInfo from '../../taskDetail/taskInfo.vue';
+    import sonTask from '../../taskDetail/sonTask.vue';
+    import connectTask from '../../taskDetail/connectTask.vue';
+    import file from '../../taskDetail/file.vue';
+    import workTime from '../../taskDetail/workTime.vue';
 
     export default {
         data() {
@@ -151,14 +158,16 @@
                         menuCode: 'taskInfo',
                         descr: '任务信息',
                         icon: 'fa fa-tasks',
-                        selectTabStyle:''
+                        selectTabStyle: 'select-tab',
+                        componentName: 'taskInfo'
                     },
                     {
                         id: 2,
                         menuCode: 'sonTask',
                         descr: '子任务',
                         icon: 'el-icon-s-operation',
-                        selectTabStyle:''
+                        selectTabStyle: '',
+                        componentName: 'sonTask'
                     },
                     {
                         id: 3,
@@ -166,28 +175,37 @@
                         descr: '关联任务',
                         icon: 'fa fa-link',
                         path: '/taskDetail/connectTask',
-                        selectTabStyle:''
+                        selectTabStyle: '',
+                        componentName: 'connectTask'
                     },
                     {
                         id: 4,
                         menuCode: 'workTime',
                         descr: '任务工时',
                         icon: 'el-icon-time',
-                        selectTabStyle:''
+                        selectTabStyle: '',
+                        componentName: 'workTime'
                     },
                     {
                         id: 5,
                         menuCode: 'file',
                         descr: '任务附件',
                         icon: 'el-icon-paperclip',
-                        selectTabStyle:''
+                        selectTabStyle: '',
+                        componentName: 'file'
                     }
                 ],
-                taskStateList: []
-
+                taskStateList: [],
+                currentComponentName: '',
+                allComponents: []
             }
         },
         created() {
+            /*this.allComponents.push(taskInfo);
+            this.allComponents.push(sonTask);
+            this.allComponents.push(connectTask);
+            this.allComponents.push(file);
+            this.allComponents.push(workTime);*/
         }
         ,
         props: ['dialogVisible', 'chooseTask'],
@@ -286,9 +304,6 @@
                         item.selectTabStyle = '';
                     }
                 });
-                this.tabs.forEach(item => {
-                    console.log(JSON.stringify(item, null, '  '));
-                })
             }
         },
         methods: {
@@ -324,13 +339,18 @@
             }
         },
         components: {
-            loading, taskStateList
+            loading, taskStateList, taskInfo, sonTask, connectTask, file, workTime
         },
         mounted() {
             document.querySelector('.el-dialog').onscroll = function () {
                 var st = document.querySelector('.el-dialog').scrollTop || document.querySelector('.el-dialog').scrollTop;
                 document.querySelector('.comment-body').style.bottom = -st + 'px';
             }
+        },
+        render(h){
+            return h('.box',this.allComponents.map(function(componentName) {
+                return h(componentName)
+            }))
         }
     }
 </script>
@@ -513,6 +533,7 @@
         }
         .detail-nav {
             border-bottom: 1px solid #eee;
+
             .tab {
                 display: inline-block;
                 margin-right: 60px;

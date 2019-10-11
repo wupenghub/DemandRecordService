@@ -13,7 +13,9 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.task_info{
 
+}
 
 </style>

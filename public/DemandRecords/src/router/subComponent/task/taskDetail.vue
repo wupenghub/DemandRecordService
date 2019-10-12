@@ -93,8 +93,11 @@
                     </a>
                 </div>
                 <div class="box">
-
-                    <!--<taskInfo></taskInfo>-->
+                    <taskInfo v-if="currentTab&&currentTab.componentName == 'taskInfo'"></taskInfo>
+                    <sonTask v-if="currentTab&&currentTab.componentName == 'sonTask'"></sonTask>
+                    <connectTask v-if="currentTab&&currentTab.componentName == 'connectTask'"></connectTask>
+                    <file v-if="currentTab&&currentTab.componentName == 'file'"></file>
+                    <workTime v-if="currentTab&&currentTab.componentName == 'workTime'"></workTime>
                 </div>
                 <div :class="['comment-body',!showCommentText?'show-animation':'hide-animation']">
                     <span :class="['charge-man']">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
@@ -153,6 +156,9 @@
                 updateTime: false,
                 queryTastProList: true,
                 currentTab: null,
+                taskStateList: [],
+                currentComponentName: '',
+                allComponents: [],
                 tabs: [
                     {
                         id: 1,
@@ -196,19 +202,11 @@
                         componentName: 'file'
                     }
                 ],
-                taskStateList: [],
-                currentComponentName: '',
-                allComponents: []
             }
         },
         created() {
-            /*this.allComponents.push(taskInfo);
-            this.allComponents.push(sonTask);
-            this.allComponents.push(connectTask);
-            this.allComponents.push(file);
-            this.allComponents.push(workTime);*/
-        }
-        ,
+            this.currentTab = this.tabs[0];
+        },
         props: ['dialogVisible', 'chooseTask'],
         watch: {
             'dialogVisible': function (newval) {
@@ -298,6 +296,7 @@
                 }
             },
             'currentTab': function (newval) {
+                console.log(this.currentTab);
                 this.tabs.forEach(item => {
                     if (item == newval) {
                         item.selectTabStyle = 'select-tab';
@@ -347,11 +346,6 @@
                 var st = document.querySelector('.el-dialog').scrollTop || document.querySelector('.el-dialog').scrollTop;
                 document.querySelector('.comment-body').style.bottom = -st + 'px';
             }
-        },
-        render(h){
-            return h('.box',this.allComponents.map(function(componentName) {
-                return h(componentName)
-            }))
         }
     }
 </script>

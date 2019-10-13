@@ -20,8 +20,9 @@
                 <div class="task-info-item project-label">
                     <span class="desc">标签：</span>
                     <div class="label-info item-info">
-                        <span class="fa fa-user icon"></span>
-                        <span>{{taskInfo && taskInfo.projectName}}</span>
+                        <span class="label-shape"  v-for="item in taskLabels" :key="item.labelCode" :style="{background:item.bgColor,color:item.fontColor}">
+                            {{item.icon}}
+                        </span>
                     </div>
                 </div>
                 <div class="task-info-item project-part-in">
@@ -49,7 +50,8 @@
             return {
                 requestData: true,
                 taskInfo: null,
-                taskInfoItems: []
+                taskInfoItems: [],
+                taskLabels: []
             }
         },
         created() {
@@ -67,7 +69,8 @@
                     this.requestData = false;
                     this.taskInfo = data.resultData.taskInfoList[0];
                     this.renderPage(data);
-                    console.log(JSON.stringify(this.taskInfo, null, '  '));
+                    console.log(JSON.stringify(data, null, '  '));
+                    this.taskLabels = data.resultData.taskLabelList;
                 }, error => {
                     this.requestData = false;
                 }, true);
@@ -107,8 +110,21 @@
 
                 }
             }
-            .task-desc{
+            .task-desc {
                 padding: 0 10px;
+            }
+            .project-label {
+                .label-shape {
+                    height: 22px;
+                    line-height: 12px;
+                    padding: 5px 10px;
+                    border-radius: 3px;
+                    display: inline-block;
+                    margin: 0 8px 4px 0;
+                }
+                .label-shape:hover{
+                    cursor: pointer;
+                }
             }
         }
     }

@@ -15,6 +15,7 @@
                     <div class="priority-info item-info">
                         <span class="fa fa-user icon"></span>
                         <span>{{taskInfo && taskInfo.priorityDesc}}</span>
+                        <span class="el-icon-error delete-project-priority"></span>
                     </div>
                 </div>
                 <div class="task-info-item project-label">
@@ -103,12 +104,25 @@
             width: 200px;
             padding: 5px 15px;
             margin-top: -5px;
+            .delete-project-priority {
+                float: right;
+                color: #aaa;
+                line-height: 22px;
+                display: none;
+            }
+            .delete-project-priority:hover {
+                color: red;
+                cursor: pointer;
+            }
         }
         .priority-info:hover {
             height: 32px;
             border: 1px solid #22d7bb;
             border-radius: 3px;
             padding: 4px 14px;
+        }
+        .priority-info:hover .delete-project-priority {
+            display: block;
         }
         .task-info-box {
             .task-info-item {

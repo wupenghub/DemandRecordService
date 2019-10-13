@@ -1,6 +1,5 @@
 var mysql = require('mysql');
 module.exports = {
-
     menusQuery(menuType,parentCode) {
         var sql = `
                     SELECT

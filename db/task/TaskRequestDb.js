@@ -110,5 +110,65 @@ module.exports = {
         }
         querySql += ` WHERE t.task_id = ${taskId}`;
         return querySql;
+    },
+    selectTaskInfo(taskId){
+        return `
+               SELECT
+                    (
+                        SELECT
+                            p.project_name
+                        FROM
+                            project p
+                        WHERE
+                            p.project_code = t.project_code
+                    ) AS projectName,
+                    t.priority,
+                    (
+                        SELECT
+                            l.task_priority_desc
+                        FROM
+                            task_priority_l l
+                        WHERE
+                            l.task_priority_code = t.priority
+                    ) AS priorityDesc
+                FROM
+                    task t
+                WHERE
+                    t.task_id = ${taskId}
+                `;
+    },
+    queryTaskPriority(){
+        return `select l.task_priority_code as priorityCode,l.task_priority_desc priorityDesc from task_priority_l l where l.del_flag = 0`;
+    },
+    queryPartInPer(taskId){
+        return `select t.val as partInPerCode,(select u.nickname from sys_user u where u.email = t.val) as partInPerName from task_char t where t.task_id = ${taskId} and t.key = 'part_in_per'`;
+    },
+    queryTaskLabel(taskId){
+        return `
+                SELECT
+                    bs.icon,
+                    bs.font_color AS fontColor,
+                    bs.bg_color AS bgColor,
+                    l.task_label_desc AS labelDesc,
+                    l.task_label_code AS labelCode
+                FROM
+                    task t,
+                    task_char c,
+                    basic_dispaly_setting bs,
+                    task_label_l l
+                WHERE
+                    t.task_id = c.task_id
+                AND c.KEY = 'task_label'
+                AND bs.basic_model_code = 'task_label_model'
+                AND c.val = bs.basic_model_key
+                AND l.task_label_code = c.val
+                AND t.task_id = ${taskId}
+                GROUP BY
+                    bs.icon,
+                    fontColor,
+                    bgColor,
+                    labelDesc,
+                    labelCode
+                `;
     }
 };

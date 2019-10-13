@@ -93,7 +93,8 @@
                     </a>
                 </div>
                 <div class="box">
-                    <taskInfo v-if="currentTab&&currentTab.componentName == 'taskInfo'"></taskInfo>
+                    <taskInfo v-if="currentTab&&currentTab.componentName == 'taskInfo'"
+                              :taskId="$store.state.chooseTask&&$store.state.chooseTask.taskId"></taskInfo>
                     <sonTask v-if="currentTab&&currentTab.componentName == 'sonTask'"></sonTask>
                     <connectTask v-if="currentTab&&currentTab.componentName == 'connectTask'"></connectTask>
                     <file v-if="currentTab&&currentTab.componentName == 'file'"></file>
@@ -232,6 +233,7 @@
                     this.comments = '';
                     this.showTaskStateList = false;
                     this.updateTime = false;
+                    this.currentTab = null;
                 }
             },
             '$store.state.chooseTask': function (newval) {
@@ -296,7 +298,6 @@
                 }
             },
             'currentTab': function (newval) {
-                console.log(this.currentTab);
                 this.tabs.forEach(item => {
                     if (item == newval) {
                         item.selectTabStyle = 'select-tab';

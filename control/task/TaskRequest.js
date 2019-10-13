@@ -112,7 +112,7 @@ var TaskRequest = {
             querySql = TaskRequestDb.updateTaskTime(req.body.taskId, null, req.body.endDate);
 
         }
-        console.log('updateTaskTime修改任务开始时间：'+querySql);
+        console.log('updateTaskTime修改任务开始时间：' + querySql);
         DbUtils.queryData(querySql, reslut => {
             querySql = TaskRequestDb.taskQuery(null, null, req.body.taskId);
             DbUtils.queryData(querySql, result => {
@@ -132,6 +132,52 @@ var TaskRequest = {
                 returnData: error
             })
         })
+    },
+    selectTaskInfo(req, res) {
+        var querySql = TaskRequestDb.selectTaskInfo(req.query.taskId);
+        console.log('selectTaskInfo查询任务基本信息：'+querySql);
+        DbUtils.queryData(querySql, data => {
+            var resultData = {};
+            resultData.taskInfoList = data;
+            querySql = TaskRequestDb.queryTaskPriority();
+            console.log('selectTaskInfo查询任务优先级：'+querySql);
+            DbUtils.queryData(querySql, data => {
+                resultData.taskPriorityList = data;
+                querySql = TaskRequestDb.queryPartInPer(req.query.taskId);
+                console.log('selectTaskInfo查询任务参与人：'+querySql);
+                DbUtils.queryData(querySql, data => {
+                    resultData.partPerList = data;
+                    querySql = TaskRequestDb.queryTaskLabel(req.query.taskId);
+                    DbUtils.queryData(querySql, data => {
+                        resultData.taskLabelList = data;
+                        res.json({
+                            code: 0,
+                            resultData
+                        })
+                    }, error => {
+                        res.json({
+                            code: -1,
+                            resultData: error
+                        })
+                    })
+                }, error => {
+                    res.json({
+                        code: -1,
+                        resultData: error
+                    })
+                })
+            }, error => {
+                res.json({
+                    code: -1,
+                    resultData: error
+                })
+            });
+        }, error => {
+            res.json({
+                code: -1,
+                resultData: error
+            })
+        });
     }
 };
 

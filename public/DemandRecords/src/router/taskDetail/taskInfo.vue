@@ -3,7 +3,10 @@
         <loading v-show="requestData"></loading>
         <div class="task-info-box">
             <div class="task-info-item project-name">
-                <span class="project-name-desc">{{taskInfo&&taskInfo.projectName}}</span>
+                <span class="desc">项目名称：</span>
+                <div class="project-info">
+                    <span class="project-name">{{taskInfo&&taskInfo.projectName}}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -36,6 +39,7 @@
                     this.requestData = false;
                     this.taskInfo = data.resultData.taskInfoList[0];
                     this.renderPage(data);
+                    console.log(JSON.stringify(this.taskInfo,null,'  '));
                 }, error => {
                     this.requestData = false;
                 }, true);
@@ -59,7 +63,7 @@
                 padding: 0 10px 15px 10px;
             }
             .project-name {
-                .project-name-desc {
+                .desc {
                     color: #888 !important;
                     font-size: 16px;
                 }

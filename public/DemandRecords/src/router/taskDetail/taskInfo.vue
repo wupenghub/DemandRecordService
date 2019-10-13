@@ -5,6 +5,7 @@
             <div class="task-info-item project-name">
                 <span class="desc">项目名称：</span>
                 <div class="project-info">
+                    <span class="fa fa-user icon"></span>
                     <span class="project-name">{{taskInfo&&taskInfo.projectName}}</span>
                 </div>
             </div>
@@ -21,7 +22,8 @@
         data() {
             return {
                 requestData: true,
-                taskInfo: null
+                taskInfo: null,
+                taskInfoItems:[]
             }
         },
         created() {
@@ -66,9 +68,18 @@
                 .desc {
                     color: #888 !important;
                     font-size: 16px;
+                    line-height: 20px;
+                }
+                .project-info{
+                    line-height: 20px;
                 }
             }
         }
+    }
+    .icon{
+        color: #22d7bb;
+        font-size: 18px;
+        margin-right: 5px;
     }
 
 </style>

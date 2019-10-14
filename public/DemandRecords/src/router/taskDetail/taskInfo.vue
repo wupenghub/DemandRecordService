@@ -17,7 +17,7 @@
                         <span>{{taskInfo && taskInfo.priorityDesc}}</span>
                         <span class="el-icon-error delete-project-priority"></span>
                     </div>
-                    <selectList v-if="showSelectList" :passDataList="taskPriorityList" :isLoading="false"></selectList>
+                    <selectList class="select-list" v-if="showSelectList" :passDataList="taskPriorityList" :isLoading="false"></selectList>
                 </div>
                 <div class="task-info-item project-label">
                     <span class="desc">标签：</span>
@@ -209,6 +209,14 @@
                     line-height: 30px;
                     text-align: center;
                     cursor: pointer;
+                }
+            }
+            .project-priority{
+                position: relative;
+                .select-list{
+                    position: absolute;
+                    top: 80px;
+                    left: 0;
                 }
             }
         }

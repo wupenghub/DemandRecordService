@@ -3,7 +3,7 @@
         <loading v-show="loading" class="loading"></loading>
         <ul>
             <li v-for="item in dataList" :key="item.code"
-                @click.self="chooseTaskState($event,item.code)">
+                @click.self="chooseListItem(item.code)">
                 <i :class="['icon','clearfix',item.icon]"></i>
                 <span class="descr">{{item.descr}}</span>
                 <i class="el-icon-check current-state icon"
@@ -29,12 +29,15 @@
         created() {
             this.dataList = this.passDataList;
             this.loading = this.isLoading;
-//            console.log(JSON.stringify(this.dataList,null,'  '));
         },
         components: {
             loading
         },
-        methods: {},
+        methods: {
+            chooseListItem(code) {
+
+            }
+        },
         props: ['isLoading', 'passDataList']
     }
 </script>

@@ -323,7 +323,7 @@
             loadTaskStates(e) {
                 if (e.target.tagName == 'LI')
                     return;
-                this.showTaskStateList = true;
+                this.showTaskStateList = !this.showTaskStateList;
             },
             changeState(val) {
                 this.showTaskStateList = false;

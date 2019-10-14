@@ -10,13 +10,14 @@
                         <span class="project-name">{{taskInfo && taskInfo.projectName}}</span>
                     </div>
                 </div>
-                <div class="task-info-item project-priority">
+                <div class="task-info-item project-priority" @click="toggleSelectList()">
                     <span class="desc">优先级：</span>
                     <div class="priority-info item-info">
                         <span class="fa fa-user icon"></span>
                         <span>{{taskInfo && taskInfo.priorityDesc}}</span>
                         <span class="el-icon-error delete-project-priority"></span>
                     </div>
+                    <selectList v-if="showSelectList" :passDataList="taskPriorityList" :isLoading="false"></selectList>
                 </div>
                 <div class="task-info-item project-label">
                     <span class="desc">标签：</span>
@@ -51,6 +52,7 @@
 <script>
     import loading from '../common/loading.vue';
     import utils from '../../utils/utils.js';
+    import selectList from '../common/selectList.vue';
 
     export default {
         data() {
@@ -59,7 +61,9 @@
                 taskInfo: null,
                 taskInfoItems: [],
                 taskLabels: [],
-                partInPers: []
+                partInPers: [],
+                taskPriorityList: [],
+                showSelectList: false
             }
         },
         created() {
@@ -77,18 +81,28 @@
                     this.requestData = false;
                     this.taskInfo = data.resultData.taskInfoList[0];
                     this.renderPage(data);
-                    console.log(JSON.stringify(data, null, '  '));
                     this.taskLabels = data.resultData.taskLabelList;
                     this.partInPers = data.resultData.partPerList;
+                    this.taskPriorityList = data.resultData.taskPriorityList;
+                    console.log(JSON.stringify(this.taskPriorityList,null,'  '));
+                    this.taskPriorityList.forEach(item=>{
+                        item.code = item.priorityCode;
+                        item.descr = item.priorityDesc;
+                        item.icon = item.icon;
+
+                    })
                 }, error => {
                     this.requestData = false;
                 }, true);
             },
             renderPage(data) {
+            },
+            toggleSelectList() {
+                this.showSelectList = !this.showSelectList;
             }
         },
         components: {
-            loading
+            loading, selectList
         },
         props: ['taskId']
     }

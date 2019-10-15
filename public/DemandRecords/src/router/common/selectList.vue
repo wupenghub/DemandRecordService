@@ -29,6 +29,9 @@
         created() {
             this.dataList = this.passDataList;
             this.loading = this.isLoading;
+            this.selectItem = this.passItem;
+            console.log(this.selectItem);
+
         },
         components: {
             loading
@@ -38,7 +41,7 @@
                 this.$emit('selectCallBack',item);
             }
         },
-        props: ['isLoading', 'passDataList']
+        props: ['isLoading', 'passDataList','passItem']
     }
 </script>
 

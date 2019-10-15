@@ -17,10 +17,10 @@
                               v-for="item in taskPriorityList" :key="item.priorityCode"
                               v-if="taskInfo&&taskInfo.priority==item.priorityCode"></span>
                         <span>{{taskInfo && taskInfo.priorityDesc}}</span>
-                        <span class="el-icon-error delete-project-priority" @click.self="clearPriority()"></span>
+                        <!--<span class="el-icon-error delete-project-priority" @click.self="clearPriority($event)"></span>-->
                     </div>
                     <selectList @selectCallBack="selectCallBack" class="select-list" v-if="showSelectList"
-                                :passDataList="taskPriorityList"
+                                :passDataList="taskPriorityList" :passItem="taskInfo"
                                 :isLoading="false"></selectList>
                 </div>
                 <div class="task-info-item project-label">
@@ -85,6 +85,7 @@
                     this.requestData = false;
 //                    console.log(JSON.stringify(data, null, '  '));
                     this.taskInfo = data.resultData.taskInfoList[0];
+                    this.taskInfo.code = this.taskInfo.priority;
                     this.renderPage(data);
                     this.taskLabels = data.resultData.taskLabelList;
                     this.partInPers = data.resultData.partPerList;
@@ -93,7 +94,6 @@
                         item.code = item.priorityCode;
                         item.descr = item.priorityDesc;
                         item.icon = item.icon;
-
                     })
                 }, error => {
                     this.requestData = false;
@@ -107,6 +107,7 @@
             selectCallBack(item) {
                 this.taskInfo.priority = item.priorityCode;
                 this.taskInfo.priorityDesc = item.descr;
+                this.taskInfo.code = this.taskInfo.priority;
                 utils.request(this, {
                     url: '/updateTaskPriority',
                     method: 'post',

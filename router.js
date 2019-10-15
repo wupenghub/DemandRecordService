@@ -39,6 +39,9 @@ router.post('/updateTaskTime', (req, res) => {
 router.get('/selectTaskInfo', (req, res) => {
     TaskRequest.selectTaskInfo(req, res);
 });
+router.post('/updateTaskPriority', (req, res) => {
+    TaskRequest.updateTaskPriority(req, res);
+});
 router.get('/test', (req, res) => {
 
 });

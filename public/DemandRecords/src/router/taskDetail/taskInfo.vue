@@ -13,11 +13,15 @@
                 <div class="task-info-item project-priority" @click="toggleSelectList()">
                     <span class="desc">优先级：</span>
                     <div class="priority-info item-info">
-                        <span class="fa fa-user icon"></span>
+                        <span :class="['icon',item.icon]" :style="{color:item.fontColor,fontSize:item.fontSize}"
+                              v-for="item in taskPriorityList" :key="item.priorityCode"
+                              v-if="taskInfo&&taskInfo.priority==item.priorityCode"></span>
                         <span>{{taskInfo && taskInfo.priorityDesc}}</span>
-                        <span class="el-icon-error delete-project-priority"></span>
+                        <span class="el-icon-error delete-project-priority" @click.self="clearPriority()"></span>
                     </div>
-                    <selectList class="select-list" v-if="showSelectList" :passDataList="taskPriorityList" :isLoading="false"></selectList>
+                    <selectList @selectCallBack="selectCallBack" class="select-list" v-if="showSelectList"
+                                :passDataList="taskPriorityList"
+                                :isLoading="false"></selectList>
                 </div>
                 <div class="task-info-item project-label">
                     <span class="desc">标签：</span>
@@ -79,13 +83,13 @@
                     }
                 }, data => {
                     this.requestData = false;
+//                    console.log(JSON.stringify(data, null, '  '));
                     this.taskInfo = data.resultData.taskInfoList[0];
                     this.renderPage(data);
                     this.taskLabels = data.resultData.taskLabelList;
                     this.partInPers = data.resultData.partPerList;
                     this.taskPriorityList = data.resultData.taskPriorityList;
-                    console.log(JSON.stringify(this.taskPriorityList,null,'  '));
-                    this.taskPriorityList.forEach(item=>{
+                    this.taskPriorityList.forEach(item => {
                         item.code = item.priorityCode;
                         item.descr = item.priorityDesc;
                         item.icon = item.icon;
@@ -99,6 +103,23 @@
             },
             toggleSelectList() {
                 this.showSelectList = !this.showSelectList;
+            },
+            selectCallBack(item) {
+                this.taskInfo.priority = item.priorityCode;
+                this.taskInfo.priorityDesc = item.descr;
+                utils.request(this, {
+                    url: '/updateTaskPriority',
+                    method: 'post',
+                    data: {
+                        taskId: this.taskId,
+                        priority: this.taskInfo.priority
+                    },
+                }, data => {
+                }, error => {
+
+                }, true);
+            },
+            clearPriority() {
             }
         },
         components: {
@@ -211,9 +232,9 @@
                     cursor: pointer;
                 }
             }
-            .project-priority{
+            .project-priority {
                 position: relative;
-                .select-list{
+                .select-list {
                     position: absolute;
                     top: 80px;
                     left: 0;

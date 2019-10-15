@@ -135,16 +135,16 @@ var TaskRequest = {
     },
     selectTaskInfo(req, res) {
         var querySql = TaskRequestDb.selectTaskInfo(req.query.taskId);
-        console.log('selectTaskInfo查询任务基本信息：'+querySql);
+        console.log('selectTaskInfo查询任务基本信息：' + querySql);
         DbUtils.queryData(querySql, data => {
             var resultData = {};
             resultData.taskInfoList = data;
             querySql = TaskRequestDb.queryTaskPriority();
-            console.log('selectTaskInfo查询任务优先级：'+querySql);
+            console.log('selectTaskInfo查询任务优先级：' + querySql);
             DbUtils.queryData(querySql, data => {
                 resultData.taskPriorityList = data;
                 querySql = TaskRequestDb.queryPartInPer(req.query.taskId);
-                console.log('selectTaskInfo查询任务参与人：'+querySql);
+                console.log('selectTaskInfo查询任务参与人：' + querySql);
                 DbUtils.queryData(querySql, data => {
                     resultData.partPerList = data;
                     querySql = TaskRequestDb.queryTaskLabel(req.query.taskId);
@@ -178,6 +178,20 @@ var TaskRequest = {
                 resultData: error
             })
         });
+    },
+    updateTaskPriority(req, res) {
+        var taskId = req.body.taskId;
+        var priority = req.body.priority;
+        var querySql = TaskRequestDb.updateTaskPriority(taskId, priority);
+        DbUtils.queryData(querySql, data => {
+            res.json({
+                code: 0
+            });
+        }, error => {
+            res.json({
+                code: -1
+            });
+        })
     }
 };
 

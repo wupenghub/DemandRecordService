@@ -111,7 +111,7 @@ module.exports = {
         querySql += ` WHERE t.task_id = ${taskId}`;
         return querySql;
     },
-    selectTaskInfo(taskId){
+    selectTaskInfo(taskId) {
         return `
                SELECT
                     (
@@ -137,13 +137,28 @@ module.exports = {
                     t.task_id = ${taskId}
                 `;
     },
-    queryTaskPriority(){
-        return `select l.task_priority_code as priorityCode,l.task_priority_desc priorityDesc from task_priority_l l where l.del_flag = 0`;
+    queryTaskPriority() {
+        return `
+                SELECT
+                    l.task_priority_code AS priorityCode,
+                    l.task_priority_desc priorityDesc,
+                    bs.font_color as fontColor,
+                    bs.bg_color as bgColor,
+                    bs.font_size as fontSize,
+                    bs.icon as icon
+                FROM
+                    task_priority_l l,
+                basic_dispaly_setting bs
+                WHERE
+                    l.del_flag = 0
+                and bs.basic_model_code = 'task_priority_model'
+                and bs.basic_model_key = l.task_priority_code
+               `;
     },
-    queryPartInPer(taskId){
+    queryPartInPer(taskId) {
         return `select t.val as partInPerCode,(select u.nickname from sys_user u where u.email = t.val) as partInPerName from task_char t where t.task_id = ${taskId} and t.key = 'part_in_per'`;
     },
-    queryTaskLabel(taskId){
+    queryTaskLabel(taskId) {
         return `
                 SELECT
                     bs.icon,
@@ -170,5 +185,8 @@ module.exports = {
                     labelDesc,
                     labelCode
                 `;
+    },
+    updateTaskPriority(taskId,priority){
+        return `UPDATE task t set t.priority = ${mysql.escape(priority)} where t.task_id = ${taskId}`;
     }
 };

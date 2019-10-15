@@ -3,8 +3,8 @@
         <loading v-show="loading" class="loading"></loading>
         <ul>
             <li v-for="item in dataList" :key="item.code"
-                @click.self="chooseListItem(item.code)">
-                <i :class="['icon','clearfix',item.icon]"></i>
+                @click.self="chooseListItem(item)">
+                <i :class="['icon','clearfix',item.icon]" :style="{color:item.fontColor,fontSize:item.fontSize}"></i>
                 <span class="descr">{{item.descr}}</span>
                 <i class="el-icon-check current-state icon"
                    v-if="selectItem.code&&(selectItem.code == item.code)"></i>
@@ -34,8 +34,8 @@
             loading
         },
         methods: {
-            chooseListItem(code) {
-
+            chooseListItem(item) {
+                this.$emit('selectCallBack',item);
             }
         },
         props: ['isLoading', 'passDataList']

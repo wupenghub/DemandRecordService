@@ -17,7 +17,6 @@
                               v-for="item in taskPriorityList" :key="item.priorityCode"
                               v-if="taskInfo&&taskInfo.priority==item.priorityCode"></span>
                         <span>{{taskInfo && taskInfo.priorityDesc}}</span>
-                        <!--<span class="el-icon-error delete-project-priority" @click.self="clearPriority($event)"></span>-->
                     </div>
                     <selectList @selectCallBack="selectCallBack" class="select-list" v-if="showSelectList"
                                 :passDataList="taskPriorityList" :passItem="taskInfo"
@@ -30,7 +29,12 @@
                               :style="{background:item.bgColor,color:item.fontColor}">
                             {{item.icon}}
                         </span>
-                        <span class="add-label"><i class="fa fa-plus label-icon"></i>添加标签</span>
+                        <span class="add-label" @click="addLabel()"><i class="fa fa-plus label-icon"></i>
+                                添加标签
+                            <selectList @selectCallBack="selectCallBack" class="label-list" v-if="showLabelList"
+                                        :passDataList="taskPriorityList" :passItem="taskInfo"
+                                        :isLoading="false"></selectList>
+                        </span>
                     </div>
                 </div>
                 <div class="task-info-item project-part-in">
@@ -65,9 +69,10 @@
                 taskInfo: null,
                 taskInfoItems: [],
                 taskLabels: [],
-                partInPers: [],
+                partInPers: [],hai
                 taskPriorityList: [],
-                showSelectList: false
+                showSelectList: false,
+                showLabelList: false,
             }
         },
         created() {
@@ -83,7 +88,7 @@
                     }
                 }, data => {
                     this.requestData = false;
-//                    console.log(JSON.stringify(data, null, '  '));
+                    console.log(JSON.stringify(data, null, '  '));
                     this.taskInfo = data.resultData.taskInfoList[0];
                     this.taskInfo.code = this.taskInfo.priority;
                     this.renderPage(data);
@@ -120,7 +125,8 @@
 
                 }, true);
             },
-            clearPriority() {
+            addLabel() {
+                this.showLabelList = !this.showLabelList;
             }
         },
         components: {
@@ -205,7 +211,14 @@
                     border-radius: 3px;
                     font-size: 14px;
                     cursor: pointer;
+                    position: relative;
+                    .label-list {
+                        position: absolute;
+                        top: 30px !important;
+                        right: 0;
+                    }
                 }
+
             }
             .project-part-in {
                 .part-in-per {

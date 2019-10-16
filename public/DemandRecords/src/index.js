@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import appVue from './router/app.vue';
-import hello from './router/hello.vue';
 import VueRouter from 'vue-router';
 import router from './js/router.js';
 import ElementUI from 'element-ui';

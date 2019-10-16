@@ -132,6 +132,7 @@
             },
             addLabel() {
                 this.showLabelList = !this.showLabelList;
+
                 if (this.showLabelList) {
                     utils.request(this, {
                         url: '/selectLabelList',

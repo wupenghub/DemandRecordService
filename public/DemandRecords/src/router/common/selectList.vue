@@ -39,7 +39,26 @@
                 this.$emit('selectCallBack', item);
             }
         },
-        props: ['isLoading', 'passDataList', 'passItem']
+        props: ['isLoading', 'passDataList', 'passItem'],
+        watch: {
+            'passDataList': {
+                handler(val) {
+                    this.dataList = this.passDataList;
+                    this.loading = this.isLoading;
+                    this.selectItem = this.passItem;
+                },
+                deep: true
+            },
+
+            'passItem': {
+                handler(val) {
+                    this.dataList = this.passDataList;
+                    this.loading = this.isLoading;
+                    this.selectItem = this.passItem;
+                },
+                deep: true
+            }
+        }
     }
 </script>
 

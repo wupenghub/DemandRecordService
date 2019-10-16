@@ -30,23 +30,22 @@
             this.dataList = this.passDataList;
             this.loading = this.isLoading;
             this.selectItem = this.passItem;
-            console.log(this.selectItem);
-
         },
         components: {
             loading
         },
         methods: {
             chooseListItem(item) {
-                this.$emit('selectCallBack',item);
+                this.$emit('selectCallBack', item);
             }
         },
-        props: ['isLoading', 'passDataList','passItem']
+        props: ['isLoading', 'passDataList', 'passItem']
     }
 </script>
 
 <style scoped lang="scss">
     .select-list {
+        user-select: none;
         width: 240px;
         min-height: 50px;
         padding: 5px 0;

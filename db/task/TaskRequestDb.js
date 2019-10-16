@@ -186,7 +186,24 @@ module.exports = {
                     labelCode
                 `;
     },
-    updateTaskPriority(taskId,priority){
+    updateTaskPriority(taskId, priority) {
         return `UPDATE task t set t.priority = ${mysql.escape(priority)} where t.task_id = ${taskId}`;
+    },
+    selectLabelList(){
+        return `
+                SELECT
+                    l.task_label_code AS labelCode,
+                    l.task_label_desc AS labelDesc,
+                    bs.bg_color AS bgColor,
+                    bs.font_color AS fontColor,
+                    bs.font_size AS fontSize,
+                    bs.icon AS icon
+                FROM
+                    task_label_l l,
+                    basic_dispaly_setting bs
+                WHERE
+                    bs.basic_model_code = 'task_label_model'
+                AND bs.basic_model_key = l.task_label_code
+               `
     }
 };

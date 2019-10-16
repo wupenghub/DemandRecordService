@@ -32,8 +32,8 @@
                         <span class="add-label" @click="addLabel()"><i class="fa fa-plus label-icon"></i>
                                 添加标签
                             <selectList @selectCallBack="selectCallBack" class="label-list" v-if="showLabelList"
-                                        :passDataList="taskPriorityList" :passItem="taskInfo"
-                                        :isLoading="false"></selectList>
+                                        :passDataList="labelList" :passItem="taskInfo"
+                                        :isLoading="true"></selectList>
                         </span>
                     </div>
                 </div>
@@ -69,10 +69,12 @@
                 taskInfo: null,
                 taskInfoItems: [],
                 taskLabels: [],
-                partInPers: [],hai
+                partInPers: [],
                 taskPriorityList: [],
                 showSelectList: false,
                 showLabelList: false,
+                taskLabelList: [],
+                labelList: []
             }
         },
         created() {
@@ -88,18 +90,20 @@
                     }
                 }, data => {
                     this.requestData = false;
-                    console.log(JSON.stringify(data, null, '  '));
                     this.taskInfo = data.resultData.taskInfoList[0];
                     this.taskInfo.code = this.taskInfo.priority;
                     this.renderPage(data);
                     this.taskLabels = data.resultData.taskLabelList;
                     this.partInPers = data.resultData.partPerList;
                     this.taskPriorityList = data.resultData.taskPriorityList;
+                    this.taskLabelList = data.resultData.taskLabelList;
+                    console.log(JSON.stringify(data,null,'  '));
                     this.taskPriorityList.forEach(item => {
                         item.code = item.priorityCode;
                         item.descr = item.priorityDesc;
                         item.icon = item.icon;
                     })
+
                 }, error => {
                     this.requestData = false;
                 }, true);
@@ -110,6 +114,7 @@
                 this.showSelectList = !this.showSelectList;
             },
             selectCallBack(item) {
+                this.showLabelList = false;
                 this.taskInfo.priority = item.priorityCode;
                 this.taskInfo.priorityDesc = item.descr;
                 this.taskInfo.code = this.taskInfo.priority;
@@ -127,6 +132,20 @@
             },
             addLabel() {
                 this.showLabelList = !this.showLabelList;
+                if (this.showLabelList) {
+                    utils.request(this, {
+                        url: '/selectLabelList',
+                        method: 'get',
+                    }, data => {
+                        console.log(JSON.stringify(data, null, '  '));
+                        this.labelList = data.returnData;
+                        this.labelList.forEach(item => {
+                            item.code = item.labelCode;
+                            item.descr = item.icon;
+                        })
+                    }, error => {
+                    }, true);
+                }
             }
         },
         components: {
@@ -252,6 +271,7 @@
                     position: absolute;
                     top: 80px;
                     left: 0;
+                    user-select: none;
                 }
             }
         }

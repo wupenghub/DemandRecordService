@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --open --port 3000 --hot --host 127.0.0.1"
+    "build": "cross-env NODE_ENV=production node build/build.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config webpack.dev.conf.js"
   },
   "keywords": [],
   "author": "",
@@ -13,19 +14,26 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
-    "babel-plugin-component": "^1.1.1",
+    "babel-plugin-dynamic-import-webpack": "^1.1.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "cross-env": "^6.0.3",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "progress-bar-webpack-plugin": "^1.12.1",
     "sass-loader": "^7.3.1",
     "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",
     "vue-loader": "^15.7.1",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.41.0",
-    "webpack-dev-server": "^3.8.1"
+    "webpack-dev-server": "^3.8.1",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "axios": "^0.19.0",

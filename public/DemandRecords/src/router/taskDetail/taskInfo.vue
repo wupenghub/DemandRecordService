@@ -153,7 +153,7 @@
                             item.code = item.labelCode;
                             item.descr = item.flg;
                             item.fontColor = item.bgColor;
-                        })
+                        });
                         this.loading = false;
                     }, error => {
                         this.loading = false;

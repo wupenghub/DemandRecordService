@@ -219,9 +219,18 @@ var TaskRequest = {
         }
         console.log('updateTaskLabel:'+querySql);
         DbUtils.queryData(querySql,data=>{
-            res.json({
-                code:0
+            querySql = TaskRequestDb.queryTaskLabel(taskId);
+            DbUtils.queryData(querySql,data=>{
+                res.json({
+                    code:0,
+                    returnData:data
+                });
+            },error=>{
+                res.json({
+                    code:-1
+                });
             });
+
         },error=>{
             res.json({
                 code:-1

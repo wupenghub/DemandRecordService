@@ -7,6 +7,7 @@
                 <i :class="['icon','clearfix',item.icon]" :style="{color:item.fontColor,fontSize:item.fontSize}"></i>
                 <span class="descr">{{item.descr}}</span>
                 <i class="el-icon-check current-state icon"
+                   v-for="selectItem in selectItems"
                    v-if="selectItem.code&&(selectItem.code == item.code)"></i>
             </li>
         </ul>
@@ -23,13 +24,13 @@
             return {
                 dataList: [],
                 loading: true,
-                selectItem: {}
+                selectItems: []
             }
         },
         created() {
             this.dataList = this.passDataList;
             this.loading = this.isLoading;
-            this.selectItem = this.passItem;
+            this.selectItems = this.passItems;
         },
         components: {
             loading
@@ -39,7 +40,7 @@
                 this.$emit('selectCallBack', item);
             }
         },
-        props: ['isLoading', 'passDataList', 'passItem'],
+        props: ['isLoading', 'passDataList', 'passItems'],
         watch: {
             'passDataList': {
                 handler(val) {
@@ -50,11 +51,11 @@
                 deep: true
             },
 
-            'passItem': {
+            'passItems': {
                 handler(val) {
                     this.dataList = this.passDataList;
                     this.loading = this.isLoading;
-                    this.selectItem = this.passItem;
+                    this.selectItem = this.passItems;
                 },
                 deep: true
             }

@@ -19,7 +19,7 @@
                         <span>{{taskInfo && taskInfo.priorityDesc}}</span>
                     </div>
                     <selectList @selectCallBack="selectCallBack" class="select-list" v-if="showSelectList"
-                                :passDataList="taskPriorityList" :passItem="taskInfo"
+                                :passDataList="taskPriorityList" :passItems="taskInfos"
                                 :isLoading="false"></selectList>
                 </div>
                 <div class="task-info-item project-label">
@@ -27,12 +27,12 @@
                     <div class="label-info item-info">
                         <span class="label-shape" v-for="item in taskLabels" :key="item.labelCode"
                               :style="{background:item.bgColor,color:item.fontColor}">
-                            {{item.icon}}
+                            {{item.flg}}
                         </span>
                         <span class="add-label" @click="addLabel()"><i class="fa fa-plus label-icon"></i>
                                 添加标签
                             <selectList @selectCallBack="selectCallBack" class="label-list" v-if="showLabelList"
-                                        :passDataList="labelList" :passItem="taskInfo"
+                                        :passDataList="labelList" :passItems="taskLabels"
                                         :isLoading="true"></selectList>
                         </span>
                     </div>
@@ -67,6 +67,7 @@
             return {
                 requestData: true,
                 taskInfo: null,
+                taskInfos: [],
                 taskInfoItems: [],
                 taskLabels: [],
                 partInPers: [],
@@ -97,13 +98,16 @@
                     this.partInPers = data.resultData.partPerList;
                     this.taskPriorityList = data.resultData.taskPriorityList;
                     this.taskLabelList = data.resultData.taskLabelList;
-                    console.log(JSON.stringify(data,null,'  '));
                     this.taskPriorityList.forEach(item => {
                         item.code = item.priorityCode;
                         item.descr = item.priorityDesc;
                         item.icon = item.icon;
-                    })
-
+                    });
+                    this.taskLabelList.forEach(item => {
+                        item.code = item.labelCode;
+                        item.descr = item.flg;
+                        item.icon = item.icon;
+                    });
                 }, error => {
                     this.requestData = false;
                 }, true);
@@ -112,6 +116,8 @@
             },
             toggleSelectList() {
                 this.showSelectList = !this.showSelectList;
+                this.taskInfos = [];
+                this.taskInfos.push(this.taskInfo)
             },
             selectCallBack(item) {
                 this.showLabelList = false;
@@ -132,7 +138,6 @@
             },
             addLabel() {
                 this.showLabelList = !this.showLabelList;
-
                 if (this.showLabelList) {
                     utils.request(this, {
                         url: '/selectLabelList',
@@ -142,7 +147,7 @@
                         this.labelList = data.returnData;
                         this.labelList.forEach(item => {
                             item.code = item.labelCode;
-                            item.descr = item.icon;
+                            item.descr = item.flg;
                         })
                     }, error => {
                     }, true);

@@ -165,7 +165,8 @@ module.exports = {
                     bs.font_color AS fontColor,
                     bs.bg_color AS bgColor,
                     l.task_label_desc AS labelDesc,
-                    l.task_label_code AS labelCode
+                    l.task_label_code AS labelCode,
+                    l.task_label_flg as flg
                 FROM
                     task t,
                     task_char c,
@@ -197,7 +198,8 @@ module.exports = {
                     bs.bg_color AS bgColor,
                     bs.font_color AS fontColor,
                     bs.font_size AS fontSize,
-                    bs.icon AS icon
+                    bs.icon AS icon,
+                    l.task_label_flg as flg
                 FROM
                     task_label_l l,
                     basic_dispaly_setting bs

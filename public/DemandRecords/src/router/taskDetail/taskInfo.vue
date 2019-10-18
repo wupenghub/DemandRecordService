@@ -79,7 +79,8 @@
                 showLabelList: false,
                 taskLabelList: [],
                 labelList: [],
-                loading: true
+                loading: true,
+                currentSelectModel: ''
             }
         },
         created() {
@@ -118,28 +119,34 @@
             renderPage(data) {
             },
             toggleSelectList() {
+                this.currentSelectModel = 'priority';
                 this.showSelectList = !this.showSelectList;
                 this.taskInfos = [];
                 this.taskInfos.push(this.taskInfo)
             },
             selectCallBack(item) {
-                this.showLabelList = false;
-                this.taskInfo.priority = item.priorityCode;
-                this.taskInfo.priorityDesc = item.descr;
-                this.taskInfo.code = this.taskInfo.priority;
-                utils.request(this, {
-                    url: '/updateTaskPriority',
-                    method: 'post',
-                    data: {
-                        taskId: this.taskId,
-                        priority: this.taskInfo.priority
-                    },
-                }, data => {
-                }, error => {
+                if (this.currentSelectModel == 'priority') {
+                    this.showLabelList = false;
+                    this.taskInfo.priority = item.priorityCode;
+                    this.taskInfo.priorityDesc = item.descr;
+                    this.taskInfo.code = this.taskInfo.priority;
+                    utils.request(this, {
+                        url: '/updateTaskPriority',
+                        method: 'post',
+                        data: {
+                            taskId: this.taskId,
+                            priority: this.taskInfo.priority
+                        },
+                    }, data => {
+                    }, error => {
 
-                }, true);
+                    }, true);
+                } else if (this.currentSelectModel == 'label') {
+
+                }
             },
             addLabel() {
+                this.currentSelectModel = 'label'
                 this.showLabelList = !this.showLabelList;
                 this.loading = true;
                 this.labelList = [];

@@ -25,7 +25,8 @@
                 <div class="task-info-item project-label">
                     <span class="desc">标签：</span>
                     <div class="label-info item-info">
-                        <el-tooltip effect="dark" v-for="item in taskLabels" :key="item.labelCode" :content="item.labelDesc" placement="bottom" :open-delay=500>
+                        <el-tooltip effect="dark" v-for="item in taskLabels" :key="item.labelCode"
+                                    :content="item.labelDesc" placement="bottom" :open-delay=500>
                             <span class="label-shape"
                                   :style="{background:item.bgColor,color:item.fontColor}">
                                 {{item.flg}}
@@ -35,7 +36,7 @@
                                 添加标签
                             <selectList @selectCallBack="selectCallBack" class="label-list" v-if="showLabelList"
                                         :passDataList="labelList" :passItems="taskLabels"
-                                        :isLoading="true"></selectList>
+                                        :isLoading="loading"></selectList>
                         </span>
                     </div>
                 </div>
@@ -77,7 +78,8 @@
                 showSelectList: false,
                 showLabelList: false,
                 taskLabelList: [],
-                labelList: []
+                labelList: [],
+                loading: true
             }
         },
         created() {
@@ -139,19 +141,22 @@
             },
             addLabel() {
                 this.showLabelList = !this.showLabelList;
+                this.loading = true;
+                this.labelList = [];
                 if (this.showLabelList) {
                     utils.request(this, {
                         url: '/selectLabelList',
                         method: 'get',
                     }, data => {
-                        console.log(JSON.stringify(data, null, '  '));
                         this.labelList = data.returnData;
                         this.labelList.forEach(item => {
                             item.code = item.labelCode;
                             item.descr = item.flg;
                             item.fontColor = item.bgColor;
                         })
+                        this.loading = false;
                     }, error => {
+                        this.loading = false;
                     }, true);
                 }
             }

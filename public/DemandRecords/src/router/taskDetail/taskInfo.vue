@@ -25,10 +25,12 @@
                 <div class="task-info-item project-label">
                     <span class="desc">标签：</span>
                     <div class="label-info item-info">
-                        <span class="label-shape" v-for="item in taskLabels" :key="item.labelCode"
-                              :style="{background:item.bgColor,color:item.fontColor}">
-                            {{item.flg}}
-                        </span>
+                        <el-tooltip effect="dark" v-for="item in taskLabels" :key="item.labelCode" :content="item.labelDesc" placement="bottom" :open-delay=500>
+                            <span class="label-shape"
+                                  :style="{background:item.bgColor,color:item.fontColor}">
+                                {{item.flg}}
+                            </span>
+                        </el-tooltip>
                         <span class="add-label" @click="addLabel()"><i class="fa fa-plus label-icon"></i>
                                 添加标签
                             <selectList @selectCallBack="selectCallBack" class="label-list" v-if="showLabelList"
@@ -106,7 +108,6 @@
                     this.taskLabelList.forEach(item => {
                         item.code = item.labelCode;
                         item.descr = item.flg;
-                        item.icon = item.icon;
                     });
                 }, error => {
                     this.requestData = false;
@@ -148,6 +149,7 @@
                         this.labelList.forEach(item => {
                             item.code = item.labelCode;
                             item.descr = item.flg;
+                            item.fontColor = item.bgColor;
                         })
                     }, error => {
                     }, true);

@@ -125,7 +125,6 @@
                 this.taskInfos.push(this.taskInfo)
             },
             selectCallBack(item, isChoose) {
-                console.log(JSON.stringify(this.taskLabels, null, ' '));
                 if (this.currentSelectModel == 'priority') {
                     this.showLabelList = false;
                     this.taskInfo.priority = item.priorityCode;

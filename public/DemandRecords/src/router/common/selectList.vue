@@ -37,7 +37,15 @@
         },
         methods: {
             chooseListItem(item) {
-                this.$emit('selectCallBack', item);
+                var isChoose = false;
+                for(var i = 0;i<this.selectItems.length;i++){
+                    var selectItem = this.selectItems[i];
+                    if(item.code == selectItem.code){
+                        isChoose = true;
+                        break;
+                    }
+                }
+                this.$emit('selectCallBack', item,!isChoose);
             }
         },
         props: ['isLoading', 'passDataList', 'passItems'],

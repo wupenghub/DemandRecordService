@@ -196,15 +196,36 @@ var TaskRequest = {
     selectLabelList(req, res) {
         var querySql = TaskRequestDb.selectLabelList();
         DbUtils.queryData(querySql, data => {
-           res.json({
-               code:0,
-               returnData:data
-           })
+            res.json({
+                code: 0,
+                returnData: data
+            })
         }, error => {
             res.json({
-                code:-1,
-                returnData:error
+                code: -1,
+                returnData: error
             })
+        })
+    },
+    updateTaskLabel(req, res) {
+        var type = req.body.type;
+        var taskId = req.body.taskId;
+        var taskLabelCode = req.body.taskLabelCode;
+        var querySql = '';
+        if (type == 'remove') {
+            querySql = TaskRequestDb.removeTaskLabel(taskId, taskLabelCode);
+        } else if (type == 'add') {
+            querySql = TaskRequestDb.addTaskLabel(taskId, taskLabelCode);
+        }
+        console.log('updateTaskLabel:'+querySql);
+        DbUtils.queryData(querySql,data=>{
+            res.json({
+                code:0
+            });
+        },error=>{
+            res.json({
+                code:-1
+            });
         })
     }
 };

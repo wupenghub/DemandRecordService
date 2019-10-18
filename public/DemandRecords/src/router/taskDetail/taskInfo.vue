@@ -124,7 +124,7 @@
                 this.taskInfos = [];
                 this.taskInfos.push(this.taskInfo)
             },
-            selectCallBack(item) {
+            selectCallBack(item,isChoose) {
                 if (this.currentSelectModel == 'priority') {
                     this.showLabelList = false;
                     this.taskInfo.priority = item.priorityCode;
@@ -142,11 +142,22 @@
 
                     }, true);
                 } else if (this.currentSelectModel == 'label') {
-
+                    var type = isChoose?'add':'remove';
+                    utils.request(this, {
+                        url: '/updateTaskLabel',
+                        method: 'post',
+                        data: {
+                            type,
+                            taskId:this.taskId,
+                            taskLabelCode:item.code
+                        },
+                    }, data => {
+                    }, error => {
+                    }, true);
                 }
             },
             addLabel() {
-                this.currentSelectModel = 'label'
+                this.currentSelectModel = 'label';
                 this.showLabelList = !this.showLabelList;
                 this.loading = true;
                 this.labelList = [];

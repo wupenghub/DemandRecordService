@@ -45,6 +45,9 @@ router.post('/updateTaskPriority', (req, res) => {
 router.get('/selectLabelList',(req,res)=>{
     TaskRequest.selectLabelList(req,res);
 });
+router.post('/updateTaskLabel',(req,res)=>{
+    TaskRequest.updateTaskLabel(req,res);
+});
 router.get('/test', (req, res) => {
 
 });

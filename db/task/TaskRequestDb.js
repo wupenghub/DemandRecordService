@@ -207,5 +207,19 @@ module.exports = {
                     bs.basic_model_code = 'task_label_model'
                 AND bs.basic_model_key = l.task_label_code
                `
-    }
+    },
+    addTaskLabel(taskId,taskLabelCode){
+        return `insert task_char set \`key\` = 'task_label',task_id = ${taskId},val = ${mysql.escape(taskLabelCode)}`;
+    },
+    removeTaskLabel(taskId,taskLabelCode){
+        return `
+                DELETE
+                FROM
+                    task_char
+                WHERE
+                    task_id = ${taskId}
+                AND \`KEY\` = 'task_label'
+                AND val = ${mysql.escape(taskLabelCode)}
+                `;
+    },
 };

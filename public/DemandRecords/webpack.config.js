@@ -31,8 +31,8 @@ module.exports = {
     module: { // 所有第三方 模块的配置规则
         rules: [ // 第三方匹配规则
             {test: /\.js|jsx$/, use: 'babel-loader', exclude: /node_modules/}, // 千万别忘记添加 exclude 排除项
-            {test: /\.css$/, use: [isDev?'style-loader':MiniCssExtractPlugin.loader, "css-loader"]},
-            {test: /\.scss$/, use: [isDev?'style-loader':MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']},
+            {test: /\.css$/, use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, "css-loader"]},
+            {test: /\.scss$/, use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']},
             {test: /\.vue$/, use: "vue-loader"},
             {
                 test: /\.(jpg|png|gif|bmp|jpeg|ttf|otf|eot|svg|woff|woff2)$/,

@@ -103,7 +103,8 @@
                 loading: true,
                 currentSelectModel: '',
                 taskDesc: '',
-                showEditor: false
+                showEditor: false,
+                taskCommentList: []
             }
         },
         created() {
@@ -120,7 +121,6 @@
                         taskId: this.taskId
                     }
                 }, data => {
-                    console.log(JSON.stringify(data, null, '   '));
                     this.requestData = false;
                     this.taskInfo = data.resultData.taskInfoList[0];
                     this.taskInfo.code = this.taskInfo.priority;
@@ -130,6 +130,7 @@
                     this.partInPers = data.resultData.partPerList;
                     this.taskPriorityList = data.resultData.taskPriorityList;
                     this.taskLabelList = data.resultData.taskLabelList;
+                    this.taskCommentList = data.resultData.taskCommentList;
                     this.taskPriorityList.forEach(item => {
                         item.code = item.priorityCode;
                         item.descr = item.priorityDesc;
@@ -139,6 +140,20 @@
                         item.code = item.labelCode;
                         item.descr = item.flg;
                     });
+                    //兼容addList方法
+                    this.taskCommentList.forEach(item => {
+                        item.parentCode = item.parentComment;
+                        item.menuCode = item.commentId;
+                    });
+                    this.taskCommentList.forEach(item => utils.addList(this.taskCommentList, item));
+                    var arr = [];
+                    this.taskCommentList.forEach(item => {
+                        if (!item.parentCode) {
+                            arr.push(item);
+                        }
+                    });
+                    this.taskCommentList = arr;
+                    console.log(JSON.stringify(this.taskCommentList,null,'   '));
                     document.querySelector('.show-desc').innerHTML = this.taskDesc;
                 }, error => {
                     this.requestData = false;

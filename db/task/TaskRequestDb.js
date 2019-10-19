@@ -130,7 +130,8 @@ module.exports = {
                             task_priority_l l
                         WHERE
                             l.task_priority_code = t.priority
-                    ) AS priorityDesc
+                    ) AS priorityDesc,
+                    t.task_desc as taskDesc
                 FROM
                     task t
                 WHERE
@@ -190,7 +191,7 @@ module.exports = {
     updateTaskPriority(taskId, priority) {
         return `UPDATE task t set t.priority = ${mysql.escape(priority)} where t.task_id = ${taskId}`;
     },
-    selectLabelList(){
+    selectLabelList() {
         return `
                 SELECT
                     l.task_label_code AS labelCode,
@@ -208,10 +209,10 @@ module.exports = {
                 AND bs.basic_model_key = l.task_label_code
                `
     },
-    addTaskLabel(taskId,taskLabelCode){
+    addTaskLabel(taskId, taskLabelCode) {
         return `insert task_char set \`key\` = 'task_label',task_id = ${taskId},val = ${mysql.escape(taskLabelCode)}`;
     },
-    removeTaskLabel(taskId,taskLabelCode){
+    removeTaskLabel(taskId, taskLabelCode) {
         return `
                 DELETE
                 FROM
@@ -222,4 +223,8 @@ module.exports = {
                 AND val = ${mysql.escape(taskLabelCode)}
                 `;
     },
+    updateTaskDesc(taskId, taskDesc) {
+        return `update task t set t.task_desc = ${mysql.escape(taskDesc)} where t.task_id = ${taskId};`;
+
+    }
 };

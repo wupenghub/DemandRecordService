@@ -54,7 +54,7 @@
             </div>
             <div class="task-desc">
                 <span class="desc">描述：</span>
-                <editor class="editor" v-show="showEditor" @getDesc="getDesc"></editor>
+                <editor :taskDesc="taskDesc" class="editor" v-show="showEditor" @getDesc="getDesc"></editor>
                 <span class="add-desc" @click="addDesc()" v-show="!taskDesc&&!showEditor">添加描述</span>
                 <div class="show-desc" @click="addDesc()" v-show="!showEditor">
                 </div>
@@ -91,7 +91,7 @@
                 labelList: [],
                 loading: true,
                 currentSelectModel: '',
-                taskDesc: '任务描述',
+                taskDesc: '',
                 showEditor: false
             }
         },
@@ -109,9 +109,11 @@
                         taskId: this.taskId
                     }
                 }, data => {
+                    console.log(JSON.stringify(data, null, '   '));
                     this.requestData = false;
                     this.taskInfo = data.resultData.taskInfoList[0];
                     this.taskInfo.code = this.taskInfo.priority;
+                    this.taskDesc = this.taskInfo.taskDesc;
                     this.renderPage(data);
                     this.taskLabels = data.resultData.taskLabelList;
                     this.partInPers = data.resultData.partPerList;
@@ -205,6 +207,17 @@
             saveDesc() {
                 document.querySelector('.show-desc').innerHTML = this.taskDesc;
                 this.showEditor = false;
+                utils.request(this, {
+                    url: '/updateTaskDesc',
+                    method: 'post',
+                    data: {
+                        taskId: this.taskId,
+                        taskDesc: this.taskDesc
+                    }
+                }, data => {
+
+                }, error => {
+                }, true);
             },
             getDesc(desc) {
                 this.taskDesc = desc;

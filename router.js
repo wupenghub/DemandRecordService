@@ -48,6 +48,9 @@ router.get('/selectLabelList',(req,res)=>{
 router.post('/updateTaskLabel',(req,res)=>{
     TaskRequest.updateTaskLabel(req,res);
 });
+router.post('/updateTaskDesc',(req,res)=>{
+    TaskRequest.updateTaskDesc(req,res);
+});
 router.get('/test', (req, res) => {
 
 });

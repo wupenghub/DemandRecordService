@@ -217,23 +217,38 @@ var TaskRequest = {
         } else if (type == 'add') {
             querySql = TaskRequestDb.addTaskLabel(taskId, taskLabelCode);
         }
-        console.log('updateTaskLabel:'+querySql);
-        DbUtils.queryData(querySql,data=>{
+        console.log('updateTaskLabel:' + querySql);
+        DbUtils.queryData(querySql, data => {
             querySql = TaskRequestDb.queryTaskLabel(taskId);
-            DbUtils.queryData(querySql,data=>{
+            DbUtils.queryData(querySql, data => {
                 res.json({
-                    code:0,
-                    returnData:data
+                    code: 0,
+                    returnData: data
                 });
-            },error=>{
+            }, error => {
                 res.json({
-                    code:-1
+                    code: -1
                 });
             });
 
-        },error=>{
+        }, error => {
             res.json({
-                code:-1
+                code: -1
+            });
+        })
+    },
+    updateTaskDesc(req, res) {
+        var taskId = req.body.taskId;
+        var taskDesc = req.body.taskDesc;
+        var querySql = TaskRequestDb.updateTaskDesc(taskId, taskDesc);
+        console.log('更新任务描述updateTaskDesc：'+querySql);
+        DbUtils.queryData(querySql, data => {
+            res.json({
+                code: 0
+            });
+        }, error => {
+            res.json({
+                code: -1
             });
         })
     }

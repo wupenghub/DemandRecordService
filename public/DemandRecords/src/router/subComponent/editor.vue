@@ -48,8 +48,12 @@
         watch: {
             'tinymceHtml': function (newDesc) {
                 this.$emit('getDesc', newDesc);
+            },
+            'taskDesc':function (newDesc) {
+                this.tinymceHtml = newDesc
             }
         },
-        components: {Editor}
+        components: {Editor},
+        props:['taskDesc']
     }
 </script>

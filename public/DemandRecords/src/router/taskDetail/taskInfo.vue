@@ -56,8 +56,9 @@
                 <span class="desc">描述：</span>
                 <editor :taskDesc="taskDesc" class="editor" v-show="showEditor" @getDesc="getDesc"></editor>
                 <span class="add-desc" @click="addDesc()" v-show="!taskDesc&&!showEditor">添加描述</span>
-                <div class="show-desc" @click="addDesc()" v-show="!showEditor">
+                <div class="show-desc" v-show="!showEditor">
                 </div>
+                <span class="edit-desc" @click="addDesc()" v-show="taskDesc&&!showEditor">编辑</span>
                 <div class="button-groups" v-show="showEditor">
                     <button class="save-desc" @click="saveDesc()">保存</button>
                     <span class="cancel" @click="cancel()">取消</span>
@@ -69,6 +70,9 @@
                     <i class="fa fa-commenting-o"></i>
                     评论
                 </span>
+                <div class="comment-list">
+                    <taskComment></taskComment>
+                </div>
             </div>
         </div>
     </div>
@@ -410,6 +414,11 @@
     .add-desc {
         color: #22d7bb;
         text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .edit-desc {
+        color: #22d7bb;
         cursor: pointer;
     }
 

@@ -226,5 +226,27 @@ module.exports = {
     updateTaskDesc(taskId, taskDesc) {
         return `update task t set t.task_desc = ${mysql.escape(taskDesc)} where t.task_id = ${taskId};`;
 
+    },
+    queryTaskComments(taskId) {
+        return `
+                SELECT
+                    tc.comment_id AS commentId,
+                    tc.comment_desc AS commentDesc,
+                    tc.create_per AS createPer,
+                    (
+                        SELECT
+                            u.nickname
+                        FROM
+                            sys_user u
+                        WHERE
+                            u.email = tc.create_per
+                    ) AS createName,
+                    tc.parent_comment AS parentComment
+                FROM
+                    task_comment tc
+                WHERE
+                    tc.task_id = ${taskId}
+                AND tc.del_flag = 0
+               `;
     }
 };

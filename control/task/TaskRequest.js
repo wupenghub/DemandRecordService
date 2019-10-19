@@ -150,10 +150,19 @@ var TaskRequest = {
                     querySql = TaskRequestDb.queryTaskLabel(req.query.taskId);
                     DbUtils.queryData(querySql, data => {
                         resultData.taskLabelList = data;
-                        res.json({
-                            code: 0,
-                            resultData
-                        })
+                        querySql = TaskRequestDb.queryTaskComments(req.query.taskId);
+                        DbUtils.queryData(querySql,data=>{
+                            resultData.taskCommentList = data;
+                            res.json({
+                                code: 0,
+                                resultData
+                            })
+                        },error=>{
+                            res.json({
+                                code: -1,
+                                resultData: error
+                            })
+                        });
                     }, error => {
                         res.json({
                             code: -1,
@@ -241,15 +250,12 @@ var TaskRequest = {
         var taskId = req.body.taskId;
         var taskDesc = req.body.taskDesc;
         var querySql = TaskRequestDb.updateTaskDesc(taskId, taskDesc);
-        console.log('更新任务描述updateTaskDesc：'+querySql);
         DbUtils.queryData(querySql, data => {
             res.json({
                 code: 0
             });
         }, error => {
-            res.json({
-                code: -1
-            });
+
         })
     }
 };

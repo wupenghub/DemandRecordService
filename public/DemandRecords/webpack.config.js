@@ -3,6 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');// 导入 在内存中�
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const progressBar = require('progress-bar-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 // 创建一个插件的实例对象
 const htmlPlugin = new HtmlWebPackPlugin({
     template: path.join(__dirname, './src/index.html'), // 源文件
@@ -26,7 +27,14 @@ module.exports = {
     plugins: [
         htmlPlugin,
         new VueLoaderPlugin(),
-        new progressBar()
+        new progressBar(),
+        new CopyWebpackPlugin([
+            {
+                from: path.resolve(__dirname, './static'),
+                to: 'static',
+                ignore: ['.*']
+            }
+        ])
     ],
     module: { // 所有第三方 模块的配置规则
         rules: [ // 第三方匹配规则

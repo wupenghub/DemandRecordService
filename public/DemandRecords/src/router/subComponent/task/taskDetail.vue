@@ -443,6 +443,7 @@
     }
 
     .detail-body {
+        padding-bottom: 70px;
         .detail-title {
             margin-bottom: 26px;
             .detail-title-content {

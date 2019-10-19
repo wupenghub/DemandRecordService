@@ -54,6 +54,15 @@
             </div>
             <div class="task-desc">
                 <span class="desc">描述：</span>
+                <editor class="editor" v-show="showEditor" @getDesc="getDesc"></editor>
+                <span class="add-desc" @click="addDesc()" v-show="!taskDesc&&!showEditor">添加描述</span>
+                <div class="show-desc" @click="addDesc()" v-show="!showEditor">
+                </div>
+                <div class="button-groups" v-show="showEditor">
+                    <button class="save-desc" @click="saveDesc()">保存</button>
+                    <span class="cancel" @click="cancel()">取消</span>
+                </div>
+
             </div>
         </div>
     </div>
@@ -64,6 +73,7 @@
     import loading from '../common/loading.vue';
     import utils from '../../utils/utils.js';
     import selectList from '../common/selectList.vue';
+    import editor from '../subComponent/editor.vue';
 
     export default {
         data() {
@@ -80,11 +90,15 @@
                 taskLabelList: [],
                 labelList: [],
                 loading: true,
-                currentSelectModel: ''
+                currentSelectModel: '',
+                taskDesc: '任务描述',
+                showEditor: false
             }
         },
         created() {
             this.getData();
+        },
+        mounted() {
         },
         methods: {
             getData() {
@@ -112,6 +126,7 @@
                         item.code = item.labelCode;
                         item.descr = item.flg;
                     });
+                    document.querySelector('.show-desc').innerHTML = this.taskDesc;
                 }, error => {
                     this.requestData = false;
                 }, true);
@@ -183,10 +198,23 @@
                         this.loading = false;
                     }, true);
                 }
+            },
+            cancel() {
+                this.showEditor = false;
+            },
+            saveDesc() {
+                document.querySelector('.show-desc').innerHTML = this.taskDesc;
+                this.showEditor = false;
+            },
+            getDesc(desc) {
+                this.taskDesc = desc;
+            },
+            addDesc() {
+                this.showEditor = true;
             }
         },
         components: {
-            loading, selectList
+            loading, selectList, editor
         },
         props: ['taskId']
     }
@@ -314,6 +342,37 @@
         }
     }
 
+    .button-groups {
+        height: 28px;
+        line-height: 28px;
+        margin-top: 10px;
+        .cancel {
+            display: inline-block;
+            cursor: pointer;
+            color: #aaa;
+            height: 28px;
+            line-height: 28px;
+            margin-right: 5px;
+            text-align: center;
+        }
+        .cancel:hover {
+            color: #22d7bb;
+        }
+        .save-desc {
+            width: 70px;
+            height: 28px;
+            background-color: #22d7bb;
+            border: none;
+            line-height: 28px;
+            border-radius: 14px;
+            color: white;
+            margin: 0 !important;
+            padding: 0 !important;
+            outline: none;
+            cursor: pointer;
+        }
+    }
+
     .icon {
         color: #22d7bb;
         font-size: 18px;
@@ -322,6 +381,16 @@
 
     .label-icon {
         margin-right: 5px;
+    }
+
+    .editor {
+        /*margin-top: 10px;*/
+    }
+
+    .add-desc {
+        color: #22d7bb;
+        text-decoration: underline;
+        cursor: pointer;
     }
 
 </style>

@@ -7,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Vuex from 'vuex';
 import request from './utils/Http.js';
 import moment from './lib/moment.min.js';
-
+import editor from './router/subComponent/editor.vue';
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(Vuex);
@@ -72,5 +72,5 @@ var vue = new Vue({
     router,
     store,
     render: DemandRecorde => DemandRecorde(appVue)
-    // render: DemandRecorde => DemandRecorde(hello)
+    // render: DemandRecorde => DemandRecorde(editor)
 });

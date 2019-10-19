@@ -62,7 +62,13 @@
                     <button class="save-desc" @click="saveDesc()">保存</button>
                     <span class="cancel" @click="cancel()">取消</span>
                 </div>
-
+            </div>
+            <span class="divider"></span>
+            <div class="comments">
+                <span class="comments-header">
+                    <i class="fa fa-commenting-o"></i>
+                    评论
+                </span>
             </div>
         </div>
     </div>
@@ -74,6 +80,7 @@
     import utils from '../../utils/utils.js';
     import selectList from '../common/selectList.vue';
     import editor from '../subComponent/editor.vue';
+    import taskComment from '../comments/taskComment.vue';
 
     export default {
         data() {
@@ -227,7 +234,7 @@
             }
         },
         components: {
-            loading, selectList, editor
+            loading, selectList, editor, taskComment
         },
         props: ['taskId']
     }
@@ -406,4 +413,17 @@
         cursor: pointer;
     }
 
+    .divider {
+        margin-top: 30px;
+        display: block;
+        width: 100%;
+        height: 1px;
+        background: #cccccc;
+    }
+
+    .comments {
+        .comments-header {
+            color: #22d7bb;
+        }
+    }
 </style>

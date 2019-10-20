@@ -361,6 +361,7 @@
                         currentUser: '565784355@qq.com'
                     },
                 }, data => {
+                    this.comments = '';
                     this.showCommentText = true;
                     this.$store.commit('updateTaskCommentList', data.returnData);
                     //兼容addList方法
@@ -376,10 +377,10 @@
                             arr.push(item);
                         }
                     });
-                    console.log(JSON.stringify(this.$store.state.taskCommentList, null, '  '));
                     this.$store.commit('updateTaskCommentList', arr);
                 }, error => {
                     this.showCommentText = true;
+                    this.comments = '';
                 }, false);
             }
         },

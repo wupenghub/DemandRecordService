@@ -476,7 +476,7 @@
             span.non-commment {
                 font-size: 48px;
             }
-            div.non-commment-desc{
+            div.non-commment-desc {
                 font-size: 18px;
                 color: #cccccc;
             }

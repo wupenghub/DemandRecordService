@@ -94,7 +94,8 @@
                 </div>
                 <div class="box">
                     <taskInfo v-if="currentTab&&currentTab.componentName == 'taskInfo'"
-                              :taskId="$store.state.chooseTask&&$store.state.chooseTask.taskId"></taskInfo>
+                              :taskId="$store.state.chooseTask&&$store.state.chooseTask.taskId"
+                              @sendComment="sendComment"></taskInfo>
                     <sonTask v-if="currentTab&&currentTab.componentName == 'sonTask'"></sonTask>
                     <connectTask v-if="currentTab&&currentTab.componentName == 'connectTask'"></connectTask>
                     <file v-if="currentTab&&currentTab.componentName == 'file'"></file>
@@ -120,7 +121,7 @@
                                 </ul>
                                 <div class="button-groups">
                                     <span class="send-cancel" @click="cancelSend()">取消</span>
-                                    <button class="send-msg">发送</button>
+                                    <button class="send-msg" @click="saveComment()">发送</button>
                                 </div>
                             </div>
                         </div>
@@ -160,6 +161,7 @@
                 taskStateList: [],
                 currentComponentName: '',
                 allComponents: [],
+                commentId: null,
                 tabs: [
                     {
                         id: 1,
@@ -305,6 +307,11 @@
                         item.selectTabStyle = '';
                     }
                 });
+            },
+            'showCommentText': function (newval) {
+                if (newval) {
+                    this.commentId = null;
+                }
             }
         },
         methods: {
@@ -337,6 +344,43 @@
             },
             chooseTab(tab) {
                 this.currentTab = tab;
+            },
+            //保存评论
+            sendComment(commentId) {
+                this.commentId = commentId;
+                this.showCommentText = false;
+            },
+            saveComment() {
+                utils.request(this, {
+                    url: '/saveComment',
+                    method: 'post',
+                    data: {
+                        taskId: this.$store.state.chooseTask.taskId,
+                        commentId: this.commentId,
+                        comments: this.comments,
+                        currentUser: '565784355@qq.com'
+                    },
+                }, data => {
+                    this.showCommentText = true;
+                    this.$store.commit('updateTaskCommentList', data.returnData);
+                    //兼容addList方法
+                    this.$store.state.taskCommentList.forEach(item => {
+                        item.parentCode = item.parentComment;
+                        item.menuCode = item.commentId;
+                        item.showCommentTime = moment(item.createDate).format('MM月DD日 HH:mm');
+                    });
+                    this.$store.state.taskCommentList.forEach(item => utils.addList(this.$store.state.taskCommentList, item));
+                    var arr = [];
+                    this.$store.state.taskCommentList.forEach(item => {
+                        if (!item.parentCode) {
+                            arr.push(item);
+                        }
+                    });
+                    console.log(JSON.stringify(this.$store.state.taskCommentList, null, '  '));
+                    this.$store.commit('updateTaskCommentList', arr);
+                }, error => {
+                    this.showCommentText = true;
+                }, false);
             }
         },
         components: {

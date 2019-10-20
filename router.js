@@ -51,6 +51,9 @@ router.post('/updateTaskLabel',(req,res)=>{
 router.post('/updateTaskDesc',(req,res)=>{
     TaskRequest.updateTaskDesc(req,res);
 });
+router.post('/saveComment',(req,res)=>{
+    TaskRequest.saveComment(req,res);
+});
 router.get('/test', (req, res) => {
 
 });

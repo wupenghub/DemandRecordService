@@ -235,19 +235,58 @@ module.exports = {
                     tc.create_per AS createPer,
                     (
                         SELECT
+                            CASE
+                        WHEN u.nickname IS NULL THEN
+                            u.email
+                        ELSE
                             u.nickname
+                        END
                         FROM
                             sys_user u
                         WHERE
                             u.email = tc.create_per
                     ) AS createName,
                     tc.parent_comment AS parentComment,
-                    tc.create_date as createDate
+                    tc.create_date AS createDate,
+                    (
+                        SELECT
+                            CASE
+                        WHEN u.nickname IS NULL THEN
+                            u.email
+                        ELSE
+                            u.nickname
+                        END
+                        FROM
+                            sys_user u
+                        WHERE
+                            u.email = (
+                                SELECT
+                                    t1.create_per
+                                FROM
+                                    task_comment t1
+                                WHERE
+                                    t1.comment_id = tc.parent_comment
+                            )
+                    ) as parentCommentName
                 FROM
                     task_comment tc
                 WHERE
                     tc.task_id = ${taskId}
                 AND tc.del_flag = 0
+                order by tc.create_date
                `;
+    },
+    saveComment(parentComment, comments, taskId, currentUser) {
+        var querySql = `
+                         INSERT INTO task_comment
+                        SET create_per = ${mysql.escape(currentUser)},
+                         create_date = sysdate(),
+                         comment_desc = ${mysql.escape(comments)},
+                         task_id = ${taskId}
+                        `;
+        if (parentComment) {
+            querySql += `,parent_comment=${parentComment}`;
+        }
+        return querySql;
     }
 };

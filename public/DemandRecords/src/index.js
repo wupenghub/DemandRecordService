@@ -8,6 +8,7 @@ import Vuex from 'vuex';
 import request from './utils/Http.js';
 import moment from './lib/moment.min.js';
 import editor from './router/subComponent/editor.vue';
+
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(Vuex);
@@ -33,7 +34,8 @@ const store = new Vuex.Store({
             "menuCode": "myTask",
             "open": true
         },
-        chooseTask: {}
+        chooseTask: {},
+        taskCommentList: []
     },
     mutations: {
         updateSideInfo(state, sideTitleObj) {
@@ -54,6 +56,9 @@ const store = new Vuex.Store({
         updateSelectTaskDetail(state, selectTaskDetail) {
             state.chooseTask = selectTaskDetail;
 
+        },
+        updateTaskCommentList(state,taskCommentList) {
+            state.taskCommentList = taskCommentList
         }
     }
 });

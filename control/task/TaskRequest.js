@@ -151,13 +151,13 @@ var TaskRequest = {
                     DbUtils.queryData(querySql, data => {
                         resultData.taskLabelList = data;
                         querySql = TaskRequestDb.queryTaskComments(req.query.taskId);
-                        DbUtils.queryData(querySql,data=>{
+                        DbUtils.queryData(querySql, data => {
                             resultData.taskCommentList = data;
                             res.json({
                                 code: 0,
                                 resultData
                             })
-                        },error=>{
+                        }, error => {
                             res.json({
                                 code: -1,
                                 resultData: error
@@ -256,6 +256,33 @@ var TaskRequest = {
             });
         }, error => {
 
+        })
+    },
+    saveComment(req, res) {
+        var parentComment = req.body.commentId;
+        var comments = req.body.comments;
+        var taskId = req.body.taskId;
+        var currentUser = req.body.currentUser;
+        var querySql = TaskRequestDb.saveComment(parentComment, comments, taskId, currentUser);
+        console.log('保存评论saveComment：' + querySql);
+        DbUtils.queryData(querySql, data => {
+            querySql = TaskRequestDb.queryTaskComments(taskId);
+            console.log('查询评论：' + querySql);
+            DbUtils.queryData(querySql, data => {
+                res.json({
+                    code: 0,
+                    returnData: data
+                });
+            }, error => {
+                res.json({
+                    code: -1
+                });
+            });
+
+        }, error => {
+            res.json({
+                code: -1
+            });
         })
     }
 };

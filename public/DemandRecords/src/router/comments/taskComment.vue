@@ -6,6 +6,8 @@
                 <div class="comment-content clearfix" v-if="comment.commentDesc">
                     <div class="comment-title">
                         <span class="comment-name">{{comment.createName}}</span>
+                        <span class="parent-comment-name"
+                              v-if="comment.parentCommentName">回复{{comment.parentCommentName}}</span>
                         <span class="comment-time">{{comment.showCommentTime}}</span>
                     </div>
                     <div class="comment-desc-box">
@@ -14,8 +16,16 @@
                     </span>
                     </div>
                 </div>
+                <el-tooltip effect="dark" content="删除" :open-delay=500>
+                    <span class="delete fa fa-trash-o" @click="deleteComment(comment.commentId)"></span>
+                </el-tooltip>
+                <el-tooltip effect="dark" content="回复" :open-delay=500>
+                    <span class="reply fa fa-share" @click="replyComment(comment.commentId)"></span>
+                </el-tooltip>
+
             </div>
-            <taskComment v-if="comment.sonList" :taskCommentList="comment.sonList"></taskComment>
+            <taskComment @deleteComment="sonDeleteComment" @replyComment="sonReplyComment" v-if="comment.sonList"
+                         :taskCommentList="comment.sonList"></taskComment>
         </div>
     </div>
 
@@ -37,7 +47,21 @@
         },
         watch: {
             'taskCommentList': function (newval) {
-                console.log(JSON.stringify(newval, null, '  '));
+//                console.log(JSON.stringify(newval,null,'  '));
+            }
+        },
+        methods: {
+            deleteComment(commentId) {
+                this.$emit('deleteComment', commentId);
+            },
+            replyComment(commentId) {
+                this.$emit('replyComment', commentId);
+            },
+            sonDeleteComment(commentId) {
+                this.$emit('deleteComment', commentId);
+            },
+            sonReplyComment(commentId) {
+                this.$emit('replyComment', commentId);
             }
         }
     }
@@ -74,6 +98,27 @@
             .comment-time {
                 color: rgb(170, 170, 170);
                 font-size: 12px;
+            }
+            .parent-comment-name {
+                /*color: #cccccc;*/
+                font-size: 12px;
+            }
+            .reply {
+                float: right;
+                color: #cccccc;
+                cursor: pointer;
+                margin-right: 15px;
+            }
+            .reply:hover {
+                color: #22d7bb;
+            }
+            .delete {
+                float: right;
+                cursor: pointer;
+                color: #cccccc;
+            }
+            .delete:hover {
+                color: red;
             }
         }
     }

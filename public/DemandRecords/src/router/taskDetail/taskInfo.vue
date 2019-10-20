@@ -71,7 +71,8 @@
                     评论
                 </span>
                 <div class="comment-list">
-                    <taskComment class="comment-item" :taskCommentList="taskCommentList"></taskComment>
+                    <taskComment class="comment-item" @replyComment="replyComment" @deleteComment="deleteComment"
+                                 :taskCommentList="$store.state.taskCommentList"></taskComment>
                 </div>
             </div>
         </div>
@@ -131,7 +132,8 @@
                     this.partInPers = data.resultData.partPerList;
                     this.taskPriorityList = data.resultData.taskPriorityList;
                     this.taskLabelList = data.resultData.taskLabelList;
-                    this.taskCommentList = data.resultData.taskCommentList;
+//                    this.taskCommentList = data.resultData.taskCommentList;
+                    this.$store.commit('updateTaskCommentList', data.resultData.taskCommentList);
                     this.taskPriorityList.forEach(item => {
                         item.code = item.priorityCode;
                         item.descr = item.priorityDesc;
@@ -142,22 +144,20 @@
                         item.descr = item.flg;
                     });
                     //兼容addList方法
-                    this.taskCommentList.forEach(item => {
+                    this.$store.state.taskCommentList.forEach(item => {
                         item.parentCode = item.parentComment;
                         item.menuCode = item.commentId;
-                        item.showCommentTime = moment(item.createDate).format('MM月DD日 mm:ss');
+                        item.showCommentTime = moment(item.createDate).format('MM月DD日 HH:mm');
                     });
-                    this.taskCommentList.forEach(item => utils.addList(this.taskCommentList, item));
+                    this.$store.state.taskCommentList.forEach(item => utils.addList(this.$store.state.taskCommentList, item));
                     var arr = [];
-                    this.taskCommentList.forEach(item => {
+                    this.$store.state.taskCommentList.forEach(item => {
                         if (!item.parentCode) {
                             arr.push(item);
                         }
                     });
-
-                    this.taskCommentList = arr;
+                    this.$store.commit('updateTaskCommentList', arr);
                     document.querySelector('.show-desc').innerHTML = this.taskDesc;
-                    console.log(JSON.stringify(this.taskCommentList, null, '  '));
 
                 }, error => {
                     this.requestData = false;
@@ -199,7 +199,6 @@
                             taskLabelCode: item.code
                         },
                     }, data => {
-                        console.log(JSON.stringify(data, null, '  '));
                         this.taskLabels = data.returnData;
                         this.taskLabels.forEach(item => {
                             item.code = item.labelCode;
@@ -254,6 +253,11 @@
             },
             addDesc() {
                 this.showEditor = true;
+            },
+            replyComment(commentId) {
+                this.$emit('sendComment', commentId);
+            },
+            deleteComment(commentId) {
             }
         },
         components: {

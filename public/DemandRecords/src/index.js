@@ -35,7 +35,7 @@ const store = new Vuex.Store({
             "open": true
         },
         chooseTask: {},
-        taskCommentList: []
+        taskCommentList: null
     },
     mutations: {
         updateSideInfo(state, sideTitleObj) {
@@ -57,7 +57,7 @@ const store = new Vuex.Store({
             state.chooseTask = selectTaskDetail;
 
         },
-        updateTaskCommentList(state,taskCommentList) {
+        updateTaskCommentList(state, taskCommentList) {
             state.taskCommentList = taskCommentList
         }
     }

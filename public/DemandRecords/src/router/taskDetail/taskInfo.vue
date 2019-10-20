@@ -71,8 +71,15 @@
                     评论
                 </span>
                 <div class="comment-list">
-                    <taskComment class="comment-item" @replyComment="replyComment" @deleteComment="deleteComment"
+                    <taskComment v-if="$store.state.taskCommentList&&$store.state.taskCommentList.length>0"
+                                 class="comment-item" @replyComment="replyComment"
+                                 @deleteComment="deleteComment"
                                  :taskCommentList="$store.state.taskCommentList" :level="'outter'"></taskComment>
+                    <div class="non-comment-list"
+                         v-if="!$store.state.taskCommentList||$store.state.taskCommentList.length==0">
+                        <span class="non-commment fa fa-edit (alias)"></span>
+                        <div class="non-commment-desc">暂无评论</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -459,6 +466,21 @@
         padding: 0 20px;
         .comments-header {
             color: #22d7bb;
+        }
+        .non-comment-list {
+            height: 96px;
+            display: block;
+            text-align: center;
+            color: #eeeeee;
+            line-height: 30px;
+            span.non-commment {
+                font-size: 48px;
+            }
+            div.non-commment-desc{
+                font-size: 18px;
+                color: #cccccc;
+            }
+
         }
     }
 </style>

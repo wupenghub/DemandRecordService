@@ -66,7 +66,6 @@
 <style scoped lang="scss">
     .comments {
         .comment {
-            padding-bottom: 5px;
             .comment-per {
                 display: inline-block;
                 width: 30px;
@@ -122,5 +121,6 @@
         display: block;
         height: 1px;
         background-color: #cccccc;
+        margin-bottom: 15px;
     }
 </style>

@@ -241,7 +241,8 @@ module.exports = {
                         WHERE
                             u.email = tc.create_per
                     ) AS createName,
-                    tc.parent_comment AS parentComment
+                    tc.parent_comment AS parentComment,
+                    tc.create_date as createDate
                 FROM
                     task_comment tc
                 WHERE

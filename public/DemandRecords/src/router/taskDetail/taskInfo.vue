@@ -71,7 +71,7 @@
                     评论
                 </span>
                 <div class="comment-list">
-                    <taskComment></taskComment>
+                    <taskComment class="comment-item" :taskCommentList="taskCommentList"></taskComment>
                 </div>
             </div>
         </div>
@@ -85,6 +85,7 @@
     import selectList from '../common/selectList.vue';
     import editor from '../subComponent/editor.vue';
     import taskComment from '../comments/taskComment.vue';
+    import moment from '../../lib/moment.min.js';
 
     export default {
         data() {
@@ -144,6 +145,7 @@
                     this.taskCommentList.forEach(item => {
                         item.parentCode = item.parentComment;
                         item.menuCode = item.commentId;
+                        item.showCommentTime = moment(item.createDate).format('MM月DD日 mm:ss');
                     });
                     this.taskCommentList.forEach(item => utils.addList(this.taskCommentList, item));
                     var arr = [];
@@ -152,9 +154,11 @@
                             arr.push(item);
                         }
                     });
+
                     this.taskCommentList = arr;
-                    console.log(JSON.stringify(this.taskCommentList,null,'   '));
                     document.querySelector('.show-desc').innerHTML = this.taskDesc;
+                    console.log(JSON.stringify(this.taskCommentList, null, '  '));
+
                 }, error => {
                     this.requestData = false;
                 }, true);
@@ -356,6 +360,7 @@
                     text-align: center;
                     float: left;
                     margin-right: 5px;
+                    overflow: hidden;
                 }
                 .add-per {
                     display: inline-block;
@@ -446,6 +451,7 @@
     }
 
     .comments {
+        padding: 0 20px;
         .comments-header {
             color: #22d7bb;
         }

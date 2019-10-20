@@ -1,7 +1,7 @@
 <template>
     <div class="comments">
         <div class="comment clearfix" v-for="comment in taskCommentList">
-            <div :class="['clearfix',comment.sonList?'comment-none-border':'comment-boder']">
+            <div class="clearfix">
                 <span class="comment-per">{{comment.createName}}</span>
                 <div class="comment-content clearfix" v-if="comment.commentDesc">
                     <div class="comment-title">
@@ -24,8 +24,9 @@
                 </el-tooltip>
 
             </div>
-            <taskComment @deleteComment="sonDeleteComment" @replyComment="sonReplyComment" v-if="comment.sonList"
+            <taskComment :level="'inner'" @deleteComment="sonDeleteComment" @replyComment="sonReplyComment" v-if="comment.sonList"
                          :taskCommentList="comment.sonList"></taskComment>
+            <span class="end" v-if="level=='outter'"></span>
         </div>
     </div>
 
@@ -41,14 +42,9 @@
         },
         created() {
         },
-        props: ['taskCommentList'],
+        props: ['taskCommentList', 'level'],
         components: {
             taskComment
-        },
-        watch: {
-            'taskCommentList': function (newval) {
-//                console.log(JSON.stringify(newval,null,'  '));
-            }
         },
         methods: {
             deleteComment(commentId) {
@@ -100,7 +96,6 @@
                 font-size: 12px;
             }
             .parent-comment-name {
-                /*color: #cccccc;*/
                 font-size: 12px;
             }
             .reply {
@@ -123,11 +118,9 @@
         }
     }
 
-    .comment-boder {
-        border-bottom: 1px solid #ccc;
-    }
-
-    .comment-none-border {
-        border-bottom: none;
+    .end {
+        display: block;
+        height: 1px;
+        background-color: #cccccc;
     }
 </style>

@@ -72,7 +72,7 @@
                 </span>
                 <div class="comment-list">
                     <taskComment class="comment-item" @replyComment="replyComment" @deleteComment="deleteComment"
-                                 :taskCommentList="$store.state.taskCommentList"></taskComment>
+                                 :taskCommentList="$store.state.taskCommentList" :level="'outter'"></taskComment>
                 </div>
             </div>
         </div>
@@ -158,6 +158,7 @@
                     });
                     this.$store.commit('updateTaskCommentList', arr);
                     document.querySelector('.show-desc').innerHTML = this.taskDesc;
+                    console.log(JSON.stringify(this.$store.state.taskCommentList, null, '  '));
 
                 }, error => {
                     this.requestData = false;

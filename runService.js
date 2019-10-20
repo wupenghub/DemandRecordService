@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 app.engine('html', require('express-art-template'));
-app.set('views', './views');
+app.set('views', './public/DemandRecords/dist');
 app.disable('view cache');
 app.use(cookieParser());
 app.use(session({
@@ -29,7 +29,7 @@ app.all('*', function (req, res, next) {
     next();
 });
 app.use(router);
-app.use('/public/', express.static('./public/'));
+app.use('/public',express.static('./public/DemandRecords/dist'));
 app.use('/node_modules/', express.static('./node_modules/'));
 app.use('/uploads/', express.static('./uploads/'));
 app.listen(5000, function () {

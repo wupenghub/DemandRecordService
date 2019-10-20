@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var DbUtils = require('./DbUtils');
 var mail = require('./util/mail');
 var md5 = require('md5-node');
 var uuid = require('node-uuid');
@@ -12,8 +11,9 @@ var fs = require('fs');
 var path = require('path');
 var MenuRequest = require('./control/MenuRequest.js');
 var TaskRequest = require('./control/task/TaskRequest.js');
-router.get('/', (req, res) => {
-    res.redirect('/public/DemandRecords/dist/');
+router.get('/public', (req, res) => {
+    res.type('html')
+    res.render('index.html');
 });
 router.get('/menus', (req, res) => {
     MenuRequest.menusQuery(req, res);
@@ -42,17 +42,17 @@ router.get('/selectTaskInfo', (req, res) => {
 router.post('/updateTaskPriority', (req, res) => {
     TaskRequest.updateTaskPriority(req, res);
 });
-router.get('/selectLabelList',(req,res)=>{
-    TaskRequest.selectLabelList(req,res);
+router.get('/selectLabelList', (req, res) => {
+    TaskRequest.selectLabelList(req, res);
 });
-router.post('/updateTaskLabel',(req,res)=>{
-    TaskRequest.updateTaskLabel(req,res);
+router.post('/updateTaskLabel', (req, res) => {
+    TaskRequest.updateTaskLabel(req, res);
 });
-router.post('/updateTaskDesc',(req,res)=>{
-    TaskRequest.updateTaskDesc(req,res);
+router.post('/updateTaskDesc', (req, res) => {
+    TaskRequest.updateTaskDesc(req, res);
 });
-router.post('/saveComment',(req,res)=>{
-    TaskRequest.saveComment(req,res);
+router.post('/saveComment', (req, res) => {
+    TaskRequest.saveComment(req, res);
 });
 router.get('/test', (req, res) => {
 

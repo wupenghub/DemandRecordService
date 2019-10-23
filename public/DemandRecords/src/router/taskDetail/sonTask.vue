@@ -2,9 +2,11 @@
     <div class="son-task">
         <loading v-show="requestData" class="load"></loading>
         <div class="son-task-info">
-            <div class="non-task-list" v-if="!this.sonTaskList || this.sonTaskList.length == 0">
+            <div class="task-list" v-if="!this.sonTaskList || this.sonTaskList.length == 0">
                 <span><i class="el-icon-plus add-son-task-icon"></i>新建子任务</span>
             </div>
+            <comments @replyComment="replyComment"
+                      @deleteComment="deleteComment"></comments>
         </div>
     </div>
 
@@ -13,7 +15,7 @@
 <script>
     import loading from '../common/loading.vue';
     import utils from '../../utils/utils.js';
-
+    import comments from '../comments/comments.vue';
     export default {
         data() {
             return {
@@ -38,7 +40,14 @@
         },
         props: ['taskId'],
         components: {
-            loading
+            loading,comments
+        },
+        methods:{
+            replyComment(commentId) {
+                this.$emit('sendComment', commentId);
+            },
+            deleteComment(commentId) {
+            }
         }
     }
 </script>
@@ -49,7 +58,7 @@
             margin-top: 10px;
         }
         .son-task-info {
-            .non-task-list {
+            .task-list {
                 padding-left: 30px;
                 height: 46px;
                 margin-bottom: 26px;

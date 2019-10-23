@@ -143,6 +143,48 @@ module.exports = {
                     t.task_id = ${taskId}
                 `;
     },
+    selectSonTaskInfo(parentTask) {
+        return `
+                   SELECT
+                    t.progress_state AS proCode,
+                    (
+                        SELECT
+                            l.task_progress_state_desc AS proDesc
+                        FROM
+                            task_progress_state_l l
+                        WHERE
+                            l.task_progress_state_code = t.progress_state
+                    ) AS proDesc,
+                    (
+                        SELECT
+                            l.icon
+                        FROM
+                            task_progress_state_l l
+                        WHERE
+                            l.task_progress_state_code = t.progress_state
+                    ) AS icon,
+                    (
+                        SELECT
+                            l.font_color
+                        FROM
+                            task_progress_state_l l
+                        WHERE
+                            l.task_progress_state_code = t.progress_state
+                    ) AS fontColor,
+                    (
+                        SELECT
+                            l.bg_color
+                        FROM
+                            task_progress_state_l l
+                        WHERE
+                            l.task_progress_state_code = t.progress_state
+                    ) AS bgColor
+                FROM
+                    task t
+                WHERE
+                    t.parent_task = ${parentTask}
+                `;
+    },
     queryTaskPriority() {
         return `
                 SELECT

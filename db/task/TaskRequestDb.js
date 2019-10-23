@@ -68,7 +68,12 @@ module.exports = {
                         INSERT INTO task
                         SET task_id = (
                             SELECT
+                                CASE
+                            WHEN (max(t.task_id) IS NULL) THEN
+                                1
+                            ELSE
                                 max(t.task_id) + 1
+                            END
                             FROM
                                 task t
                             WHERE

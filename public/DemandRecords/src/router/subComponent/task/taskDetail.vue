@@ -104,12 +104,13 @@
                 <div :class="['comment-body',!showCommentText?'show-animation':'hide-animation']">
                     <span :class="['charge-man']">{{this.$store.state.chooseTask && this.$store.state.chooseTask.nickName}}</span>
                     <div class="comment-body-content">
-                        <input v-model="comments" v-show="showCommentText" @click="showComment(this)" type="text"
+                        <input v-model="comments" v-show="showCommentText" @keydown="perSaveComment($event)"
+                               @click="showComment(this)" type="text"
                                class="show-text"
                                placeholder="评论内容，文字上限2000（Ctrl+Enter发送）"/>
                         <div :class="['comment-content']"
                              v-show="!showCommentText">
-                            <textarea v-model="comments" autofocus maxlength="2000" class="show-text-area"
+                            <textarea v-model="comments" autofocus maxlength="2000" class="show-text-area" @keydown="perSaveComment($event)"
                                       placeholder="评论内容，文字上限2000（Ctrl+Enter发送）">
                             </textarea>
                             <div class="divider"></div>
@@ -350,38 +351,49 @@
                 this.commentId = commentId;
                 this.showCommentText = false;
             },
+            perSaveComment(e) {
+                var keyCode = e.keyCode || e.which || e.charCode;
+                if (e.keyCode == 13 && e.ctrlKey) {
+                    this.saveComment();
+                    e.preventDefault();
+                }
+            },
             saveComment() {
-                utils.request(this, {
-                    url: '/saveComment',
-                    method: 'post',
-                    data: {
-                        taskId: this.$store.state.chooseTask.taskId,
-                        commentId: this.commentId,
-                        comments: this.comments,
-                        currentUser: '565784355@qq.com'
-                    },
-                }, data => {
-                    this.comments = '';
-                    this.showCommentText = true;
-                    this.$store.commit('updateTaskCommentList', data.returnData);
-                    //兼容addList方法
-                    this.$store.state.taskCommentList.forEach(item => {
-                        item.parentCode = item.parentComment;
-                        item.menuCode = item.commentId;
-                        item.showCommentTime = moment(item.createDate).format('MM月DD日 HH:mm');
-                    });
-                    this.$store.state.taskCommentList.forEach(item => utils.addList(this.$store.state.taskCommentList, item));
-                    var arr = [];
-                    this.$store.state.taskCommentList.forEach(item => {
-                        if (!item.parentCode) {
-                            arr.push(item);
-                        }
-                    });
-                    this.$store.commit('updateTaskCommentList', arr);
-                }, error => {
-                    this.showCommentText = true;
-                    this.comments = '';
-                }, false);
+                if(this.comments&&this.comments.trim()) {
+                    utils.request(this, {
+                        url: '/saveComment',
+                        method: 'post',
+                        data: {
+                            taskId: this.$store.state.chooseTask.taskId,
+                            commentId: this.commentId,
+                            comments: this.comments,
+                            currentUser: '565784355@qq.com'
+                        },
+                    }, data => {
+                        this.comments = '';
+                        this.showCommentText = true;
+                        this.$store.commit('updateTaskCommentList', data.returnData);
+                        //兼容addList方法
+                        this.$store.state.taskCommentList.forEach(item => {
+                            item.parentCode = item.parentComment;
+                            item.menuCode = item.commentId;
+                            item.showCommentTime = moment(item.createDate).format('MM月DD日 HH:mm');
+                        });
+                        this.$store.state.taskCommentList.forEach(item => utils.addList(this.$store.state.taskCommentList, item));
+                        var arr = [];
+                        this.$store.state.taskCommentList.forEach(item => {
+                            if (!item.parentCode) {
+                                arr.push(item);
+                            }
+                        });
+                        this.$store.commit('updateTaskCommentList', arr);
+                    }, error => {
+                        this.showCommentText = true;
+                        this.comments = '';
+                    }, false);
+                }else{
+                    alert('您还未输入评论哦');
+                }
             }
         },
         components: {

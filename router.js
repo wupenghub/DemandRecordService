@@ -54,6 +54,9 @@ router.post('/updateTaskDesc', (req, res) => {
 router.post('/saveComment', (req, res) => {
     TaskRequest.saveComment(req, res);
 });
+router.get('/selectSonTaskInfo', (req, res) => {
+    TaskRequest.selectSonTaskInfo(req, res);
+});
 router.get('/test', (req, res) => {
 
 });

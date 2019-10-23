@@ -188,6 +188,21 @@ var TaskRequest = {
             })
         });
     },
+    selectSonTaskInfo(req, res) {
+        var parendTaskId = req.query.parentTaskId;
+        var querySql = TaskRequestDb.selectSonTaskInfo(parendTaskId);
+        DbUtils.queryData(querySql, data => {
+            res.json({
+                code: 0,
+                returnData: data
+            });
+        }, error => {
+            res.json({
+                code: -1,
+                returnData: error
+            });
+        })
+    },
     updateTaskPriority(req, res) {
         var taskId = req.body.taskId;
         var priority = req.body.priority;

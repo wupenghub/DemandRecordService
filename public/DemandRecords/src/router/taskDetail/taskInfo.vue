@@ -64,24 +64,9 @@
                     <span class="cancel" @click="cancel()">取消</span>
                 </div>
             </div>
-            <span class="divider"></span>
-            <div class="comments">
-                <span class="comments-header">
-                    <i class="fa fa-commenting-o"></i>
-                    评论
-                </span>
-                <div class="comment-list">
-                    <taskComment v-if="$store.state.taskCommentList&&$store.state.taskCommentList.length>0"
-                                 class="comment-item" @replyComment="replyComment"
-                                 @deleteComment="deleteComment"
-                                 :taskCommentList="$store.state.taskCommentList" :level="'outter'"></taskComment>
-                    <div class="non-comment-list"
-                         v-if="!$store.state.taskCommentList||$store.state.taskCommentList.length==0">
-                        <span class="non-commment fa fa-edit (alias)"></span>
-                        <div class="non-commment-desc">暂无评论</div>
-                    </div>
-                </div>
-            </div>
+            <!--<span class="divider"></span>-->
+            <comments @replyComment="replyComment"
+                      @deleteComment="deleteComment"></comments>
         </div>
     </div>
 
@@ -92,7 +77,8 @@
     import utils from '../../utils/utils.js';
     import selectList from '../common/selectList.vue';
     import editor from '../subComponent/editor.vue';
-    import taskComment from '../comments/taskComment.vue';
+    // import taskComment from '../comments/taskComment.vue';
+    import comments from '../comments/comments.vue';
     import moment from '../../lib/moment.min.js';
 
     export default {
@@ -139,7 +125,6 @@
                     this.partInPers = data.resultData.partPerList;
                     this.taskPriorityList = data.resultData.taskPriorityList;
                     this.taskLabelList = data.resultData.taskLabelList;
-//                    this.taskCommentList = data.resultData.taskCommentList;
                     this.$store.commit('updateTaskCommentList', data.resultData.taskCommentList);
                     this.taskPriorityList.forEach(item => {
                         item.code = item.priorityCode;
@@ -269,7 +254,7 @@
             }
         },
         components: {
-            loading, selectList, editor, taskComment
+            loading, selectList, editor, comments /*taskComment*/
         },
         props: ['taskId']
     }
@@ -452,35 +437,5 @@
     .edit-desc {
         color: #22d7bb;
         cursor: pointer;
-    }
-
-    .divider {
-        margin-top: 30px;
-        display: block;
-        width: 100%;
-        height: 1px;
-        background: #cccccc;
-    }
-
-    .comments {
-        padding: 0 20px;
-        .comments-header {
-            color: #22d7bb;
-        }
-        .non-comment-list {
-            height: 96px;
-            display: block;
-            text-align: center;
-            color: #eeeeee;
-            line-height: 30px;
-            span.non-commment {
-                font-size: 48px;
-            }
-            div.non-commment-desc {
-                font-size: 18px;
-                color: #cccccc;
-            }
-
-        }
     }
 </style>

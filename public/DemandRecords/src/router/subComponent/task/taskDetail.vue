@@ -96,7 +96,8 @@
                     <taskInfo v-if="currentTab&&currentTab.componentName == 'taskInfo'"
                               :taskId="$store.state.chooseTask&&$store.state.chooseTask.taskId"
                               @sendComment="sendComment"></taskInfo>
-                    <sonTask v-if="currentTab&&currentTab.componentName == 'sonTask'"></sonTask>
+                    <sonTask v-if="currentTab&&currentTab.componentName == 'sonTask'"
+                             :taskId="$store.state.chooseTask&&$store.state.chooseTask.taskId"></sonTask>
                     <connectTask v-if="currentTab&&currentTab.componentName == 'connectTask'"></connectTask>
                     <file v-if="currentTab&&currentTab.componentName == 'file'"></file>
                     <workTime v-if="currentTab&&currentTab.componentName == 'workTime'"></workTime>
@@ -110,7 +111,8 @@
                                placeholder="评论内容，文字上限2000（Ctrl+Enter发送）"/>
                         <div :class="['comment-content']"
                              v-show="!showCommentText">
-                            <textarea v-model="comments" autofocus maxlength="2000" class="show-text-area" @keydown="perSaveComment($event)"
+                            <textarea v-model="comments" autofocus maxlength="2000" class="show-text-area"
+                                      @keydown="perSaveComment($event)"
                                       placeholder="评论内容，文字上限2000（Ctrl+Enter发送）">
                             </textarea>
                             <div class="divider"></div>
@@ -359,7 +361,7 @@
                 }
             },
             saveComment() {
-                if(this.comments&&this.comments.trim()) {
+                if (this.comments && this.comments.trim()) {
                     utils.request(this, {
                         url: '/saveComment',
                         method: 'post',
@@ -391,7 +393,7 @@
                         this.showCommentText = true;
                         this.comments = '';
                     }, false);
-                }else{
+                } else {
                     alert('您还未输入评论哦');
                 }
             }
@@ -587,7 +589,7 @@
         }
         .detail-nav {
             border-bottom: 1px solid #eee;
-
+            margin-bottom: 20px;
             .tab {
                 display: inline-block;
                 margin-right: 60px;

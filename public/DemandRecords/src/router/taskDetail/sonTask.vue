@@ -10,7 +10,6 @@
                     </span>
                     <i class="fa fa-navicon (alias) left-nav"></i>
                     <div class="task-item-right clearfix">
-                        <span style="display: inline-block">吴鹏</span>
                         <span class="charge-man">
                             吴鹏
                         </span>
@@ -102,7 +101,7 @@
                     .task-item-right {
                         float: right;
                         height: 50px;
-                        /*line-height: 50px;*/
+                        line-height: 50px;
                         .charge-man {
                             display: inline-block;
                             width: 24px;

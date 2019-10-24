@@ -178,7 +178,8 @@ module.exports = {
                             task_progress_state_l l
                         WHERE
                             l.task_progress_state_code = t.progress_state
-                    ) AS bgColor
+                    ) AS bgColor,
+                    t.task_title AS taskTitle
                 FROM
                     task t
                 WHERE

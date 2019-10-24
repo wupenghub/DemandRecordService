@@ -8,6 +8,7 @@
                         <i :class="taskItem.icon" :style="{color:taskItem.fontColor}"></i>
                         {{taskItem.proDesc}}
                     </span>
+                    <span>{{taskItem.taskTitle}}</span>
                     <i class="fa fa-navicon (alias) left-nav"></i>
                     <div class="task-item-right clearfix">
                         <span class="charge-man">

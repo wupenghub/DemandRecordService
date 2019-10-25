@@ -179,7 +179,20 @@ module.exports = {
                         WHERE
                             l.task_progress_state_code = t.progress_state
                     ) AS bgColor,
-                    t.task_title AS taskTitle
+                    t.task_title AS taskTitle,
+                    (
+                        SELECT
+                            CASE
+                        WHEN u.nickname IS NULL THEN
+                            u.email
+                        ELSE
+                            u.nickname
+                        END
+                        FROM
+                            sys_user u
+                        WHERE
+                            u.email = t.charge_per
+                    ) AS chargePerName
                 FROM
                     task t
                 WHERE

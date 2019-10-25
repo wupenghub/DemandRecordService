@@ -12,9 +12,9 @@
                     <span class="fa fa-edit (alias) edit task-item-icon"></span>
                     <span class="fa fa-trash-o delete task-item-icon"></span>
                     <i class="fa fa-navicon (alias) left-nav"></i>
-                    <span class="has-charge-man clearfix">
-                            <i class="fa fa-user-circle"></i>
-                            <i class="charge-man-name">吴鹏</i>
+                    <span :class="[taskItem.chargePerName?'has-charge-man':'no-charge-man','clearfix']">
+                            <i class="fa fa-user-circle" v-if="!taskItem.chargePerName"></i>
+                            <span class="charge-man-name" v-if="taskItem.chargePerName">{{taskItem.chargePerName}}</span>
                     </span>
                 </div>
                 <span class="add-son-task"><i class="el-icon-plus add-son-task-icon"></i>新建子任务</span>
@@ -104,7 +104,7 @@
                         transform: translateY(-50%);
                         display: none;
                     }
-                    .has-charge-man {
+                    .no-charge-man,.has-charge-man {
                         float: right;
                         width: 24px;
                         height: 24px;
@@ -119,6 +119,10 @@
                         right: 20px;
                         position: absolute;
                         transform: translateY(-50%);
+                    }
+                    .no-charge-man{
+                        background: #ffffff;
+                        border: 1px dashed #aaaaaa;
                     }
                     .task-item-icon {
                         font-size: 18px;

@@ -8,15 +8,16 @@
                         <i :class="taskItem.icon" :style="{color:taskItem.fontColor}"></i>
                         {{taskItem.proDesc}}
                     </span>
-                    <span>{{taskItem.taskTitle}}</span>
+                    <span class="task-title">{{taskItem.taskTitle}}</span>
+                    <span class="fa fa-edit (alias) edit task-item-icon"></span>
+                    <span class="fa fa-trash-o delete task-item-icon"></span>
                     <i class="fa fa-navicon (alias) left-nav"></i>
-                    <div class="task-item-right clearfix">
-                        <span class="charge-man">
-                            吴鹏
-                        </span>
-                    </div>
+                    <span class="has-charge-man clearfix">
+                            <i class="fa fa-user-circle"></i>
+                            <i class="charge-man-name">吴鹏</i>
+                    </span>
                 </div>
-                <span><i class="el-icon-plus add-son-task-icon"></i>新建子任务</span>
+                <span class="add-son-task"><i class="el-icon-plus add-son-task-icon"></i>新建子任务</span>
             </div>
             <comments @replyComment="replyComment"
                       @deleteComment="deleteComment"></comments>
@@ -81,9 +82,12 @@
                 .son-task-item {
                     padding: 0 20px;
                     border-bottom: 1px solid rgba(0, 0, 0, .1);
+                    height: 60px;
+                    line-height: 60px;
                     position: relative;
-                    height: 50px;
-                    line-height: 50px;
+                    .task-title {
+                        margin-left: 10px;
+                    }
                     .pro-state {
                         font-size: 12px;
                         display: inline-block;
@@ -96,25 +100,34 @@
                         color: #aaa;
                         position: absolute;
                         left: 5px;
-                        top: 19px;
+                        top: 50%;
+                        transform: translateY(-50%);
                         display: none;
                     }
-                    .task-item-right {
+                    .has-charge-man {
                         float: right;
-                        height: 50px;
-                        line-height: 50px;
-                        .charge-man {
-                            display: inline-block;
-                            width: 24px;
-                            height: 24px;
-                            line-height: 24px;
-                            text-align: center;
-                            overflow: hidden;
-                            font-size: 12px;
-                            color: white;
-                            background: rgb(45, 188, 255);
-                            border-radius: 12px;
-                        }
+                        width: 24px;
+                        height: 24px;
+                        line-height: 24px;
+                        text-align: center;
+                        overflow: hidden;
+                        font-size: 12px;
+                        color: white;
+                        background: rgb(45, 188, 255);
+                        border-radius: 12px;
+                        top: 50%;
+                        right: 20px;
+                        position: absolute;
+                        transform: translateY(-50%);
+                    }
+                    .task-item-icon {
+                        font-size: 18px;
+                        color: rgb(170, 170, 170);
+                        margin-left: 20px;
+                        display: none;
+                    }
+                    .task-item-icon:hover {
+                        color: #22d7bb;
                     }
                 }
                 .son-task-item:hover {
@@ -123,6 +136,16 @@
                 }
                 .son-task-item:hover .left-nav {
                     display: inline-block;
+                }
+                .son-task-item:hover .task-item-icon {
+                    display: inline-block;
+                }
+                .add-son-task {
+                    color: #22d7bb;
+                    padding: 0 20px;
+                }
+                .add-son-task:hover {
+                    text-decoration: underline;
                 }
             }
             .add-son-task-icon {

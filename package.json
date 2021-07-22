@@ -34,6 +34,6 @@
     "pinyin": "^2.8.3",
     "vue-resource": "^1.5.1",
     "vuedraggable": "^2.23.1",
-    "xlsx": "^0.14.3"
+    "xlsx": "^0.17.0"
   }
 }
